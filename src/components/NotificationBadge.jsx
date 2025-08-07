@@ -15,7 +15,7 @@ const NotificationBadge = ({ count, onClick }) => {
     >
       <IoMdNotifications 
         size={24} 
-        color="#4a5568"
+        color="white"
         style={{
           transition: 'color 0.2s ease',
         }}
@@ -29,7 +29,7 @@ const NotificationBadge = ({ count, onClick }) => {
             position: 'absolute',
             top: '-5px',
             right: '-5px',
-            backgroundColor: '#ffa600',
+            backgroundColor: 'red',
             color: 'white',
             borderRadius: '50%',
             width: '18px',
@@ -39,7 +39,7 @@ const NotificationBadge = ({ count, onClick }) => {
             alignItems: 'center',
             fontSize: '11px',
             fontWeight: 'bold',
-            boxShadow: '0 0 0 2px white'
+            boxShadow: '0 0 0 2px #0a6ba0'
           }}
         >
           {count > 9 ? '9+' : count}

@@ -67,15 +67,15 @@ function LoginPage() {
           }}
         >
           <img
-            src="logo for website.png"
+            src="https://vedicmathsindia.org/wp-content/uploads/2018/06/cropped-C_Users_Riju-Pramanik_AppData_Local_Packages_Microsoft.SkypeApp_kzf8qxf38zg5c_LocalState_8c3fc180-bbe9-41d7-ac56-a944a5fc4067-32x32.png"
             alt="Logo"
             style={{
-              width: "120px",
+              width: "50px",
               height: "auto",
               marginBottom: "0.5rem",
             }}
           />
-          <h3 style={{ color: "greyorange" }}>Hello There!</h3>
+          <h3 style={{ color: "#0a6ba0" }}>Hello There!</h3>
         </div>
         {error && (
           <div
@@ -122,9 +122,9 @@ function LoginPage() {
             style={{
               width: "100%",
               padding: "0.75rem",
-              backgroundColor: isHovered ? "white" : "#ffa600",
-              color: isHovered ? "#ffa600" : "white",
-              border: isHovered ? "1px solid #ffa600" : "none",
+              backgroundColor: isHovered ? "white" : "#0a6ba0",
+              color: isHovered ? "#0a6ba0" : "white",
+              border: isHovered ? "1px solid #0a6ba0" : "none",
               borderRadius: "4px",
               cursor: loading ? "not-allowed" : "pointer",
               transition: "all 0.2s ease",
@@ -138,7 +138,7 @@ function LoginPage() {
             <Link
               to="/forgot-password"
               style={{
-                color: "#ffa600",
+                color: "#0a6ba0",
                 textDecoration: "none",
               }}
             >
@@ -150,7 +150,7 @@ function LoginPage() {
             <Link
               to="/signup"
               style={{
-                color: "#ffa600",
+                color: "#0a6ba0",
                 textDecoration: "none",
               }}
             >
@@ -171,7 +171,7 @@ function LoginPage() {
         }}
       >
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/cloud-profiler-demo-399610.appspot.com/o/login.jpg?alt=media&token=5a74c845-a1e2-4586-bf76-1770393638e9"
+          src="VedMat.png"
           alt="Login"
           referrerPolicy="origin"
           style={{

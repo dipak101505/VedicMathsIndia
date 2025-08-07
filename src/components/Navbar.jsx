@@ -99,7 +99,7 @@ function Navbar() {
   return (
     <nav
       style={{
-        backgroundColor: "white",
+        backgroundColor: "#0a6ba0",
         padding: "12px 24px",
         boxShadow: "0 2px 4px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.04)",
         position: "sticky",
@@ -124,10 +124,11 @@ function Navbar() {
             display: "flex",
             alignItems: "center",
             gap: "8px",
+            marginLeft: "-10px",
           }}
         >
           <img
-            src="/logo for website.png"
+            src="https://vedicmathsindia.org/wp-content/uploads/2021/06/vedic-maths-india-logo.webp"
             alt="Zenith Logo"
             style={{
               height: "40px",
@@ -146,9 +147,9 @@ function Navbar() {
               // Basic hamburger icon styles
             }}
           >
-            <div style={{ width: "25px", height: "3px", backgroundColor: "#4a5568", margin: "5px 0" }}></div>
-            <div style={{ width: "25px", height: "3px", backgroundColor: "#4a5568", margin: "5px 0" }}></div>
-            <div style={{ width: "25px", height: "3px", backgroundColor: "#4a5568", margin: "5px 0" }}></div>
+            <div style={{ width: "25px", height: "3px", backgroundColor: "white", margin: "5px 0" }}></div>
+            <div style={{ width: "25px", height: "3px", backgroundColor: "white", margin: "5px 0" }}></div>
+            <div style={{ width: "25px", height: "3px", backgroundColor: "white", margin: "5px 0" }}></div>
           </div>
         )}
 
@@ -186,8 +187,8 @@ function Navbar() {
                     color:
                       isHovered === "meetings" ||
                       window.location.pathname.includes("meetings")
-                        ? "#ffa600"
-                        : "#4a5568",
+                        ? "white"
+                        : "white",
                     textDecoration: "none",
                     fontSize: "15px",
                     fontWeight: "500",
@@ -208,8 +209,8 @@ function Navbar() {
                     color:
                       isHovered === "videos" ||
                       window.location.pathname.includes("videos")
-                        ? "#ffa600"
-                        : "#4a5568",
+                        ? "white"
+                        : "white",
                     textDecoration: "none",
                     fontSize: "15px",
                     fontWeight: "500",
@@ -231,8 +232,8 @@ function Navbar() {
                       color:
                         isHovered === "upload" ||
                         window.location.pathname.includes("upload")
-                          ? "#ffa600"
-                          : "#4a5568",
+                          ? "white"
+                          : "white",
                       textDecoration: "none",
                       fontSize: "15px",
                       fontWeight: "500",
@@ -251,8 +252,8 @@ function Navbar() {
                       color:
                         isHovered === "students" ||
                         window.location.pathname.includes("students")
-                          ? "#ffa600"
-                          : "#4a5568",
+                          ? "white"
+                          : "white",
                       textDecoration: "none",
                       fontSize: "15px",
                       fontWeight: "500",
@@ -271,8 +272,8 @@ function Navbar() {
                     color:
                       isHovered === "exams" ||
                       window.location.pathname.includes("exams")
-                        ? "#ffa600"
-                        : "#4a5568",
+                        ? "white"
+                        : "white",
                     textDecoration: "none",
                     fontSize: "15px",
                     fontWeight: "500",
@@ -291,8 +292,8 @@ function Navbar() {
                       color:
                         isHovered === "attendance" ||
                         window.location.pathname.includes("attendance")
-                          ? "#ffa600"
-                          : "#4a5568",
+                          ? "white"
+                          : "white",
                       textDecoration: "none",
                       fontSize: "15px",
                       fontWeight: "500",
@@ -315,8 +316,8 @@ function Navbar() {
                       color:
                         isHovered === "students" ||
                         window.location.pathname.includes("students")
-                          ? "#ffa600"
-                          : "#4a5568",
+                          ? "white"
+                          : "white",
                       textDecoration: "none",
                       fontSize: "15px",
                       fontWeight: "500",
@@ -335,8 +336,8 @@ function Navbar() {
                       color:
                         isHovered === "attendance" ||
                         window.location.pathname.includes("attendance")
-                          ? "#ffa600"
-                          : "#4a5568",
+                          ? "white"
+                          : "white",
                       textDecoration: "none",
                       fontSize: "15px",
                       fontWeight: "500",
@@ -406,7 +407,6 @@ function Navbar() {
                   <div style={{
                     display: "flex",
                     alignItems: "center",
-                    backgroundColor: "rgba(255, 215, 0, 0.2)",
                     padding: "5px 12px",
                     borderRadius: "20px",
                   }}>
@@ -421,7 +421,7 @@ function Navbar() {
                     </span>
                     <span style={{
                       fontWeight: "bold",
-                      color: "#ffd700",
+                      color: "white",
                     }}>{coins}</span>
                   </div>
                 </>
@@ -430,7 +430,7 @@ function Navbar() {
               <Link
                 to="/change-password"
                 style={{
-                  color: isHovered === "password" ? "#ffa600" : "#4a5568",
+                  color: isHovered === "password" ? "white" : "white",
                   textDecoration: "none",
                   fontSize: "15px",
                   fontWeight: "500",
@@ -447,9 +447,9 @@ function Navbar() {
                 onClick={handleLogout}
                 style={{
                   padding: "8px 16px",
-                  backgroundColor: isHovered === "logout" ? "white" : "#ffa600",
-                  color: isHovered === "logout" ? "#ffa600" : "white",
-                  border: "2px solid #ffa600",
+                  backgroundColor: isHovered === "logout" ? "white" : "transparent",
+                  color: isHovered === "logout" ? "#0a6ba0" : "white",
+                  border: "2px solid white",
                   borderRadius: "8px",
                   cursor: "pointer",
                   fontSize: "15px",
@@ -473,13 +473,14 @@ function Navbar() {
           <Link
             to="/login"
             style={{
-              color: isHovered === "login" ? "#ffa600" : "#4a5568",
+              color: isHovered === "login" ? "#0a6ba0" : "white",
+              backgroundColor: isHovered === "login" ? "white" : "transparent",
               textDecoration: "none",
               fontSize: "15px",
               fontWeight: "500",
               padding: "8px 16px",
               borderRadius: "8px",
-              border: "2px solid #ffa600",
+              border: "2px solid white",
               transition: "all 0.2s ease",
             }}
             onMouseEnter={() => setIsHovered("login")}

@@ -645,8 +645,9 @@ function SignupPage() {
                 style={{
                   width: "70%",
                   padding: "0.5rem 1rem",
-                  backgroundColor: imageButtonHovered ? "#ffa600" : "#f0f0f0",
-                  border: "1px solid #ccc",
+                  backgroundColor: imageButtonHovered ? "#0a6ba0" : "transparent",
+                  color: imageButtonHovered ? "white" : "#0a6ba0",
+                  border: "1px solid #0a6ba0",
                   borderRadius: "4px",
                   cursor: "pointer",
                   transition: "all 0.2s ease",
@@ -666,9 +667,9 @@ function SignupPage() {
             style={{
               width: "100%",
               padding: "0.75rem",
-              backgroundColor: isHovered ? "white" : "#ffa600",
-              color: isHovered ? "#ffa600" : "white",
-              border: isHovered ? "1px solid #ffa600" : "none",
+              backgroundColor: isHovered ? "white" : "#0a6ba0",
+              color: isHovered ? "#0a6ba0" : "white",
+              border: isHovered ? "1px solid #0a6ba0" : "none",
               borderRadius: "4px",
               cursor: loading ? "not-allowed" : "pointer",
               transition: "all 0.2s ease",
@@ -684,7 +685,7 @@ function SignupPage() {
           Already have an account?{" "}
           <Link
             to="/login"
-            style={{ color: "#ffa600", textDecoration: "none" }}
+            style={{ color: "#0a6ba0", textDecoration: "none" }}
           >
             Log In
           </Link>
@@ -703,7 +704,7 @@ function SignupPage() {
         }}
       >
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/cloud-profiler-demo-399610.appspot.com/o/login.jpg?alt=media&token=5a74c845-a1e2-4586-bf76-1770393638e9"
+          src="VedMat.png"
           alt="Login"
           style={{
             maxWidth: "80%",

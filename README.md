@@ -1,4 +1,4 @@
-# Zenith LMS - Learning Management System
+# Vedic Maths India LMS - Learning Management System
 
 ## How Our Application Uses AWS Lambda
 
