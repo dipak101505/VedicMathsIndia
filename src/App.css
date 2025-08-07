@@ -1,0 +1,145 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.art-video-player {
+  --art-theme-color: #ff0000 !important;
+  --art-controller-bg: rgba(0, 0, 0, 0.7);
+  --art-progress-color: #ff0000;
+  --art-loaded-color: #ffffff;
+}
+
+.art-video-player .art-control {
+  opacity: 0.9;
+  transition: opacity 0.3s;
+}
+
+.art-video-player .art-control:hover {
+  opacity: 1;
+}
+
+.art-video-player .art-progress {
+  height: 3px;
+  transition: height 0.3s;
+}
+
+.art-video-player:hover .art-progress {
+  height: 5px;
+}
+
+.art-video-player .art-settings {
+  background: rgba(28, 28, 28, 0.9);
+  border-radius: 4px;
+}
+
+.twitch-stream-container {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  /* Make it responsive */
+  aspect-ratio: 620/378;
+}
+
+.twitch-stream-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.auth-container .forgot-password-link {
+  background: none;
+  border: none;
+  color: #0066FF;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  margin-bottom: 10px;
+}
+
+.auth-container .forgot-password-link:disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+@import '@radix-ui/themes/styles.css';
+
+:root {
+  --background: hsl(0 0% 8%);
+  --foreground: hsl(0 0% 98%);
+}
+
+body {
+  margin: 0;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Optional: Add custom focus styles */
+*:focus-visible {
+  outline: 2px solid var(--accent-9);
+  outline-offset: 2px;
+}
+
+/* Optional: Add custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-9);
+  border-radius: 5px;
+}

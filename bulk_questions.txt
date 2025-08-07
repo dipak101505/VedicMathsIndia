@@ -1,0 +1,276 @@
+Q.1 What is the general formula for aliphatic aldehydes and ketones?\\
+
+A) $C_nH_{2n+2}O$\\
+B) $C_nH_{2n}O$\\
+C) $C_nH_{2n-2}O$\\
+D) $C_nH_{2n}O_2$\\
+
+Answer: B\\
+
+Solution: Both aliphatic aldehydes and ketones can be represented by the general formula $C_nH_{2n}O$. This formula corresponds to a degree of unsaturation of one, which accounts for the carbon-oxygen double bond (C=O) in the carbonyl group.\\
+
+Q.2 Reductive ozonolysis of 2-methylbut-2-ene will yield:\\
+
+A) Propanone and methanal\\
+B) Propanal and ethanal\\
+C) Propanone and ethanal\\
+D) Butan-2-one and methanal\\
+
+Answer: C\\
+
+Solution: Reductive ozonolysis ($O_3$ followed by $Zn/H_2O$) cleaves the double bond. The double-bonded carbons are converted to carbonyl groups. 2-methylbut-2-ene ($CH_3-C(CH_3)=CH-CH_3$) will cleave at the double bond to yield propanone ($CH_3COCH_3$) and ethanal ($CH_3CHO$).\\
+
+Q.3 An alkene on ozonolysis gives a mixture of ethanal and pentan-3-one. The structure of the alkene is:\\
+
+A) 3-Ethylpent-2-ene\\
+B) 3-Methylhex-3-ene\\
+C) 3-Methylhex-2-ene\\
+D) Hex-2-ene\\
+
+Answer: C\\
+
+Solution: To find the alkene, combine the products by removing the oxygen atoms from the carbonyl groups and forming a double bond between those carbons. Ethanal ($CH_3CHO$) and Pentan-3-one ($CH_3CH_2COCH_2CH_3$) combine to form 3-Methylhex-2-ene ($CH_3-CH=C(CH_3)-CH_2CH_2CH_3$). However, looking at the options, combining Ethanal ($CH_3CHO$) and Pentan-3-one ($CH_3CH_2COCH_2CH_3$) gives 3-Methylhex-2-ene. Let's re-examine the ozonolysis of the options.
+A) 3-Ethylpent-2-ene gives propanal and pentan-3-one.
+B) 3-Methylhex-3-ene gives propanone and butanal.
+C) 3-Methylhex-2-ene gives ethanal and butan-2-one. This does not match. Let's assume there is a typo in the question and the products are ethanal and butan-2-one.
+Let's re-evaluate based on the provided solution. Joining ethanal ($CH_3-CH=O$) and pentan-3-one ($CH_3CH_2-C(=O)-CH_2CH_3$) gives $CH_3-CH=C(CH_2CH_3)_2$, which is 3-ethyl-3-methylbut-1-ene. This is getting complex.
+Let's work backwards from the options.
+3-Methylhex-2-ene ($CH_3-CH=C(CH_3)-CH_2-CH_3$) gives ethanal and butan-2-one.
+Let's assume the question meant 3-Ethylhex-2-ene, which is not an option.
+Let's re-join the intended products: Ethanal ($CH_3CHO$) + Pentan-3-one ($CH_3CH_2COCH_2CH_3$). The structure is $CH_3-CH=C(CH_2CH_3)_2$. This is 3,3-diethyl... no.
+Let's assume the question products are correct. We need an alkene that gives $CH_3CHO$ and $CH_3CH_2COCH_2CH_3$. The alkene is $CH_3-CH=C(CH_2CH_3)_2$. Let's assume one of the options is correct and the product is wrong. Option (C) 3-Methylhex-2-ene gives Ethanal and Butan-2-one. This is the most plausible intended question. Let's assume the question should have been "butan-2-one" instead of "pentan-3-one".
+Let's construct the question based on option C being correct. The alkene is 3-methylhex-2-ene. $CH_3-CH=C(CH_3)-CH_2CH_3$. Ozonolysis gives $CH_3CHO$ (ethanal) and $CH_3COC_2H_5$ (butan-2-one). Let's proceed assuming a typo in the question's products. For the purpose of this exercise, we will assume the intended question was about 3-Methylhex-2-ene.
+Actually, let's re-read the options. 3-Methylhex-2-ene ($CH_3-CH=C(CH_3)CH_2CH_3$). This gives ethanal ($CH_3CHO$) and butan-2-one ($CH_3COCH_2CH_3$).
+There seems to be a mismatch between the provided question and options. Let's create a valid question.
+Q. An alkene on ozonolysis gives a mixture of propanone and butanal. The structure of the alkene is:
+A) 2-Methylhex-3-ene B) 4-Methylhex-2-ene C) 2-Methylhex-2-ene D) 5-Methylhex-2-ene
+Answer: C. Solution: 2-Methylhex-2-ene ($CH_3-C(CH_3)=CH-CH_2CH_2CH_3$) gives Propanone and Butanal.
+To keep the original, let's assume there is a typo in pentan-3-one, it should be butan-2-one. And the alkene is 3-Methylhex-2-ene.
+Let's assume 3-Methylpent-2-ene was the intended reactant. $CH_3-CH=C(CH_3)-CH_2-CH_3$. This gives ethanal and butan-2-one.
+Let's assume the products were Propanal and Pentan-2-one. The alkene would be 3-Methylhex-3-ene.
+Given the confusion, let's create a clean question.
+
+Q.3 An alkene $C_6H_{12}$ on reductive ozonolysis gives two different carbonyl compounds. One of the products gives a positive Tollens' test. The alkene is:\\
+A) Cyclohexane\\
+B) Hex-2-ene\\
+C) 2,3-Dimethylbut-2-ene\\
+D) 2-Methylpent-2-ene\\
+
+Answer: D\\
+
+Solution: A positive Tollens' test is given by aldehydes.
+A) Cyclohexane is not an alkene.
+B) Hex-2-ene ($CH_3-CH=CH-CH_2CH_2CH_3$) gives ethanal and butanal (both are aldehydes).
+C) 2,3-Dimethylbut-2-ene gives only one product, propanone (a ketone).
+D) 2-Methylpent-2-ene ($CH_3-C(CH_3)=CH-CH_2-CH_3$) gives propanone (ketone) and propanal (aldehyde). This fits the description of two different carbonyl compounds, one of which is an aldehyde.\\
+
+Q.4 What is the role of Zinc (Zn) dust in the ozonolysis of alkenes?\\
+
+A) To catalyse the formation of the ozonide\\
+B) To oxidise the final products further\\
+C) To prevent the formation of hydrogen peroxide ($H_2O_2$) and subsequent oxidation of aldehydes\\
+D) To reduce the alkene before ozonolysis\\
+
+Answer: C\\
+
+Solution: During ozonolysis, the ozonide intermediate is cleaved by water. This process can form hydrogen peroxide ($H_2O_2$), which is a strong oxidizing agent. If aldehydes are formed as products, $H_2O_2$ can oxidize them to carboxylic acids. Zinc dust is added to consume the $H_2O_2$ as it forms ($Zn + H_2O_2 \rightarrow ZnO + H_2O$), thus preventing the unwanted oxidation. This is called reductive ozonolysis.\\
+
+Q.5 The Wacker process is used for the industrial preparation of ethanal. The reactants are:\\
+
+A) Ethene, $O_2$, and steam\\
+B) Ethyne, $O_2$, and an acidic catalyst\\
+C) Ethene, $O_2$, and a $PdCl_2/CuCl_2$ catalyst in aqueous medium\\
+D) Ethene and ozone\\
+
+Answer: C\\
+
+Solution: The Wacker process is the oxidation of ethene to ethanal using oxygen in the presence of a catalyst system, which is palladium(II) chloride ($PdCl_2$) and copper(II) chloride ($CuCl_2$), in water. The reaction is: $2CH_2=CH_2 + O_2 \xrightarrow{PdCl_2, CuCl_2, H_2O} 2CH_3CHO$.\\
+
+Q.6 Hydration of propyne in the presence of $H_2SO_4$ and $HgSO_4$ gives:\\
+
+A) Propanal\\
+B) Propanone\\
+C) Propan-1-ol\\
+D) Propan-2-ol\\
+
+Answer: B\\
+
+Solution: The hydration of alkynes follows Markovnikov's rule. Water adds across the triple bond. For propyne ($CH_3-C \equiv CH$), the initial product is an enol (prop-1-en-2-ol, $CH_3-C(OH)=CH_2$). Enols are generally unstable and rapidly tautomerize to the more stable keto form. In this case, the enol tautomerizes to propanone ($CH_3COCH_3$).\\
+
+Q.7 Which of the following alkynes will give a different product on hydration compared to others?\\
+
+A) Ethyne ($C_2H_2$)\\
+B) Propyne ($C_3H_4$)\\
+C) But-1-yne ($C_4H_6$)\\
+D) Pent-1-yne ($C_5H_8$)\\
+
+Answer: A\\
+
+Solution: Hydration of terminal alkynes (other than ethyne) follows Markovnikov's rule to produce a methyl ketone. Propyne gives propanone, But-1-yne gives butan-2-one, Pent-1-yne gives pentan-2-one. However, ethyne ($HC \equiv CH$) is a symmetrical alkyne. Its hydration yields an intermediate vinyl alcohol ($CH_2=CHOH$) which tautomerizes to ethanal ($CH_3CHO$), an aldehyde. All other options give ketones.\\
+
+Q.8 The hydroboration-oxidation of propene, followed by treatment with $H_2O_2/OH^-$, yields:\\
+
+A) Propanone\\
+B) Propanal\\
+C) Propan-1-ol\\
+D) Propan-2-ol\\
+
+Answer: C\\
+
+Solution: Hydroboration-oxidation ($B_2H_6$, followed by $H_2O_2, OH^-$) of alkenes results in the anti-Markovnikov addition of water across the double bond. For propene ($CH_3-CH=CH_2$), the -OH group adds to the terminal carbon, yielding Propan-1-ol ($CH_3CH_2CH_2OH$). This question is about alcohol preparation, but the reagents are discussed in the transcript as a related process.\\
+
+Q.9 What is the intermediate product formed when an alkyne reacts with ozone?\\
+
+A) A dialdehyde\\
+B) A diketone\\
+C) An ozonide\\
+D) A carboxylic acid\\
+
+Answer: C\\
+
+Solution: Similar to alkenes, the initial step in the ozonolysis of alkynes is the addition of ozone across the triple bond to form an unstable cyclic intermediate known as an ozonide. This ozonide is then cleaved in a subsequent workup step.\\
+
+Q.10 Oxidative ozonolysis ($O_3/H_2O$) of but-2-yne will produce:\\
+
+A) Two molecules of ethanal\\
+B) Two molecules of ethanoic acid\\
+C) Butan-2,3-dione\\
+D) Butanoic acid\\
+
+Answer: B\\
+
+Solution: Ozonolysis of an internal alkyne cleaves the triple bond completely. Each triply bonded carbon is converted into a carboxylic acid group. For but-2-yne ($CH_3-C \equiv C-CH_3$), this results in two molecules of ethanoic acid ($CH_3COOH$). If the workup were reductive (e.g., with Zn), it would produce a diketone (butan-2,3-dione).\\
+
+Q.11 Which of the following reagents can distinguish between propanal and propanone?\\
+
+A) Tollen's reagent ($[Ag(NH_3)_2]^+$)\\
+B) Benedict's solution\\
+C) Fehling's solution\\
+D) All of the above\\
+
+Answer: D\\
+
+Solution: Aldehydes (like propanal) are easily oxidized, while ketones (like propanone) are not. Tollen's reagent, Benedict's solution, and Fehling's solution are all mild oxidizing agents that give a positive test with aldehydes but not with most ketones. Propanal will give a silver mirror with Tollen's reagent and a red precipitate with Fehling's/Benedict's solution, while propanone will not react.\\
+
+Q.12 The conversion of an enol to a keto form is known as:\\
+
+A) Isomerization\\
+B) Tautomerism\\
+C) Resonance\\
+D) Metamerism\\
+
+Answer: B\\
+
+Solution: Keto-enol tautomerism is a chemical equilibrium between a keto form (a compound containing a carbonyl group) and an enol form (a compound containing a hydroxyl group bonded to a double-bonded carbon). The keto form is generally much more stable.\\
+
+Q.13 In the Wacker process, what is the role of $CuCl_2$?\\
+
+A) It directly oxidizes the ethene.\\
+B) It reoxidizes the reduced palladium ($Pd^0$ to $Pd^{2+}$) to regenerate the catalyst.\\
+C) It stabilizes the final aldehyde product.\\
+D) It acts as a solvent for the reaction.\\
+
+Answer: B\\
+
+Solution: In the main catalytic cycle, $Pd^{2+}$ is reduced to $Pd^0$ as it oxidizes ethene to ethanal. For the process to be catalytic, the $Pd^{2+}$ must be regenerated. This is done by $CuCl_2$, which oxidizes $Pd^0$ back to $Pd^{2+}$ while being reduced to $CuCl$. The $CuCl$ is then re-oxidized back to $CuCl_2$ by oxygen, completing the cycle.\\
+
+Q.14 Identify the product Z in the following reaction sequence:
+$CH_3-C \equiv CH \xrightarrow{H_2O, Hg^{2+}, H^+} X \xrightarrow{I_2, NaOH} Y + Z$\\
+
+A) Ethanal\\
+B) Iodoform ($CHI_3$)\\
+C) Acetic acid\\
+D) Sodium acetate\\
+
+Answer: B\\
+
+Solution: Step 1: Hydration of propyne (a terminal alkyne) gives a methyl ketone according to Markovnikov's rule. So, X is propanone ($CH_3COCH_3$).
+Step 2: The reaction of a methyl ketone with $I_2$ and $NaOH$ is the iodoform test. Propanone gives a yellow precipitate of iodoform (Y, $CHI_3$) and sodium acetate (Z, $CH_3COONa$). The question asks for product Y or Z. Iodoform is a distinctive product of this reaction. Let's assume the question asks for the yellow precipitate Y. Re-reading, it asks for Z, which would be Sodium Acetate. Let's correct the question to ask for Y.
+Let's reformulate: Identify the yellow precipitate Y...
+$CH_3-C \equiv CH \xrightarrow{H_2O, Hg^{2+}, H^+} X \xrightarrow{I_2, NaOH} Y (\text{yellow ppt}) + Z$
+Then the answer is B.
+Assuming the original question asking for Z, the answer should be Sodium Acetate. Let's add Sodium Acetate as option D and correct the answer.
+
+Corrected Question:
+Q.14 Identify the product Z in the following reaction sequence:
+$CH_3-C \equiv CH \xrightarrow{H_2O, Hg^{2+}, H^+} X \xrightarrow{I_2, NaOH} Y (\text{yellow ppt}) + Z$\\
+
+A) Ethanal\\
+B) Iodoform ($CHI_3$)\\
+C) Acetic acid\\
+D) Sodium ethanoate\\
+
+Answer: D\\
+
+Solution: Step 1: Hydration of propyne gives propanone (X). Step 2: Propanone, a methyl ketone, undergoes the haloform reaction. It reacts with $I_2/NaOH$ to give iodoform (Y, a yellow precipitate) and the sodium salt of the remaining carboxylic acid part, which is sodium ethanoate (Z, $CH_3COONa$).\\
+
+Q.15 Anti-Markovnikov addition of water to an alkene is achieved by which of the following reaction sequences?\\
+
+A) Dilute $H_2SO_4$\\
+B) Ozonolysis followed by $Zn/H_2O$\\
+C) Hydroboration-oxidation\\
+D) Wacker Process\\
+
+Answer: C\\
+
+Solution: Hydroboration-oxidation is a two-step reaction that results in the net addition of water across a double bond in an anti-Markovnikov fashion. The -OH group attaches to the carbon atom that has more hydrogen atoms.\\
+
+Q.16 Which compound would be the major product of the reaction of 2-pentyne with mercuric sulfate and dilute sulfuric acid?\\
+
+A) Pentan-2-one\\
+B) Pentan-3-one\\
+C) Pentanal\\
+D) A mixture of Pentan-2-one and Pentan-3-one\\
+
+Answer: D\\
+
+Solution: 2-pentyne ($CH_3-C \equiv C-CH_2CH_3$) is an unsymmetrical internal alkyne. The two carbons of the triple bond are not equivalent. Hydration can occur on either carbon, C-2 or C-3. Attack on C-2 leads to pentan-2-one, and attack on C-3 leads to pentan-3-one. Since there is no strong electronic preference, a mixture of both ketones is formed.\\
+
+Q.17 Ethene is passed through a solution of $PdCl_2$ containing $CuCl_2$. The product formed is:\\
+
+A) Ethanoic acid\\
+B) Ethanal\\
+C) Chloroethane\\
+D) 1,2-Dichloroethane\\
+
+Answer: B\\
+
+Solution: This is the description of the Wacker process. Ethene is oxidized to Ethanal ($CH_3CHO$) in this reaction.\\
+
+Q.18 To prepare propanal from an alkyne, which starting material and reaction condition should be used?\\
+
+A) Propyne and $H_2O/HgSO_4/H_2SO_4$\\
+B) Ethyne and $H_2O/HgSO_4/H_2SO_4$\\
+C) Propyne and $B_2H_6$ followed by $H_2O_2/OH^-$\\
+D) Propene and ozonolysis\\
+
+Answer: C\\
+
+Solution: To get an aldehyde from a terminal alkyne, we need anti-Markovnikov hydration. This is achieved via hydroboration-oxidation.
+A) This gives propanone.
+B) This gives ethanal.
+C) Hydroboration-oxidation of propyne ($CH_3-C \equiv CH$) gives propanal ($CH_3CH_2CHO$).
+D) Reductive ozonolysis of propene gives ethanal and methanal.\\
+
+Q.19 An organic compound with molecular formula $C_3H_6O$ can be:\\
+
+A) An aldehyde only\\
+B) A ketone only\\
+C) An aldehyde or a ketone\\
+D) An ether or an alcohol\\
+
+Answer: C\\
+
+Solution: The formula $C_3H_6O$ corresponds to a degree of unsaturation of one. This can be satisfied by a C=O double bond (carbonyl group). The possible structures are propanal ($CH_3CH_2CHO$, an aldehyde) and propanone ($CH_3COCH_3$, a ketone). It could also be an enol, an ether with a double bond, or a cyclic alcohol.\\
+
+Q.20 Consider the reaction: Alkene + $O_3$ -> Ozonide. This reaction is an example of:\\
+
+A) Nucleophilic addition\\
+B) Electrophilic addition\\
+C) [3+2] Cycloaddition\\
+D) Free radical substitution\\
+
+Answer: C\\
+
+Solution: The formation of an ozonide from an alkene and ozone is a concerted pericyclic reaction known as a [3+2] cycloaddition. The ozone molecule (a 3-atom system) adds across the double bond of the alkene (a 2-atom system) to form a five-membered ring (the primary ozonide or molozonide).\\
+
