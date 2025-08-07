@@ -394,7 +394,7 @@ function InvoiceForm({ students }) {
             disabled={filteredReceipts.length === 0 || loading}
             style={{
               padding: "10px 20px",
-              backgroundColor: "orange",
+              backgroundColor: "#0a6ba0",
               border: "none",
               borderRadius: "8px",
               cursor:

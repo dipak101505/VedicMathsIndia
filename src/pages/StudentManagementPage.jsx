@@ -328,7 +328,7 @@ function StudentManagementPage() {
             style={{
               flex: 1,
               padding: "10px 16px",
-              backgroundColor: activeTab === tab ? "#ffa600" : "transparent",
+              backgroundColor: activeTab === tab ? "#0a6ba0" : "transparent",
               color: activeTab === tab ? "white" : "#64748b",
               border: "none",
               borderRadius: "8px",
@@ -420,7 +420,7 @@ function StudentManagementPage() {
               onClick={() => setShowAddForm(true)}
               style={{
                 padding: "10px 20px",
-                backgroundColor: "#ffa600",
+                backgroundColor: "#0a6ba0",
                 color: "white",
                 border: "none",
                 borderRadius: "8px",
@@ -436,7 +436,7 @@ function StudentManagementPage() {
               }}
               onMouseEnter={(e) => {
                 e.target.style.transform = "translateY(-1px)";
-                e.target.style.boxShadow = "0 4px 6px rgba(255, 166, 0, 0.1)";
+                e.target.style.boxShadow = "0 4px 6px rgba(10, 107, 160, 0.1)";
               }}
               onMouseLeave={(e) => {
                 e.target.style.transform = "translateY(0)";
@@ -738,15 +738,15 @@ function StudentManagementPage() {
                           style={{
                             padding: "6px 12px",
                             backgroundColor: "transparent",
-                            color: "#ffa600",
-                            border: "1px solid #ffa600",
+                            color: "#0a6ba0",
+                            border: "1px solid #0a6ba0",
                             borderRadius: "6px",
                             cursor: "pointer",
                             fontSize: "13px",
                             transition: "all 0.2s ease",
                           }}
                           onMouseEnter={(e) => {
-                            e.target.style.backgroundColor = "#fff7e6";
+                            e.target.style.backgroundColor = "#e6f0f5";
                           }}
                           onMouseLeave={(e) => {
                             e.target.style.backgroundColor = "transparent";

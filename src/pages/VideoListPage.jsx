@@ -1464,13 +1464,13 @@ function VideoListPage() {
               <TabIcon>📝</TabIcon>
               Notes
             </Tab>
-            <Tab 
+            {/* <Tab 
               className={activeSection === "podcast" ? "active" : ""}
               onClick={() => setActiveSection("podcast")}
             >
               <TabIcon>🎧</TabIcon>
               Podcast
-            </Tab>
+            </Tab> */}
             <Tab 
               className={activeSection === "simulation" ? "active" : ""}
               onClick={() => setActiveSection("simulation")}

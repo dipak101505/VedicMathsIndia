@@ -554,7 +554,7 @@ function ExamPage() {
             </div>
             <button
               type="submit"
-              className="orange-button"
+              className="blue-button"
             >
               Add Exam
             </button>
@@ -791,7 +791,7 @@ function ExamPage() {
                             title="View Results"
                             style={{
                               padding: "8px",
-                              backgroundColor: "#ffa600",
+                              backgroundColor: "#0a6ba0",
                               color: "white",
                               border: "none",
                               borderRadius: "4px",
@@ -848,7 +848,7 @@ function ExamPage() {
                                 applications[exam.id]?.status === "review"
                                   ? "#4CAF50" // Green for review
                                   : applications[exam.id]?.status === "applied"
-                                    ? "#FFA500" // Orange for applied
+                                    ? "#0a6ba0" // Orange for applied
                                     : "#2196F3", // Blue for initial state
                               color: "white",
                               border: "none",

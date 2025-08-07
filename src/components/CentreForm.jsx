@@ -145,7 +145,7 @@ const CentreForm = ({ centres, setCentres }) => {
                 required
                 style={inputStyle}
                 onFocus={(e) => {
-                  e.target.style.borderColor = "#ffa600";
+                  e.target.style.borderColor = "#0a6ba0";
                   e.target.style.backgroundColor = "white";
                   e.target.style.boxShadow = "0 0 0 3px rgba(255, 166, 0, 0.1)";
                 }}
@@ -168,7 +168,7 @@ const CentreForm = ({ centres, setCentres }) => {
                 required
                 style={inputStyle}
                 onFocus={(e) => {
-                  e.target.style.borderColor = "#ffa600";
+                  e.target.style.borderColor = "#0a6ba0";
                   e.target.style.backgroundColor = "white";
                   e.target.style.boxShadow = "0 0 0 3px rgba(255, 166, 0, 0.1)";
                 }}
@@ -199,7 +199,7 @@ const CentreForm = ({ centres, setCentres }) => {
                 required
                 style={inputStyle}
                 onFocus={(e) => {
-                  e.target.style.borderColor = "#ffa600";
+                  e.target.style.borderColor = "#0a6ba0";
                   e.target.style.backgroundColor = "white";
                   e.target.style.boxShadow = "0 0 0 3px rgba(255, 166, 0, 0.1)";
                 }}
@@ -222,7 +222,7 @@ const CentreForm = ({ centres, setCentres }) => {
                 required
                 style={inputStyle}
                 onFocus={(e) => {
-                  e.target.style.borderColor = "#ffa600";
+                  e.target.style.borderColor = "#0a6ba0";
                   e.target.style.backgroundColor = "white";
                   e.target.style.boxShadow = "0 0 0 3px rgba(255, 166, 0, 0.1)";
                 }}
@@ -246,7 +246,7 @@ const CentreForm = ({ centres, setCentres }) => {
               required
               style={inputStyle}
               onFocus={(e) => {
-                e.target.style.borderColor = "#ffa600";
+                e.target.style.borderColor = "#0a6ba0";
                 e.target.style.backgroundColor = "white";
                 e.target.style.boxShadow = "0 0 0 3px rgba(255, 166, 0, 0.1)";
               }}
@@ -263,7 +263,7 @@ const CentreForm = ({ centres, setCentres }) => {
             disabled={status === "submitting"}
             style={{
               padding: "12px",
-              backgroundColor: status === "submitting" ? "#cbd5e0" : "#ffa600",
+              backgroundColor: status === "submitting" ? "#cbd5e0" : "#0a6ba0",
               color: "white",
               border: "none",
               borderRadius: "8px",
