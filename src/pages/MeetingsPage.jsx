@@ -8,13 +8,16 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../firebase/config";
+import { httpsCallable } from "firebase/functions";
+import { db, functions } from "../firebase/config";
 import TwitchStream from "../components/TwitchStream";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Chat from "../components/Chat";
 import CustomYouTubePlayer from "../components/CustomYoutubePlayer";
 import toast from "react-hot-toast";
+
+
 
 function MeetingsPage() {
   const [currentStreamId, setCurrentStreamId] = useState(null);
@@ -39,6 +42,46 @@ function MeetingsPage() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadStatus, setUploadStatus] = useState(null);
   const uploadRef = useRef(null);
+  const [showTranscript, setShowTranscript] = useState(false);
+  const [transcriptData, setTranscriptData] = useState(null);
+  const [transcriptLoading, setTranscriptLoading] = useState(false);
+
+
+    // Call the cloud function to generate Jitsi Meet link
+  const generateMeetLink = async (batch = "Batch1", subject = "VedicMaths", topic = "LiveSession") => {
+    try {
+      // Check if user is authenticated
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      console.log('User authenticated:', user.email);
+      const generateMeetLinkFunction = httpsCallable(functions, 'generateMeetLink');
+      const result = await generateMeetLinkFunction({ batch, subject, topic });
+      return result.data.meetLink;
+    } catch (error) {
+      console.error('Error generating Meet link:', error);
+      toast.error('Failed to generate Meet link. Please try again.');
+      throw error;
+    }
+  };
+
+  // Function to fetch meeting transcript
+  const fetchTranscript = async (roomName) => {
+    try {
+      setTranscriptLoading(true);
+      const getMeetingTranscriptFunction = httpsCallable(functions, 'getMeetingTranscript');
+      const result = await getMeetingTranscriptFunction({ roomName });
+      setTranscriptData(result.data);
+      setShowTranscript(true);
+      toast.success('Transcript retrieved successfully!');
+    } catch (error) {
+      console.error('Error fetching transcript:', error);
+      toast.error('Failed to fetch transcript. Please try again.');
+    } finally {
+      setTranscriptLoading(false);
+    }
+  };
 
   useEffect(() => {
     const checkAccess = async () => {
@@ -49,7 +92,7 @@ function MeetingsPage() {
       }
 
       // Check if user is admin (email ends with zenithadmin.com)
-      const isAdminUser = user.email.endsWith("@zenithadmin.com");
+      const isAdminUser = user.email.endsWith("@zenithadmin.com") ;
       setIsAdmin(isAdminUser);
 
       if (!isAdminUser) {
@@ -88,16 +131,37 @@ function MeetingsPage() {
   const handleStreamToggle = async () => {
     if (!currentStreamId) {
       try {
-        // Start streaming - create document
-        const streamDoc = await addDoc(collection(db, "streams"), {
+        // Generate a new Jitsi Meet link with batch, subject, and topic
+        const generateMeetLinkFunction = httpsCallable(functions, 'generateMeetLink');
+        const result = await generateMeetLinkFunction({
+          batch: formData.batch || "Batch1",
+          subject: formData.subject || "VedicMaths",
+          topic: formData.topic || "LiveSession"
+        });
+        
+        // Start streaming - create document with the new link and room info
+        const streamData = {
           ...formData,
+          gmeetLink: result.data.meetLink,
+          roomName: result.data.roomName,
+          recordingEnabled: result.data.recordingEnabled,
+          transcriptionEnabled: result.data.transcriptionEnabled,
+          centres: formData.centres, // Ensure centres are included
+          batch: formData.batch, // Ensure batch is included
+          subject: formData.subject, // Ensure subject is included
+          topic: formData.topic, // Ensure topic is included
           startTime: new Date(),
           status: "active",
-        });
+        };
+
+        const streamDoc = await addDoc(collection(db, "streams"), streamData);
         setCurrentStreamId(streamDoc.id);
-        setCurrentStreamData({ ...formData, status: "active" });
+        setCurrentStreamData(streamData);
+        
+        toast.success('Stream started with Jitsi Meet - free unlimited meeting!');
       } catch (error) {
         console.error("Error starting stream:", error);
+        toast.error('Failed to start stream. Please try again.');
       }
     } else {
       try {
@@ -105,9 +169,12 @@ function MeetingsPage() {
         await deleteDoc(doc(db, "streams", currentStreamId));
         await Chat.clearMessages(); // Clear all chat messages
         setCurrentStreamId(null);
+        setCurrentStreamData(null);
         setShowUpload(true);
+        toast.success('Stream stopped successfully!');
       } catch (error) {
         console.error("Error stopping stream:", error);
+        toast.error('Failed to stop stream.');
       }
     }
   };
@@ -115,17 +182,33 @@ function MeetingsPage() {
   // Function to check if student has access to stream
   const canViewStream = () => {
     if (!studentData || !currentStreamData) return false;
-    const hasMatchingBatch = studentData.batch.includes(
-      currentStreamData.batch,
-    );
+    
+    console.log('Student Data:', studentData);
+    console.log('Current Stream Data:', currentStreamData);
+    
+    const hasMatchingBatch = studentData.batch && currentStreamData.batch && 
+      studentData.batch.includes(currentStreamData.batch);
     const hasMatchingCentre =
-      currentStreamData.centres.includes("All") ||
-      studentData.centres.some((centre) =>
+      (currentStreamData.centres && currentStreamData.centres.includes("All")) ||
+      (studentData.centres && currentStreamData.centres && 
+       studentData.centres.some((centre) =>
         currentStreamData.centres.includes(centre),
-      );
-    const hasMatchingSubject = studentData.subjects?.includes(
-      currentStreamData.subject,
-    );
+      ));
+    const hasMatchingSubject = studentData.subjects && currentStreamData.subject && 
+      studentData.subjects.includes(currentStreamData.subject);
+    
+    console.log('Access Check:', {
+      hasMatchingBatch,
+      hasMatchingCentre,
+      hasMatchingSubject,
+      studentBatch: studentData.batch,
+      streamBatch: currentStreamData.batch,
+      studentCentres: studentData.centres,
+      streamCentres: currentStreamData.centres,
+      studentSubjects: studentData.subjects,
+      streamSubject: currentStreamData.subject
+    });
+    
     return hasMatchingBatch && hasMatchingCentre && hasMatchingSubject;
   };
 
@@ -513,16 +596,15 @@ function MeetingsPage() {
                   fontWeight: "500",
                 }}
               >
-                Video Id *
+                Jitsi Meeting Link *
                 <input
                   type="text"
                   value={
-                    currentStreamData ? currentStreamData.videoId : formData.videoId
+                    currentStreamData
+                      ? currentStreamData.gmeetLink
+                      : "Link will be generated automatically"
                   }
-                  onChange={(e) =>
-                    setFormData({ ...formData, videoId: e.target.value })
-                  }
-                  required
+                  readOnly
                   style={{
                     width: "100%",
                     padding: "12px",
@@ -533,23 +615,9 @@ function MeetingsPage() {
                     fontSize: "15px",
                     transition: "all 0.2s ease",
                     outline: "none",
-                    cursor: currentStreamId ? "not-allowed" : "pointer",
+                    cursor: "not-allowed",
                   }}
-                  disabled={currentStreamId}
-                  onFocus={(e) => {
-                    if (!currentStreamId) {
-                      e.target.style.borderColor = "#ffa600";
-                      e.target.style.backgroundColor = "white";
-                      e.target.style.boxShadow =
-                        "0 0 0 3px rgba(255, 166, 0, 0.1)";
-                    }
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = "#e0e0e0";
-                    e.target.style.backgroundColor = "#f8f9fa";
-                    e.target.style.boxShadow = "none";
-                  }}
-                  placeholder="Enter topic for this class"
+                  placeholder="Link will be generated automatically"
                 />
               </label>
             </div>
@@ -661,9 +729,164 @@ function MeetingsPage() {
                     )}
                   </div>
                 )}
-                {/* <TwitchStream /> */}
-                <CustomYouTubePlayer videoId={currentStreamData.videoId} />
+                            {/* Jitsi Meeting Controls */}
+            <div style={{ display: "flex", gap: "12px", marginBottom: "16px", flexWrap: "wrap" }}>
+              <button
+                onClick={() => window.open(currentStreamData.gmeetLink, "_blank")}
+                style={{
+                  padding: "12px 24px",
+                  backgroundColor: "#ffa600",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                  flex: 1,
+                  minWidth: "150px",
+                }}
+              >
+                🎥 Join Jitsi Meeting
+              </button>
+
+              {currentStreamData.roomName && (
+                <button
+                  onClick={() => fetchTranscript(currentStreamData.roomName)}
+                  disabled={transcriptLoading}
+                  style={{
+                    padding: "12px 24px",
+                    backgroundColor: transcriptLoading ? "#cbd5e0" : "#4299e1",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "8px",
+                    cursor: transcriptLoading ? "not-allowed" : "pointer",
+                    fontSize: "16px",
+                    flex: 1,
+                    minWidth: "150px",
+                  }}
+                >
+                  {transcriptLoading ? "Loading..." : "📝 Get Transcript"}
+                </button>
+              )}
+            </div>
+
+            {/* Meeting Instructions */}
+            <div style={{
+              padding: "12px",
+              backgroundColor: "#f0f9ff",
+              border: "1px solid #0ea5e9",
+              borderRadius: "8px",
+              marginBottom: "16px"
+            }}>
+              <h4 style={{ margin: "0 0 8px 0", color: "#0369a1" }}>📋 Meeting Instructions:</h4>
+              <ul style={{ margin: "0", paddingLeft: "20px", color: "#0284c7", fontSize: "14px" }}>
+                <li>🎤 <strong>Audio starts muted</strong> - Click microphone to unmute</li>
+                <li>📹 <strong>Video is enabled</strong> - Click camera to turn off if needed</li>
+                <li>🎬 <strong>Recording available</strong> - Click record button to save session</li>
+                <li>📝 <strong>Live captions</strong> - Enable in settings for transcription</li>
+                <li>🖥️ <strong>Screen sharing</strong> - Share your screen for presentations</li>
+                <li>💬 <strong>Chat available</strong> - Send messages during meeting</li>
+                <li>⏰ <strong>No time limits</strong> - Meetings can run as long as needed</li>
+              </ul>
+            </div>
+
+            {/* Jitsi Benefits Notice */}
+            <div style={{
+              padding: "12px",
+              backgroundColor: "#e8f5e8",
+              border: "1px solid #4caf50",
+              borderRadius: "8px",
+              marginBottom: "16px"
+            }}>
+              <p style={{ margin: 0, color: "#2e7d32", fontSize: "14px" }}>
+                ✅ <strong>FREE unlimited meetings</strong> • No time limits • No participant limits • Built-in recording & transcription • Opens in new tab for better experience
+              </p>
+            </div>
                 <Chat />
+                
+                {/* Transcript Modal */}
+                {showTranscript && transcriptData && (
+                  <div
+                    style={{
+                      position: "fixed",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      zIndex: 1000,
+                    }}
+                    onClick={() => setShowTranscript(false)}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "white",
+                        padding: "32px",
+                        borderRadius: "16px",
+                        maxWidth: "80%",
+                        maxHeight: "80%",
+                        overflow: "auto",
+                        position: "relative",
+                        minWidth: "500px",
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
+                        <h2 style={{ margin: 0, color: "#2d3748" }}>Meeting Transcript</h2>
+                        <button
+                          onClick={() => setShowTranscript(false)}
+                          style={{
+                            backgroundColor: "#f56565",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "32px",
+                            height: "32px",
+                            cursor: "pointer",
+                            fontSize: "16px",
+                          }}
+                        >
+                          ×
+                        </button>
+                      </div>
+                      
+                      <div style={{ marginBottom: "16px", padding: "16px", backgroundColor: "#f0f9ff", borderRadius: "8px" }}>
+                        <h3 style={{ margin: "0 0 8px 0", color: "#0369a1" }}>Room: {transcriptData.roomName}</h3>
+                        <p style={{ margin: 0, color: "#0284c7" }}>{transcriptData.transcript.message}</p>
+                      </div>
+                      
+                                        <div style={{ marginBottom: "16px" }}>
+                    <h4 style={{ color: "#4a5568", marginBottom: "12px" }}>How to Use Transcripts in Jitsi Meet:</h4>
+                    <ul style={{ color: "#718096", paddingLeft: "20px" }}>
+                      {transcriptData.instructions.map((instruction, index) => (
+                        <li key={index} style={{ marginBottom: "8px" }}>{instruction}</li>
+                      ))}
+                    </ul>
+                  </div>
+                      
+                      {transcriptData.transcript.downloadUrl && (
+                        <div style={{ textAlign: "center" }}>
+                          <a
+                            href={transcriptData.transcript.downloadUrl}
+                            download
+                            style={{
+                              padding: "12px 24px",
+                              backgroundColor: "#48bb78",
+                              color: "white",
+                              textDecoration: "none",
+                              borderRadius: "8px",
+                              display: "inline-block",
+                            }}
+                          >
+                            Download Transcript
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </>
             )
           ) : (

@@ -40,12 +40,23 @@ const EditStudentForm = ({
     paymentType: student.paymentType || "lumpsum",
     monthlyInstallment: student.monthlyInstallment || 0,
     chatIds: student.chatIds || [],
+    userType: student.userType || "student",
   });
   const [status, setStatus] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(student.imageUrl);
   const [isUploading, setIsUploading] = useState(false);
-  const { isFranchise } = useAuth();
+      const { isFranchise } = useAuth();
+
+  const handleUserTypeChange = (e) => {
+    const { name, checked } = e.target;
+    if (checked) {
+      setFormData((prev) => ({ ...prev, userType: name }));
+    } else {
+      setFormData((prev) => ({ ...prev, userType: "" }));
+    }
+  };
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -331,6 +342,50 @@ const EditStudentForm = ({
                 style={{ width: "100%", padding: "8px" }}
               />
             </label>
+          </div>
+
+          <div style={{ marginBottom: "15px" }}>
+            <label style={{ display: "block", marginBottom: "5px" }}>
+              User Type
+            </label>
+            <div style={{ display: "flex", gap: "20px" }}>
+              <label>
+                <input
+                  type="checkbox"
+                  name="parent"
+                  checked={formData.userType === "parent"}
+                  onChange={handleUserTypeChange}
+                />
+                Parent
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  name="teacher"
+                  checked={formData.userType === "teacher"}
+                  onChange={handleUserTypeChange}
+                />
+                Teacher
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  name="franchise"
+                  checked={formData.userType === "franchise"}
+                  onChange={handleUserTypeChange}
+                />
+                Franchise
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  name="student"
+                  checked={formData.userType === "student"}
+                  onChange={handleUserTypeChange}
+                />
+                Student
+              </label>
+            </div>
           </div>
 
           <div style={{ marginBottom: "15px" }}>

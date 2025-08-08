@@ -24,9 +24,11 @@ function StudentManagementPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBatch, setSelectedBatch] = useState("");
   const [selectedCentre, setSelectedCentre] = useState("");
-  const [showZenithForm, setShowZenithForm] = useState(false);
-  const [selectedStudentForForm, setSelectedStudentForForm] = useState(null);
-  const { user, isFranchise } = useAuth();
+      const [showZenithForm, setShowZenithForm] = useState(false);
+    const [selectedStudentForForm, setSelectedStudentForForm] = useState(null);
+    const [showPaymentHistoryModal, setShowPaymentHistoryModal] = useState(false);
+    const [studentForPaymentHistory, setStudentForPaymentHistory] = useState(null);
+    const { user, isFranchise } = useAuth();
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -126,6 +128,12 @@ function StudentManagementPage() {
     window.open(`/receipt?${params.toString()}`, "_blank");
   };
 
+  const handleNameClick = (student) => {
+    setStudentForPaymentHistory(student);
+    setShowPaymentHistoryModal(true);
+  };
+
+
   // Add this near the top of the component
   const PaymentHistoryTooltip = ({ payments }) => {
     if (!payments?.length) return "No payment history";
@@ -134,24 +142,16 @@ function StudentManagementPage() {
       <div
         style={{
           padding: "8px",
-          minWidth: "80vw",
-          maxWidth: "90vw",
-          overflowX: "auto", // Changed from overflowY to overflowX
+          minWidth: "300px",
+          maxHeight: "50vh",
+          overflowY: "auto",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            gap: "12px",
-            paddingBottom: "8px", // Add padding for scroll space
-          }}
-        >
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
           {payments.map((payment, index) => (
             <div
               key={index}
               style={{
-                minWidth: "200px", // Fixed width for each payment card
-                flex: "0 0 auto",
                 padding: "12px",
                 backgroundColor: "#f8fafc",
                 borderRadius: "8px",
@@ -253,6 +253,55 @@ function StudentManagementPage() {
       </div>
     );
   };
+
+  const renderPaymentHistoryModal = () => {
+    if (!showPaymentHistoryModal) return null;
+
+    return (
+      <div
+        className="modal-overlay"
+        onClick={(e) => {
+          if (e.target.className === "modal-overlay") {
+            setShowPaymentHistoryModal(false);
+            setStudentForPaymentHistory(null);
+          }
+        }}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 1000,
+        }}
+      >
+        <div
+          className="modal-content"
+          style={{
+            backgroundColor: "white",
+            padding: "20px",
+            borderRadius: "8px",
+          }}
+        >
+          <h2>Payment History for {studentForPaymentHistory.name}</h2>
+          <PaymentHistoryTooltip payments={studentForPaymentHistory.payments} />
+          <button
+            onClick={() => {
+              setShowPaymentHistoryModal(false);
+              setStudentForPaymentHistory(null);
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  };
+
 
   if (loading) {
     return (
@@ -587,7 +636,9 @@ function StudentManagementPage() {
                             color: "#2d3748",
                             fontWeight: "500",
                             marginLeft: "8px",
+                            cursor: "pointer",
                           }}
+                          onClick={() => handleNameClick(student)}
                         >
                           {student.name}
                         </span>
@@ -598,56 +649,10 @@ function StudentManagementPage() {
                           cursor: "pointer",
                           color: "#2563eb",
                           textDecoration: "underline",
-                          position: "relative", // Add this
                         }}
                         onClick={() => handleEmailClick(student)}
-                        onMouseEnter={(e) => {
-                          const tooltip =
-                            e.currentTarget.querySelector(".payment-tooltip");
-                          if (tooltip) tooltip.style.display = "block";
-                        }}
-                        onMouseLeave={(e) => {
-                          const tooltip =
-                            e.currentTarget.querySelector(".payment-tooltip");
-                          if (tooltip) tooltip.style.display = "none";
-                        }}
                       >
                         {student.email}
-                        <div
-                          className="payment-tooltip"
-                          style={{
-                            display: "none",
-                            position: "absolute",
-                            top: "100%",
-                            left: "50%",
-                            transform: "translateX(-25%)",
-                            backgroundColor: "white",
-                            border: "1px solid #e2e8f0",
-                            borderRadius: "8px",
-                            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                            zIndex: 1000,
-                            minWidth: "20vw",
-                            maxWidth: "50vw",
-                          }}
-                        >
-                          <div
-                            style={{
-                              backgroundColor: "#f8fafc",
-                              padding: "12px 20px",
-                              borderTopLeftRadius: "12px",
-                              borderTopRightRadius: "12px",
-                              borderBottom: "1px solid #e2e8f0",
-                              fontWeight: "600",
-                              color: "#4a5568",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                            }}
-                          >
-                            Payment History
-                          </div>
-                          <PaymentHistoryTooltip payments={student.payments} />
-                        </div>
                       </td>
                       <td
                         style={{
@@ -867,6 +872,7 @@ function StudentManagementPage() {
             </div>
           )}
           {renderZenithFormModal()}
+          {renderPaymentHistoryModal()}
         </div>
       )}
 
