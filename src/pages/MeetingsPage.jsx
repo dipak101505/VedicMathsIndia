@@ -158,7 +158,7 @@ function MeetingsPage() {
         setCurrentStreamId(streamDoc.id);
         setCurrentStreamData(streamData);
         
-        toast.success('Stream started with Jitsi Meet - free unlimited meeting!');
+        toast.success('Stream started with Meet - free unlimited meeting!');
       } catch (error) {
         console.error("Error starting stream:", error);
         toast.error('Failed to start stream. Please try again.');
@@ -181,21 +181,33 @@ function MeetingsPage() {
 
   // Function to check if student has access to stream
   const canViewStream = () => {
+    debugger;
     if (!studentData || !currentStreamData) return false;
     
     console.log('Student Data:', studentData);
     console.log('Current Stream Data:', currentStreamData);
     
-    const hasMatchingBatch = studentData.batch && currentStreamData.batch && 
-      studentData.batch.includes(currentStreamData.batch);
-    const hasMatchingCentre =
-      (currentStreamData.centres && currentStreamData.centres.includes("All")) ||
-      (studentData.centres && currentStreamData.centres && 
-       studentData.centres.some((centre) =>
-        currentStreamData.centres.includes(centre),
-      ));
-    const hasMatchingSubject = studentData.subjects && currentStreamData.subject && 
-      studentData.subjects.includes(currentStreamData.subject);
+    // Check batch match - handle missing batch data
+    let hasMatchingBatch = true; // Default to true if no batch data
+    if (studentData.batch && currentStreamData.batch) {
+      hasMatchingBatch = studentData.batch.includes(currentStreamData.batch);
+    }
+    
+    // Check centre match - handle missing centres data
+    let hasMatchingCentre = true; // Default to true if no centres data
+    if (currentStreamData.centres && currentStreamData.centres.length > 0) {
+      hasMatchingCentre = 
+        currentStreamData.centres.includes("All") ||
+        (studentData.centres && studentData.centres.some((centre) =>
+          currentStreamData.centres.includes(centre)
+        ));
+    }
+    
+    // Check subject match - handle missing subject data
+    let hasMatchingSubject = true; // Default to true if no subject data
+    if (studentData.subjects && currentStreamData.subject) {
+      hasMatchingSubject = studentData.subjects.includes(currentStreamData.subject);
+    }
     
     console.log('Access Check:', {
       hasMatchingBatch,
@@ -596,7 +608,7 @@ function MeetingsPage() {
                   fontWeight: "500",
                 }}
               >
-                Jitsi Meeting Link *
+                Meeting Link *
                 <input
                   type="text"
                   value={
@@ -745,10 +757,10 @@ function MeetingsPage() {
                   minWidth: "150px",
                 }}
               >
-                🎥 Join Jitsi Meeting
+                🎥 Join Meeting
               </button>
 
-              {currentStreamData.roomName && (
+              {/* {currentStreamData.roomName && (
                 <button
                   onClick={() => fetchTranscript(currentStreamData.roomName)}
                   disabled={transcriptLoading}
@@ -766,7 +778,7 @@ function MeetingsPage() {
                 >
                   {transcriptLoading ? "Loading..." : "📝 Get Transcript"}
                 </button>
-              )}
+              )} */}
             </div>
 
             {/* Meeting Instructions */}
@@ -790,7 +802,7 @@ function MeetingsPage() {
             </div>
 
             {/* Jitsi Benefits Notice */}
-            <div style={{
+            {/* <div style={{
               padding: "12px",
               backgroundColor: "#e8f5e8",
               border: "1px solid #4caf50",
@@ -800,8 +812,8 @@ function MeetingsPage() {
               <p style={{ margin: 0, color: "#2e7d32", fontSize: "14px" }}>
                 ✅ <strong>FREE unlimited meetings</strong> • No time limits • No participant limits • Built-in recording & transcription • Opens in new tab for better experience
               </p>
-            </div>
-                <Chat />
+            </div> */}
+                {/* <Chat /> */}
                 
                 {/* Transcript Modal */}
                 {showTranscript && transcriptData && (
@@ -858,7 +870,7 @@ function MeetingsPage() {
                       </div>
                       
                                         <div style={{ marginBottom: "16px" }}>
-                    <h4 style={{ color: "#4a5568", marginBottom: "12px" }}>How to Use Transcripts in Jitsi Meet:</h4>
+                    <h4 style={{ color: "#4a5568", marginBottom: "12px" }}>How to Use Transcripts in Meet:</h4>
                     <ul style={{ color: "#718096", paddingLeft: "20px" }}>
                       {transcriptData.instructions.map((instruction, index) => (
                         <li key={index} style={{ marginBottom: "8px" }}>{instruction}</li>
