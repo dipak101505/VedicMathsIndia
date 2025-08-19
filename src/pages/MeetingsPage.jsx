@@ -167,7 +167,7 @@ function MeetingsPage() {
       try {
         // Stop streaming - delete document and clear chat
         await deleteDoc(doc(db, "streams", currentStreamId));
-        await Chat.clearMessages(); // Clear all chat messages
+        // await Chat.clearMessages(); // Clear all chat messages
         setCurrentStreamId(null);
         setCurrentStreamData(null);
         setShowUpload(true);
