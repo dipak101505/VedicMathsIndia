@@ -29,7 +29,7 @@ export const TIME_CONSTANTS = {
 export const COLORS = {
   PRIMARY: "#f97316",
   PDF_ICON: "#dc3545",
-  VIDEO_ICON: "#FF9800",
+  VIDEO_ICON: "#0a6ba0", // Changed from orange to primary blue
   SUCCESS: "#22c55e",
   ERROR: "#dc2626",
   GRAY_LIGHT: "#e2e8f0",

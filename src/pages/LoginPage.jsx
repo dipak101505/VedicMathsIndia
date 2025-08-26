@@ -1,6 +1,25 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import {
+  LoginContainer,
+  FormContainer,
+  LogoSection,
+  Logo,
+  PageTitle,
+  ErrorMessage,
+  SuccessMessage,
+  Form,
+  FormGroup,
+  FormLabel,
+  FormInput,
+  SubmitButton,
+  LinksSection,
+  LinkRow,
+  StyledLink,
+  ImageContainer,
+  LoginImage
+} from "../styles/loginPage.styles";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -10,7 +29,7 @@ function LoginPage() {
   const [resetSent, setResetSent] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
-  const { login, forgotPassword } = useAuth();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,158 +50,81 @@ function LoginPage() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        height: "100vh",
-        gap: "2rem",
-        padding: "0 2rem",
-        overflow: "hidden",
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-      }}
-    >
-      <div
-        style={{
-          background: "white",
-          padding: "2rem",
-          borderRadius: "8px",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-          width: "100%",
-          maxWidth: "400px",
-          maxHeight: "90vh",
-          overflowY: "auto",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginBottom: "0.5rem",
-          }}
-        >
-          <img
+    <LoginContainer>
+      <FormContainer>
+        <LogoSection>
+          <Logo
             src="https://vedicmathsindia.org/wp-content/uploads/2018/06/cropped-C_Users_Riju-Pramanik_AppData_Local_Packages_Microsoft.SkypeApp_kzf8qxf38zg5c_LocalState_8c3fc180-bbe9-41d7-ac56-a944a5fc4067-32x32.png"
             alt="Logo"
-            style={{
-              width: "50px",
-              height: "auto",
-              marginBottom: "0.5rem",
-            }}
           />
-          <h3 style={{ color: "#0a6ba0" }}>Hello There!</h3>
-        </div>
+          <PageTitle>Hello There!</PageTitle>
+        </LogoSection>
+        
         {error && (
-          <div
-            className="error-message"
-            style={{
-              color: "#cc0000",
-              fontWeight: "bold",
-              marginBottom: "1rem",
-              textAlign: "center",
-            }}
-          >
+          <ErrorMessage>
             {error}
-          </div>
+          </ErrorMessage>
         )}        
         {resetSent && (
-          <div className="success-message">
+          <SuccessMessage>
             Password reset link has been sent to your email!
-          </div>
+          </SuccessMessage>
         )}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Email</label>
-            <input
+        
+        <Form onSubmit={handleSubmit}>
+          <FormGroup>
+            <FormLabel>Email</FormLabel>
+            <FormInput
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <FormLabel>Password</FormLabel>
+            <FormInput
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-          </div>
-          <button
+          </FormGroup>
+          <SubmitButton
             type="submit"
             disabled={loading}
+            loading={loading}
+            isHovered={isHovered}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            style={{
-              width: "100%",
-              padding: "0.75rem",
-              backgroundColor: isHovered ? "white" : "#0a6ba0",
-              color: isHovered ? "#0a6ba0" : "white",
-              border: isHovered ? "1px solid #0a6ba0" : "none",
-              borderRadius: "4px",
-              cursor: loading ? "not-allowed" : "pointer",
-              transition: "all 0.2s ease",
-            }}
           >
             {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
-        <div style={{ marginTop: "1rem", textAlign: "center" }}>
-          <div style={{ marginBottom: "0.5rem" }}>
-            <Link
-              to="/forgot-password"
-              style={{
-                color: "#0a6ba0",
-                textDecoration: "none",
-              }}
-            >
+          </SubmitButton>
+        </Form>
+        
+        <LinksSection>
+          <LinkRow>
+            <StyledLink to="/forgot-password">
               Forgot Password?
-            </Link>
-          </div>
-          <div>
+            </StyledLink>
+          </LinkRow>
+          <LinkRow>
             Don't have an account?{" "}
-            <Link
-              to="/signup"
-              style={{
-                color: "#0a6ba0",
-                textDecoration: "none",
-              }}
-            >
+            <StyledLink to="/signup">
               Sign Up
-            </Link>
-          </div>
-        </div>
-      </div>
+            </StyledLink>
+          </LinkRow>
+        </LinksSection>
+      </FormContainer>
 
-      <div
-        style={{
-          flex: 1,
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          overflow: "hidden",
-        }}
-      >
-        <img
+      <ImageContainer>
+        <LoginImage
           src="VedMat.png"
           alt="Login"
           referrerPolicy="origin"
-          style={{
-            maxWidth: "80%",
-            maxHeight: "80%",
-            objectFit: "contain",
-            borderRadius: "8px",
-          }}
         />
-      </div>
-    </div>
+      </ImageContainer>
+    </LoginContainer>
   );
 }
 

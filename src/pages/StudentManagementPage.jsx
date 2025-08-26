@@ -11,6 +11,52 @@ import InvoiceForm from "../components/InvoiceForm";
 import { useAuth } from "../contexts/AuthContext";
 import { deleteStudent } from "../services/studentService";
 import { AiFillDelete } from "react-icons/ai";
+import {
+  PageContainer,
+  HeaderSection,
+  PageTitle,
+  PageSubtitle,
+  TabContainer,
+  TabButton,
+  SearchFilterSection,
+  SearchInput,
+  FilterSelect,
+  StudentCount,
+  AddButtonSection,
+  AddStudentButton,
+  TableContainer,
+  TableWrapper,
+  StyledTable,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+  TableCell,
+  StudentNameCell,
+  StudentAvatar,
+  StudentName,
+  EmailCell,
+  TagsContainer,
+  Tag,
+  AmountCell,
+  AmountBadge,
+  ActionsCell,
+  ActionButton,
+  ModalOverlay,
+  ModalContent,
+  FullScreenModalContent,
+  PaymentHistoryModalContent,
+  PaymentHistoryTitle,
+  CloseButton,
+  LoadingContainer,
+  TabContentContainer,
+  PaymentHistoryTooltip as StyledPaymentHistoryTooltip,
+  PaymentItem,
+  PaymentMonth,
+  PaymentAmount,
+  PaymentReceipt,
+  PaymentMode
+} from "../styles/studentManagementPage.styles";
+import { theme } from "../styles/theme";
 
 function StudentManagementPage() {
   const [activeTab, setActiveTab] = useState("students");
@@ -139,72 +185,29 @@ function StudentManagementPage() {
     if (!payments?.length) return "No payment history";
 
     return (
-      <div
-        style={{
-          padding: "8px",
-          minWidth: "300px",
-          maxHeight: "50vh",
-          overflowY: "auto",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+      <StyledPaymentHistoryTooltip>
+        <div style={{ display: "flex", flexDirection: "column", gap: theme.spacing.md }}>
           {payments.map((payment, index) => (
-            <div
-              key={index}
-              style={{
-                padding: "12px",
-                backgroundColor: "#f8fafc",
-                borderRadius: "8px",
-                border: "1px solid #e2e8f0",
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: "500",
-                  color: "#1e293b",
-                  marginBottom: "4px",
-                }}
-              >
+            <PaymentItem key={index}>
+              <PaymentMonth>
                 {new Date(payment.month).toLocaleDateString("en-US", {
                   month: "long",
                   year: "numeric",
                 })}
-              </div>
-              <div
-                style={{
-                  color: "#4a5568",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  marginBottom: "4px",
-                }}
-              >
+              </PaymentMonth>
+              <PaymentAmount>
                 ₹{payment.amount}
-              </div>
-              <div
-                style={{
-                  color: "#718096",
-                  fontSize: "12px",
-                  marginBottom: "2px",
-                }}
-              >
+              </PaymentAmount>
+              <PaymentReceipt>
                 Receipt: #{payment.receiptId}
-              </div>
-              <div
-                style={{
-                  color: "#718096",
-                  fontSize: "12px",
-                  backgroundColor: "#f1f5f9",
-                  display: "inline-block",
-                  padding: "2px 8px",
-                  borderRadius: "12px",
-                }}
-              >
+              </PaymentReceipt>
+              <PaymentMode>
                 {payment.paymentMode}
-              </div>
-            </div>
+              </PaymentMode>
+            </PaymentItem>
           ))}
         </div>
-      </div>
+      </StyledPaymentHistoryTooltip>
     );
   };
 
@@ -212,7 +215,7 @@ function StudentManagementPage() {
     if (!showZenithForm) return null;
 
     return (
-      <div
+      <ModalOverlay
         className="modal-overlay"
         onClick={(e) => {
           if (e.target.className === "modal-overlay") {
@@ -220,28 +223,8 @@ function StudentManagementPage() {
             setSelectedStudentForForm(null);
           }
         }}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: 1000,
-        }}
       >
-        <div
-          className="modal-content"
-          style={{
-            backgroundColor: "white",
-            width: "100%",
-            height: "100%",
-            overflowY: "auto",
-          }}
-        >
+        <FullScreenModalContent className="modal-content">
           <ZenithForm
             studentData={selectedStudentForForm}
             onClose={() => {
@@ -249,8 +232,8 @@ function StudentManagementPage() {
               setSelectedStudentForForm(null);
             }}
           />
-        </div>
-      </div>
+        </FullScreenModalContent>
+      </ModalOverlay>
     );
   };
 
@@ -258,7 +241,7 @@ function StudentManagementPage() {
     if (!showPaymentHistoryModal) return null;
 
     return (
-      <div
+      <ModalOverlay
         className="modal-overlay"
         onClick={(e) => {
           if (e.target.className === "modal-overlay") {
@@ -266,56 +249,29 @@ function StudentManagementPage() {
             setStudentForPaymentHistory(null);
           }
         }}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: 1000,
-        }}
       >
-        <div
-          className="modal-content"
-          style={{
-            backgroundColor: "white",
-            padding: "20px",
-            borderRadius: "8px",
-          }}
-        >
-          <h2>Payment History for {studentForPaymentHistory.name}</h2>
+        <PaymentHistoryModalContent className="modal-content">
+          <PaymentHistoryTitle>Payment History for {studentForPaymentHistory.name}</PaymentHistoryTitle>
           <PaymentHistoryTooltip payments={studentForPaymentHistory.payments} />
-          <button
+          <CloseButton
             onClick={() => {
               setShowPaymentHistoryModal(false);
               setStudentForPaymentHistory(null);
             }}
           >
             Close
-          </button>
-        </div>
-      </div>
+          </CloseButton>
+        </PaymentHistoryModalContent>
+      </ModalOverlay>
     );
   };
 
 
   if (loading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          color: "#718096",
-        }}
-      >
+      <LoadingContainer>
         Loading...
-      </div>
+      </LoadingContainer>
     );
   }
 
@@ -324,110 +280,42 @@ function StudentManagementPage() {
     : ["students", "batches", "subjects", "centres", "invoice"];
 
   return (
-    <div
-      style={{
-        padding: "24px",
-        maxWidth: "1200px",
-        margin: "0 auto",
-        backgroundColor: "#f8f9fa",
-      }}
-    >
-      <div
-        style={{
-          marginBottom: "24px",
-          textAlign: "center",
-        }}
-      >
-        <h1
-          style={{
-            fontSize: "24px",
-            color: "#2d3748",
-            marginBottom: "8px",
-            fontWeight: "600",
-          }}
-        >
+    <PageContainer>
+      <HeaderSection>
+        <PageTitle>
           Student Management
-        </h1>
-        <p
-          style={{
-            color: "#718096",
-            fontSize: "15px",
-          }}
-        >
+        </PageTitle>
+        <PageSubtitle>
           Manage students, batches, subjects, and centres
-        </p>
-      </div>
+        </PageSubtitle>
+      </HeaderSection>
 
       {/* Tab Navigation */}
-      <div
-        style={{
-          display: "flex",
-          gap: "12px",
-          marginBottom: "24px",
-          backgroundColor: "white",
-          padding: "8px",
-          borderRadius: "12px",
-          boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-        }}
-      >
+      <TabContainer>
         {tabs.map((tab) => (
-          <button
+          <TabButton
             key={tab}
+            active={activeTab === tab}
             onClick={() => setActiveTab(tab)}
-            style={{
-              flex: 1,
-              padding: "10px 16px",
-              backgroundColor: activeTab === tab ? "#0a6ba0" : "transparent",
-              color: activeTab === tab ? "white" : "#64748b",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer",
-              fontSize: "14px",
-              fontWeight: "500",
-              transition: "all 0.2s ease",
-              textTransform: "capitalize",
-            }}
-            onMouseEnter={(e) => {
-              if (activeTab !== tab) {
-                e.target.style.backgroundColor = "#f1f5f9";
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (activeTab !== tab) {
-                e.target.style.backgroundColor = "transparent";
-              }
-            }}
           >
             {tab}
-          </button>
+          </TabButton>
         ))}
-      </div>
+      </TabContainer>
 
       {activeTab === "students" && (
         <div>
           {/* Search and Filter Section - Now only visible in students tab */}
-          <div style={{ marginBottom: "20px", display: "flex", gap: "10px" }}>
-            <input
+          <SearchFilterSection>
+            <SearchInput
               type="text"
               placeholder="Search by name"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{
-                padding: "10px",
-                borderRadius: "8px",
-                border: "1px solid #ddd",
-                width: "200px",
-              }}
             />
-            <select
+            <FilterSelect
               value={selectedBatch}
               onChange={(e) => setSelectedBatch(e.target.value)}
-              style={{
-                padding: "10px",
-                borderRadius: "8px",
-                border: "1px solid #ddd",
-                width: "150px",
-              }}
             >
               <option value="">All Batches</option>
               {batches.map((batch) => (
@@ -435,16 +323,10 @@ function StudentManagementPage() {
                   {batch.name}
                 </option>
               ))}
-            </select>
-            <select
+            </FilterSelect>
+            <FilterSelect
               value={selectedCentre}
               onChange={(e) => setSelectedCentre(e.target.value)}
-              style={{
-                padding: "10px",
-                borderRadius: "8px",
-                border: "1px solid #ddd",
-                width: "150px",
-              }}
               disabled={isFranchise}
             >
               <option value="">All Centres</option>
@@ -453,45 +335,13 @@ function StudentManagementPage() {
                   {centre.name}
                 </option>
               ))}
-            </select>
-            <div>Displaying {filteredStudents?.length} students</div>
-          </div>
+            </FilterSelect>
+            <StudentCount>Displaying {filteredStudents?.length} students</StudentCount>
+          </SearchFilterSection>
 
           {/* Add Student Button */}
-          <div
-            style={{
-              marginBottom: "20px",
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
-            <button
-              onClick={() => setShowAddForm(true)}
-              style={{
-                padding: "10px 20px",
-                backgroundColor: "#0a6ba0",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-                fontSize: "14px",
-                fontWeight: "500",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "fit-content",
-                gap: "8px",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = "translateY(-1px)";
-                e.target.style.boxShadow = "0 4px 6px rgba(10, 107, 160, 0.1)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = "translateY(0)";
-                e.target.style.boxShadow = "none";
-              }}
-            >
+          <AddButtonSection>
+            <AddStudentButton onClick={() => setShowAddForm(true)}>
               <svg
                 width="16"
                 height="16"
@@ -504,322 +354,89 @@ function StudentManagementPage() {
                 <line x1="5" y1="12" x2="19" y2="12"></line>
               </svg>
               Add Student
-            </button>
-          </div>
+            </AddStudentButton>
+          </AddButtonSection>
 
           {/* Students Table */}
-          <div
-            style={{
-              background: "white",
-              borderRadius: "12px",
-              overflow: "hidden",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-            }}
-          >
-            <div style={{ overflowX: "auto" }}>
-              <table
-                style={{
-                  width: "100%",
-                  borderCollapse: "collapse",
-                  fontSize: "14px",
-                }}
-              >
-                <thead>
-                  <tr
-                    style={{
-                      backgroundColor: "#f8fafc",
-                      borderBottom: "2px solid #e2e8f0",
-                    }}
-                  >
-                    <th
-                      style={{
-                        padding: "14px 20px",
-                        textAlign: "left",
-                        color: "#4a5568",
-                        fontWeight: "600",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      Name
-                    </th>
-                    <th
-                      style={{
-                        padding: "14px 20px",
-                        textAlign: "left",
-                        color: "#4a5568",
-                        fontWeight: "600",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      Email
-                    </th>
-                    <th
-                      style={{
-                        padding: "14px 20px",
-                        textAlign: "left",
-                        color: "#4a5568",
-                        fontWeight: "600",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      Batch
-                    </th>
-                    <th
-                      style={{
-                        padding: "14px 20px",
-                        textAlign: "left",
-                        color: "#4a5568",
-                        fontWeight: "600",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      Centres
-                    </th>
-                    <th
-                      style={{
-                        padding: "14px 20px",
-                        textAlign: "left",
-                        color: "#4a5568",
-                        fontWeight: "600",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      Subjects
-                    </th>
-                    <th
-                      style={{
-                        padding: "14px 20px",
-                        textAlign: "left",
-                        color: "#4a5568",
-                        fontWeight: "600",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      Amount Pend.
-                    </th>
-                    <th
-                      style={{
-                        padding: "14px 20px",
-                        textAlign: "left",
-                        color: "#4a5568",
-                        fontWeight: "600",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      Actions
-                    </th>
+          <TableContainer>
+            <TableWrapper>
+              <StyledTable>
+                <TableHeader>
+                  <tr>
+                    <TableHeaderCell>Name</TableHeaderCell>
+                    <TableHeaderCell>Email</TableHeaderCell>
+                    <TableHeaderCell>Batch</TableHeaderCell>
+                    <TableHeaderCell>Centres</TableHeaderCell>
+                    <TableHeaderCell>Subjects</TableHeaderCell>
+                    <TableHeaderCell>Amount Pend.</TableHeaderCell>
+                    <TableHeaderCell>Actions</TableHeaderCell>
                   </tr>
-                </thead>
-                <tbody>
-                  {filteredStudents.map((student) => (
-                    <tr key={student.id}>
-                      <td
-                        style={{
-                          padding: "16px 20px",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <img
-                          src={student.imageUrl || "/default-avatar.png"}
-                          alt={student.name}
-                          style={{
-                            width: "36px",
-                            height: "36px",
-                            borderRadius: "50%",
-                            objectFit: "cover",
-                            border: "2px solid #e2e8f0",
-                          }}
-                        />
-                        <span
-                          style={{
-                            color: "#2d3748",
-                            fontWeight: "500",
-                            marginLeft: "8px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => handleNameClick(student)}
-                        >
-                          {student.name}
-                        </span>
-                      </td>
-                      <td
-                        style={{
-                          padding: "16px 20px",
-                          cursor: "pointer",
-                          color: "#2563eb",
-                          textDecoration: "underline",
-                        }}
-                        onClick={() => handleEmailClick(student)}
-                      >
-                        {student.email}
-                      </td>
-                      <td
-                        style={{
-                          padding: "16px 20px",
-                          color: "#4a5568",
-                        }}
-                      >
-                        {student.batch}
-                      </td>
-                      <td style={{ padding: "16px 20px" }}>
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "4px",
-                            flexWrap: "wrap",
-                          }}
-                        >
-                          {student.centres?.map((centre) => (
-                            <span
-                              key={centre}
-                              style={{
-                                backgroundColor: "#f1f5f9",
-                                padding: "2px 8px",
-                                borderRadius: "12px",
-                                fontSize: "12px",
-                                color: "#64748b",
-                              }}
+                </TableHeader>
+                                  <tbody>
+                    {filteredStudents.map((student) => (
+                      <TableRow key={student.id}>
+                        <StudentNameCell>
+                          <StudentAvatar
+                            src={student.imageUrl || "/default-avatar.png"}
+                            alt={student.name}
+                          />
+                          <StudentName onClick={() => handleNameClick(student)}>
+                            {student.name}
+                          </StudentName>
+                        </StudentNameCell>
+                        <EmailCell onClick={() => handleEmailClick(student)}>
+                          {student.email}
+                        </EmailCell>
+                        <TableCell>
+                          {student.batch}
+                        </TableCell>
+                        <TableCell>
+                          <TagsContainer>
+                            {student.centres?.map((centre) => (
+                              <Tag key={centre}>
+                                {centre}
+                              </Tag>
+                            ))}
+                          </TagsContainer>
+                        </TableCell>
+                        <TableCell>
+                          <TagsContainer>
+                            {student.subjects?.map((subject) => (
+                              <Tag key={subject}>
+                                {subject}
+                              </Tag>
+                            ))}
+                          </TagsContainer>
+                        </TableCell>
+                        <AmountCell hasPending={student.amountPending > 0}>
+                          <AmountBadge hasPending={student.amountPending > 0}>
+                            ₹{student.amountPending || 0}
+                          </AmountBadge>
+                        </AmountCell>
+                        <ActionsCell>
+                          <ActionButton onClick={() => setSelectedStudent(student)}>
+                            Edit
+                          </ActionButton>
+                          {!isFranchise && (
+                            <ActionButton
+                              variant="danger"
+                              onClick={() => handleDelete(student)}
                             >
-                              {centre}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
-                      <td style={{ padding: "16px 20px" }}>
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "4px",
-                            flexWrap: "wrap",
-                          }}
-                        >
-                          {student.subjects?.map((subject) => (
-                            <span
-                              key={subject}
-                              style={{
-                                backgroundColor: "#f1f5f9",
-                                padding: "2px 8px",
-                                borderRadius: "12px",
-                                fontSize: "12px",
-                                color: "#64748b",
-                              }}
-                            >
-                              {subject}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
-                      <td
-                        style={{
-                          padding: "16px 20px",
-                          color: "#4a5568",
-                          fontWeight: student.amountPending > 0 ? "600" : "400",
-                        }}
-                      >
-                        <span
-                          style={{
-                            color:
-                              student.amountPending > 0 ? "#dc2626" : "#16a34a",
-                            backgroundColor:
-                              student.amountPending > 0 ? "#fee2e2" : "#f0fdf4",
-                            padding: "4px 8px",
-                            borderRadius: "4px",
-                            fontSize: "14px",
-                          }}
-                        >
-                          ₹{student.amountPending || 0}
-                        </span>
-                      </td>
-                      <td
-                        style={{
-                          padding: "16px 20px",
-                          display: "flex",
-                          gap: "8px",
-                        }}
-                      >
-                        <button
-                          onClick={() => setSelectedStudent(student)}
-                          style={{
-                            padding: "6px 12px",
-                            backgroundColor: "transparent",
-                            color: "#0a6ba0",
-                            border: "1px solid #0a6ba0",
-                            borderRadius: "6px",
-                            cursor: "pointer",
-                            fontSize: "13px",
-                            transition: "all 0.2s ease",
-                          }}
-                          onMouseEnter={(e) => {
-                            e.target.style.backgroundColor = "#e6f0f5";
-                          }}
-                          onMouseLeave={(e) => {
-                            e.target.style.backgroundColor = "transparent";
-                          }}
-                        >
-                          Edit
-                        </button>
-                        {!isFranchise && (
-                          <button
-                            onClick={() => handleDelete(student)}
-                            style={{
-                              padding: "6px 12px",
-                              backgroundColor: "transparent",
-                              color: "#dc2626",
-                              border: "1px solid #dc2626",
-                              borderRadius: "6px",
-                              cursor: "pointer",
-                              fontSize: "13px",
-                              transition: "all 0.2s ease",
-                            }}
-                            onMouseEnter={(e) => {
-                              e.target.style.backgroundColor = "#fee2e2";
-                            }}
-                            onMouseLeave={(e) => {
-                              e.target.style.backgroundColor = "transparent";
-                            }}
-                          >
-                            <AiFillDelete />
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                              <AiFillDelete />
+                            </ActionButton>
+                          )}
+                        </ActionsCell>
+                      </TableRow>
+                    ))}
+                  </tbody>
+                </StyledTable>
+              </TableWrapper>
+            </TableContainer>
 
           {/* Modal Forms */}
           {showAddForm && (
-            <div
-              className="modal-overlay"
-              onClick={handleClickOutside}
-              style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                zIndex: 1000,
-              }}
-            >
-              <div
-                className="modal-content"
-                style={{
-                  backgroundColor: "white",
-                  padding: "32px",
-                  borderRadius: "16px",
-                  width: "100%",
-                  maxWidth: "500px",
-                  maxHeight: "90vh",
-                  overflowY: "auto",
-                }}
-              >
+            <ModalOverlay className="modal-overlay" onClick={handleClickOutside}>
+              <ModalContent className="modal-content">
                 <StudentForm
                   onStudentAdded={handleStudentAdded}
                   onClose={() => setShowAddForm(false)}
@@ -827,39 +444,13 @@ function StudentManagementPage() {
                   subjects={subjects}
                   centres={centres}
                 />
-              </div>
-            </div>
+              </ModalContent>
+            </ModalOverlay>
           )}
 
           {selectedStudent && (
-            <div
-              className="modal-overlay"
-              onClick={handleClickOutside}
-              style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                zIndex: 1000,
-              }}
-            >
-              <div
-                className="modal-content"
-                style={{
-                  backgroundColor: "white",
-                  padding: "32px",
-                  borderRadius: "16px",
-                  width: "100%",
-                  maxWidth: "500px",
-                  maxHeight: "90vh",
-                  overflowY: "auto",
-                }}
-              >
+            <ModalOverlay className="modal-overlay" onClick={handleClickOutside}>
+              <ModalContent className="modal-content">
                 <EditStudentForm
                   student={selectedStudent}
                   onClose={() => setSelectedStudent(null)}
@@ -868,8 +459,8 @@ function StudentManagementPage() {
                   subjects={subjects}
                   centres={centres}
                 />
-              </div>
-            </div>
+              </ModalContent>
+            </ModalOverlay>
           )}
           {renderZenithFormModal()}
           {renderPaymentHistoryModal()}
@@ -878,54 +469,26 @@ function StudentManagementPage() {
 
       {/* Other tabs content */}
       {activeTab === "batches" && (
-        <div
-          style={{
-            background: "white",
-            padding: "24px",
-            borderRadius: "12px",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-          }}
-        >
+        <TabContentContainer>
           <BatchForm batches={batches} setBatches={setBatches} />
-        </div>
+        </TabContentContainer>
       )}
       {activeTab === "subjects" && (
-        <div
-          style={{
-            background: "white",
-            padding: "24px",
-            borderRadius: "12px",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-          }}
-        >
+        <TabContentContainer>
           <SubjectForm subjects={subjects} setSubjects={setSubjects} />
-        </div>
+        </TabContentContainer>
       )}
       {activeTab === "centres" && (
-        <div
-          style={{
-            background: "white",
-            padding: "24px",
-            borderRadius: "12px",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-          }}
-        >
+        <TabContentContainer>
           <CentreForm centres={centres} setCentres={setCentres} />
-        </div>
+        </TabContentContainer>
       )}
       {activeTab === "invoice" && (
-        <div
-          style={{
-            background: "white",
-            padding: "24px",
-            borderRadius: "12px",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-          }}
-        >
+        <TabContentContainer>
           <InvoiceForm students={students} />
-        </div>
+        </TabContentContainer>
       )}
-    </div>
+    </PageContainer>
   );
 }
 

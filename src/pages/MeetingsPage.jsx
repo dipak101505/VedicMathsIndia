@@ -16,7 +16,52 @@ import { useNavigate } from "react-router-dom";
 import Chat from "../components/Chat";
 import CustomYouTubePlayer from "../components/CustomYoutubePlayer";
 import toast from "react-hot-toast";
-
+import { theme } from "../styles/theme";
+import {
+  MainContainer,
+  GridContainer,
+  AdminPanel,
+  FormSection,
+  FormLabel,
+  FormSelect,
+  FormInput,
+  StreamButton,
+  StatusMessage,
+  MainPanel,
+  AccessDeniedMessage,
+  ClassInfoPanel,
+  ClassTitle,
+  ClassSubtitle,
+  MeetingControls,
+  MeetingButton,
+  InstructionsPanel,
+  InstructionsTitle,
+  InstructionsList,
+  TranscriptModal,
+  TranscriptContent,
+  TranscriptHeader,
+  TranscriptTitle,
+  CloseButton,
+  TranscriptInfo,
+  TranscriptRoomTitle,
+  TranscriptMessage,
+  InstructionsSection,
+  InstructionsSectionTitle,
+  InstructionsSectionList,
+  DownloadButton,
+  UploadSection,
+  UploadTitle,
+  UploadArea,
+  UploadIcon,
+  UploadText,
+  ProgressBar,
+  ProgressFill,
+  UploadButton,
+  SuccessMessage,
+  ErrorMessage,
+  HiddenFileInput,
+  FileUploadLabel,
+} from "../styles/meetingsPage.styles";
 
 
 function MeetingsPage() {
@@ -293,46 +338,14 @@ function MeetingsPage() {
   };
 
   return (
-    <div
-      style={{
-        paddingTop: "10px",
-        padding: "32px",
-        maxWidth: "1200px",
-        margin: "10px auto",
-        minHeight: "80vh",
-        backgroundColor: "#f8f9fa",
-      }}
-    >
-      <div
-        style={{
-          display: "grid",
-          gap: "32px",
-          gridTemplateColumns: isAdmin ? "1fr 1fr" : "1fr",
-          alignItems: "start",
-        }}
-      >
+    <MainContainer>
+      <GridContainer isAdmin={isAdmin}>
         {isAdmin && (
-          <div
-            style={{
-              background: "white",
-              padding: "32px",
-              borderRadius: "16px",
-              boxShadow:
-                "0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <div style={{ marginBottom: "24px" }}>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  color: "#4a5568",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                }}
-              >
+          <AdminPanel>
+            <FormSection>
+              <FormLabel>
                 Batch *
-                <select
+                <FormSelect
                   value={
                     currentStreamData ? currentStreamData.batch : formData.batch
                   }
@@ -340,30 +353,18 @@ function MeetingsPage() {
                     setFormData({ ...formData, batch: e.target.value })
                   }
                   required
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    border: "2px solid #e0e0e0",
-                    backgroundColor: "#f8f9fa",
-                    color: "#2d3748",
-                    fontSize: "15px",
-                    transition: "all 0.2s ease",
-                    outline: "none",
-                    cursor: currentStreamId ? "not-allowed" : "pointer",
-                  }}
                   disabled={currentStreamId}
                   onFocus={(e) => {
                     if (!currentStreamId) {
-                      e.target.style.borderColor = "#ffa600";
+                      e.target.style.borderColor = theme.colors.primary.main;
                       e.target.style.backgroundColor = "white";
                       e.target.style.boxShadow =
                         "0 0 0 3px rgba(255, 166, 0, 0.1)";
                     }
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = "#e0e0e0";
-                    e.target.style.backgroundColor = "#f8f9fa";
+                    e.target.style.borderColor = theme.colors.borderColor;
+                    e.target.style.backgroundColor = theme.colors.inputBackground;
                     e.target.style.boxShadow = "none";
                   }}
                 >
@@ -373,22 +374,14 @@ function MeetingsPage() {
                       {batch.name}
                     </option>
                   ))}
-                </select>
-              </label>
-            </div>
+                </FormSelect>
+              </FormLabel>
+            </FormSection>
 
-            <div style={{ marginBottom: "24px" }}>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  color: "#4a5568",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                }}
-              >
+            <FormSection>
+              <FormLabel>
                 Subject *
-                <select
+                <FormSelect
                   value={
                     currentStreamData
                       ? currentStreamData.subject
@@ -398,30 +391,17 @@ function MeetingsPage() {
                     setFormData({ ...formData, subject: e.target.value })
                   }
                   required
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    border: "2px solid #e0e0e0",
-                    backgroundColor: "#f8f9fa",
-                    color: "#2d3748",
-                    fontSize: "15px",
-                    transition: "all 0.2s ease",
-                    outline: "none",
-                    cursor: currentStreamId ? "not-allowed" : "pointer",
-                  }}
-                  disabled={currentStreamId}
                   onFocus={(e) => {
                     if (!currentStreamId) {
-                      e.target.style.borderColor = "#ffa600";
+                      e.target.style.borderColor = theme.colors.primary.main;
                       e.target.style.backgroundColor = "white";
                       e.target.style.boxShadow =
                         "0 0 0 3px rgba(255, 166, 0, 0.1)";
                     }
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = "#e0e0e0";
-                    e.target.style.backgroundColor = "#f8f9fa";
+                    e.target.style.borderColor = theme.colors.borderColor;
+                    e.target.style.backgroundColor = theme.colors.inputBackground;
                     e.target.style.boxShadow = "none";
                   }}
                 >
@@ -431,22 +411,14 @@ function MeetingsPage() {
                       {subject.name}
                     </option>
                   ))}
-                </select>
-              </label>
-            </div>
+                </FormSelect>
+              </FormLabel>
+            </FormSection>
 
-            <div style={{ marginBottom: "24px" }}>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  color: "#4a5568",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                }}
-              >
+            <FormSection>
+              <FormLabel>
                 Topic *
-                <input
+                <FormInput
                   type="text"
                   value={
                     currentStreamData ? currentStreamData.topic : formData.topic
@@ -455,49 +427,28 @@ function MeetingsPage() {
                     setFormData({ ...formData, topic: e.target.value })
                   }
                   required
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    border: "2px solid #e0e0e0",
-                    backgroundColor: "#f8f9fa",
-                    color: "#2d3748",
-                    fontSize: "15px",
-                    transition: "all 0.2s ease",
-                    outline: "none",
-                    cursor: currentStreamId ? "not-allowed" : "pointer",
-                  }}
-                  disabled={currentStreamId}
                   onFocus={(e) => {
                     if (!currentStreamId) {
-                      e.target.style.borderColor = "#ffa600";
+                      e.target.style.borderColor = theme.colors.primary.main;
                       e.target.style.backgroundColor = "white";
                       e.target.style.boxShadow =
                         "0 0 0 3px rgba(255, 166, 0, 0.1)";
                     }
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = "#e0e0e0";
-                    e.target.style.backgroundColor = "#f8f9fa";
+                    e.target.style.borderColor = theme.colors.borderColor;
+                    e.target.style.backgroundColor = theme.colors.inputBackground;
                     e.target.style.boxShadow = "none";
                   }}
                   placeholder="Enter topic for this class"
                 />
-              </label>
-            </div>
+              </FormLabel>
+            </FormSection>
 
-            <div style={{ marginBottom: "24px" }}>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  color: "#4a5568",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                }}
-              >
+            <FormSection>
+              <FormLabel>
                 Subtopic *
-                <input
+                <FormInput
                   type="text"
                   value={
                     currentStreamData
@@ -508,49 +459,28 @@ function MeetingsPage() {
                     setFormData({ ...formData, subtopic: e.target.value })
                   }
                   required
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    border: "2px solid #e0e0e0",
-                    backgroundColor: "#f8f9fa",
-                    color: "#2d3748",
-                    fontSize: "15px",
-                    transition: "all 0.2s ease",
-                    outline: "none",
-                    cursor: currentStreamId ? "not-allowed" : "pointer",
-                  }}
-                  disabled={currentStreamId}
                   onFocus={(e) => {
                     if (!currentStreamId) {
-                      e.target.style.borderColor = "#ffa600";
+                      e.target.style.borderColor = theme.colors.primary.main;
                       e.target.style.backgroundColor = "white";
                       e.target.style.boxShadow =
                         "0 0 0 3px rgba(255, 166, 0, 0.1)";
                     }
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = "#e0e0e0";
-                    e.target.style.backgroundColor = "#f8f9fa";
+                    e.target.style.borderColor = theme.colors.borderColor;
+                    e.target.style.backgroundColor = theme.colors.inputBackground;
                     e.target.style.boxShadow = "none";
                   }}
                   placeholder="Enter subtopic for this class"
                 />
-              </label>
-            </div>
+              </FormLabel>
+            </FormSection>
 
-            <div style={{ marginBottom: "32px" }}>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  color: "#4a5568",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                }}
-              >
+            <FormSection>
+              <FormLabel>
                 Centre *
-                <select
+                <FormSelect
                   value={
                     currentStreamData
                       ? currentStreamData.centres[0]
@@ -560,30 +490,17 @@ function MeetingsPage() {
                     setFormData({ ...formData, centres: [e.target.value] })
                   }
                   required
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    border: "2px solid #e0e0e0",
-                    backgroundColor: "#f8f9fa",
-                    color: "#2d3748",
-                    fontSize: "15px",
-                    transition: "all 0.2s ease",
-                    outline: "none",
-                    cursor: currentStreamId ? "not-allowed" : "pointer",
-                  }}
-                  disabled={currentStreamId}
                   onFocus={(e) => {
                     if (!currentStreamId) {
-                      e.target.style.borderColor = "#ffa600";
+                      e.target.style.borderColor = theme.colors.primary.main;
                       e.target.style.backgroundColor = "white";
                       e.target.style.boxShadow =
                         "0 0 0 3px rgba(255, 166, 0, 0.1)";
                     }
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = "#e0e0e0";
-                    e.target.style.backgroundColor = "#f8f9fa";
+                    e.target.style.borderColor = theme.colors.borderColor;
+                    e.target.style.backgroundColor = theme.colors.inputBackground;
                     e.target.style.boxShadow = "none";
                   }}
                 >
@@ -594,22 +511,14 @@ function MeetingsPage() {
                       {centre.name}
                     </option>
                   ))}
-                </select>
-              </label>
-            </div>
+                </FormSelect>
+              </FormLabel>
+            </FormSection>
 
-            <div style={{ marginBottom: "24px" }}>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  color: "#4a5568",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                }}
-              >
+            <FormSection>
+              <FormLabel>
                 Meeting Link *
-                <input
+                <FormInput
                   type="text"
                   value={
                     currentStreamData
@@ -617,148 +526,67 @@ function MeetingsPage() {
                       : "Link will be generated automatically"
                   }
                   readOnly
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    border: "2px solid #e0e0e0",
-                    backgroundColor: "#f8f9fa",
-                    color: "#2d3748",
-                    fontSize: "15px",
-                    transition: "all 0.2s ease",
-                    outline: "none",
-                    cursor: "not-allowed",
+                  onFocus={(e) => {
+                    if (!currentStreamId) {
+                      e.target.style.borderColor = theme.colors.primary.main;
+                      e.target.style.backgroundColor = "white";
+                      e.target.style.boxShadow =
+                        "0 0 0 3px rgba(255, 166, 0, 0.1)";
+                    }
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = theme.colors.borderColor;
+                    e.target.style.backgroundColor = theme.colors.inputBackground;
+                    e.target.style.boxShadow = "none";
                   }}
                   placeholder="Link will be generated automatically"
                 />
-              </label>
-            </div>
+              </FormLabel>
+            </FormSection>
 
-            <button
+            <StreamButton
               onClick={handleStreamToggle}
-              style={{
-                width: "100%",
-                padding: "14px",
-                backgroundColor: currentStreamId ? "#dc2626" : "#ffa600",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-                fontSize: "16px",
-                fontWeight: "500",
-                transition: "all 0.2s ease",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = "translateY(-1px)";
-                e.target.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = "translateY(0)";
-                e.target.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
-              }}
+              isActive={!!currentStreamId}
             >
               {currentStreamId ? "Stop Streaming" : "Start Streaming"}
-            </button>
+            </StreamButton>
 
             {currentStreamId && (
-              <div
-                style={{
-                  marginTop: "24px",
-                  padding: "16px",
-                  backgroundColor: "#f0fff4",
-                  borderRadius: "8px",
-                  border: "1px solid #9ae6b4",
-                  color: "#2f855a",
-                  fontSize: "14px",
-                  textAlign: "center",
-                }}
-              >
+              <StatusMessage>
                 Stream is currently active
-              </div>
+              </StatusMessage>
             )}
-          </div>
+          </AdminPanel>
         )}
 
-        <div
-          style={{
-            background: "white",
-            padding: "32px",
-            borderRadius: "16px",
-            boxShadow:
-              "0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1)",
-          }}
-        >
+        <MainPanel>
           {currentStreamId ? (
             !isAdmin && !canViewStream() ? (
-              <div
-                style={{
-                  textAlign: "center",
-                  padding: "48px 24px",
-                  color: "#718096",
-                  fontSize: "16px",
-                  backgroundColor: "#f8f9fa",
-                  borderRadius: "8px",
-                  border: "1px solid #e0e0e0",
-                }}
-              >
+              <AccessDeniedMessage>
                 You don't have access to this stream. Please contact your
                 administrator.
-              </div>
+              </AccessDeniedMessage>
             ) : (
               <>
                 {!isAdmin && currentStreamData && canViewStream() && (
-                  <div
-                    style={{
-                      marginBottom: "20px",
-                      paddingTop: "0px",
-                      padding: "16px",
-                      backgroundColor: "#f0f9ff",
-                      borderRadius: "8px",
-                      border: "1px solid #bae6fd",
-                    }}
-                  >
-                    <h2
-                      style={{
-                        fontSize: "20px",
-                        color: "#0369a1",
-                        marginBottom: "8px",
-                      }}
-                    >
+                  <ClassInfoPanel>
+                    <ClassTitle>
                       Current Class: {currentStreamData.subject}
-                    </h2>
+                    </ClassTitle>
                     {currentStreamData.topic && (
-                      <p
-                        style={{
-                          fontSize: "16px",
-                          color: "#0284c7",
-                          margin: "0",
-                          paddingLeft: "2px",
-                        }}
-                      >
+                      <ClassSubtitle>
                         {currentStreamData.topic}: {currentStreamData.subtopic}
-                      </p>
+                      </ClassSubtitle>
                     )}
-                  </div>
+                  </ClassInfoPanel>
                 )}
                             {/* Jitsi Meeting Controls */}
-            <div style={{ display: "flex", gap: "12px", marginBottom: "16px", flexWrap: "wrap" }}>
-              <button
+            <MeetingControls>
+              <MeetingButton
                 onClick={() => window.open(currentStreamData.gmeetLink, "_blank")}
-                style={{
-                  padding: "12px 24px",
-                  backgroundColor: "#ffa600",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontSize: "16px",
-                  flex: 1,
-                  minWidth: "150px",
-                }}
               >
                 🎥 Join Meeting
-              </button>
+              </MeetingButton>
 
               {/* {currentStreamData.roomName && (
                 <button
@@ -766,7 +594,7 @@ function MeetingsPage() {
                   disabled={transcriptLoading}
                   style={{
                     padding: "12px 24px",
-                    backgroundColor: transcriptLoading ? "#cbd5e0" : "#4299e1",
+                    backgroundColor: transcriptLoading ? theme.colors.borderColor : theme.colors.info.main,
                     color: "white",
                     border: "none",
                     borderRadius: "8px",
@@ -779,18 +607,12 @@ function MeetingsPage() {
                   {transcriptLoading ? "Loading..." : "📝 Get Transcript"}
                 </button>
               )} */}
-            </div>
+            </MeetingControls>
 
             {/* Meeting Instructions */}
-            <div style={{
-              padding: "12px",
-              backgroundColor: "#f0f9ff",
-              border: "1px solid #0ea5e9",
-              borderRadius: "8px",
-              marginBottom: "16px"
-            }}>
-              <h4 style={{ margin: "0 0 8px 0", color: "#0369a1" }}>📋 Meeting Instructions:</h4>
-              <ul style={{ margin: "0", paddingLeft: "20px", color: "#0284c7", fontSize: "14px" }}>
+            <InstructionsPanel>
+              <InstructionsTitle>📋 Meeting Instructions:</InstructionsTitle>
+              <InstructionsList>
                 <li>🎤 <strong>Audio starts muted</strong> - Click microphone to unmute</li>
                 <li>📹 <strong>Video is enabled</strong> - Click camera to turn off if needed</li>
                 <li>🎬 <strong>Recording available</strong> - Click record button to save session</li>
@@ -798,8 +620,8 @@ function MeetingsPage() {
                 <li>🖥️ <strong>Screen sharing</strong> - Share your screen for presentations</li>
                 <li>💬 <strong>Chat available</strong> - Send messages during meeting</li>
                 <li>⏰ <strong>No time limits</strong> - Meetings can run as long as needed</li>
-              </ul>
-            </div>
+              </InstructionsList>
+            </InstructionsPanel>
 
             {/* Jitsi Benefits Notice */}
             {/* <div style={{
@@ -817,87 +639,47 @@ function MeetingsPage() {
                 
                 {/* Transcript Modal */}
                 {showTranscript && transcriptData && (
-                  <div
-                    style={{
-                      position: "fixed",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      backgroundColor: "rgba(0, 0, 0, 0.5)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      zIndex: 1000,
-                    }}
+                  <TranscriptModal
                     onClick={() => setShowTranscript(false)}
                   >
-                    <div
-                      style={{
-                        backgroundColor: "white",
-                        padding: "32px",
-                        borderRadius: "16px",
-                        maxWidth: "80%",
-                        maxHeight: "80%",
-                        overflow: "auto",
-                        position: "relative",
-                        minWidth: "500px",
-                      }}
+                    <TranscriptContent
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-                        <h2 style={{ margin: 0, color: "#2d3748" }}>Meeting Transcript</h2>
-                        <button
+                      <TranscriptHeader>
+                        <TranscriptTitle>Meeting Transcript</TranscriptTitle>
+                        <CloseButton
                           onClick={() => setShowTranscript(false)}
-                          style={{
-                            backgroundColor: "#f56565",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "50%",
-                            width: "32px",
-                            height: "32px",
-                            cursor: "pointer",
-                            fontSize: "16px",
-                          }}
                         >
                           ×
-                        </button>
-                      </div>
+                        </CloseButton>
+                      </TranscriptHeader>
                       
-                      <div style={{ marginBottom: "16px", padding: "16px", backgroundColor: "#f0f9ff", borderRadius: "8px" }}>
-                        <h3 style={{ margin: "0 0 8px 0", color: "#0369a1" }}>Room: {transcriptData.roomName}</h3>
-                        <p style={{ margin: 0, color: "#0284c7" }}>{transcriptData.transcript.message}</p>
-                      </div>
+                      <TranscriptInfo>
+                        <TranscriptRoomTitle>Room: {transcriptData.roomName}</TranscriptRoomTitle>
+                        <TranscriptMessage>{transcriptData.transcript.message}</TranscriptMessage>
+                      </TranscriptInfo>
                       
-                                        <div style={{ marginBottom: "16px" }}>
-                    <h4 style={{ color: "#4a5568", marginBottom: "12px" }}>How to Use Transcripts in Meet:</h4>
-                    <ul style={{ color: "#718096", paddingLeft: "20px" }}>
+                                        <InstructionsSection>
+                    <InstructionsSectionTitle>How to Use Transcripts in Meet:</InstructionsSectionTitle>
+                    <InstructionsSectionList>
                       {transcriptData.instructions.map((instruction, index) => (
-                        <li key={index} style={{ marginBottom: "8px" }}>{instruction}</li>
+                        <li key={index}>{instruction}</li>
                       ))}
-                    </ul>
-                  </div>
+                    </InstructionsSectionList>
+                  </InstructionsSection>
                       
                       {transcriptData.transcript.downloadUrl && (
                         <div style={{ textAlign: "center" }}>
-                          <a
+                          <DownloadButton
                             href={transcriptData.transcript.downloadUrl}
                             download
-                            style={{
-                              padding: "12px 24px",
-                              backgroundColor: "#48bb78",
-                              color: "white",
-                              textDecoration: "none",
-                              borderRadius: "8px",
-                              display: "inline-block",
-                            }}
                           >
                             Download Transcript
-                          </a>
+                          </DownloadButton>
                         </div>
                       )}
-                    </div>
-                  </div>
+                    </TranscriptContent>
+                  </TranscriptModal>
                 )}
               </>
             )
@@ -906,11 +688,11 @@ function MeetingsPage() {
               style={{
                 textAlign: "center",
                 padding: "48px 24px",
-                color: "#718096",
+                color: theme.colors.text.secondary,
                 fontSize: "16px",
-                backgroundColor: "#f8f9fa",
+                backgroundColor: theme.colors.background.light,
                 borderRadius: "8px",
-                border: "1px solid #e0e0e0",
+                border: `1px solid ${theme.colors.borderColor}`,
               }}
             >
               {isAdmin
@@ -918,147 +700,74 @@ function MeetingsPage() {
                 : "The class has not started yet. Please refresh the page in 5 minutes."}
             </div>
           )}
-        </div>
-      </div>
+        </MainPanel>
+      </GridContainer>
 
       {showUpload && (
-        <div
-          style={{
-            marginTop: "24px",
-            padding: "24px",
-            backgroundColor: "white",
-            borderRadius: "12px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <h3 style={{ marginBottom: "16px", color: "#2d3748" }}>
+        <UploadSection>
+          <UploadTitle>
             Upload Class Recording
-          </h3>
+          </UploadTitle>
 
-          <div
-            style={{
-              border: "2px dashed #e0e0e0",
-              borderRadius: "8px",
-              padding: "24px",
-              textAlign: "center",
-              backgroundColor: "#f8f9fa",
-              marginBottom: "16px",
-            }}
-          >
-            <input
+          <UploadArea>
+            <HiddenFileInput
               type="file"
               accept="video/*"
               onChange={handleFileChange}
-              style={{ display: "none" }}
               id="video-upload"
             />
-            <label htmlFor="video-upload" style={{ cursor: "pointer" }}>
+            <FileUploadLabel htmlFor="video-upload">
               {!uploadFile ? (
                 <>
-                  <div style={{ marginBottom: "8px" }}>
-                    <svg
-                      width="40"
-                      height="40"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#ffa600"
-                      strokeWidth="2"
-                    >
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                      <polyline points="17 8 12 3 7 8" />
-                      <line x1="12" y1="3" x2="12" y2="15" />
-                    </svg>
-                  </div>
-                  <div style={{ color: "#4a5568" }}>
-                    Click to upload video recording
-                  </div>
+                  <UploadIcon
+                    width="40"
+                    height="40"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                  </UploadIcon>
+                  <UploadText>Click to upload video recording</UploadText>
                 </>
               ) : (
-                <div style={{ color: "#4a5568" }}>
-                  Selected: {uploadFile.name}
-                </div>
+                <UploadText>Selected: {uploadFile.name}</UploadText>
               )}
-            </label>
-          </div>
+            </FileUploadLabel>
+          </UploadArea>
 
           {uploadStatus === "uploading" && (
-            <div style={{ marginBottom: "16px" }}>
-              <div
-                style={{
-                  width: "100%",
-                  height: "4px",
-                  backgroundColor: "#edf2f7",
-                  borderRadius: "2px",
-                }}
-              >
-                <div
-                  style={{
-                    width: `${uploadProgress}%`,
-                    height: "100%",
-                    backgroundColor: "#ffa600",
-                    borderRadius: "2px",
-                    transition: "width 0.3s ease",
-                  }}
-                />
-              </div>
-            </div>
+            <ProgressBar>
+              <ProgressFill progress={uploadProgress} />
+            </ProgressBar>
           )}
 
-          <button
+          <UploadButton
             onClick={handleUpload}
             disabled={!uploadFile || uploadStatus === "uploading"}
-            style={{
-              width: "100%",
-              padding: "12px",
-              backgroundColor:
-                !uploadFile || uploadStatus === "uploading"
-                  ? "#cbd5e0"
-                  : "#ffa600",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              cursor:
-                !uploadFile || uploadStatus === "uploading"
-                  ? "not-allowed"
-                  : "pointer",
-              fontSize: "15px",
-            }}
+            hasFile={!!uploadFile}
+            isUploading={uploadStatus === "uploading"}
           >
             {uploadStatus === "uploading" ? "Uploading..." : "Upload Recording"}
-          </button>
+          </UploadButton>
 
           {uploadStatus === "success" && (
-            <div
-              style={{
-                marginTop: "16px",
-                padding: "12px",
-                backgroundColor: "#f0fff4",
-                color: "#2f855a",
-                borderRadius: "8px",
-                textAlign: "center",
-              }}
-            >
+            <SuccessMessage>
               Upload successful!
-            </div>
+            </SuccessMessage>
           )}
 
           {uploadStatus === "error" && (
-            <div
-              style={{
-                marginTop: "16px",
-                padding: "12px",
-                backgroundColor: "#fff5f5",
-                color: "#e53e3e",
-                borderRadius: "8px",
-                textAlign: "center",
-              }}
-            >
+            <ErrorMessage>
               Upload failed. Please try again.
-            </div>
+            </ErrorMessage>
           )}
-        </div>
+        </UploadSection>
       )}
-    </div>
+    </MainContainer>
   );
 }
 

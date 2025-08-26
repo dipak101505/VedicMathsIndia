@@ -9,6 +9,43 @@ import {
 } from "firebase/storage";
 import { storage } from "../firebase/config";
 import { getTopics, addTopic } from "../services/questionService";
+import {
+  UploadPageContainer,
+  HeaderSection,
+  PageTitle,
+  PageSubtitle,
+  FormContainer,
+  FormGrid,
+  FormField,
+  FormLabel,
+  StyledSelect,
+  StyledInput,
+  TopicSearchContainer,
+  TopicDropdown,
+  TopicOption,
+  AddTopicOption,
+  FileUploadArea,
+  FileUploadInput,
+  FileUploadLabel,
+  UploadIcon,
+  UploadText,
+  UploadSubtext,
+  FileInfo,
+  FileName,
+  RemoveFileButton,
+  ErrorMessage,
+  ProgressContainer,
+  ProgressBar,
+  ProgressFill,
+  ProgressInfo,
+  CancelUploadButton,
+  SubmitButton,
+  SuccessMessage,
+  ErrorStatusMessage,
+  FileIcon,
+  UploadIconSvg,
+  ErrorIcon,
+} from "../styles/uploadPage.styles";
 
 function UploadPage() {
   const { user } = useAuth();
@@ -80,10 +117,10 @@ function UploadPage() {
 
   if (!user) {
     return (
-      <div style={{ padding: "20px", textAlign: "center" }}>
+      <UploadPageContainer>
         <p>Please log in to upload files</p>
         <button onClick={() => navigate("/login")}>Go to Login</button>
-      </div>
+      </UploadPageContainer>
     );
   }
 
@@ -324,101 +361,23 @@ function UploadPage() {
   };
 
   return (
-    <div
-      style={{
-        padding: "20px",
-        maxWidth: "1200px",
-        margin: "0 auto",
-        backgroundColor: "#f8f9fa",
-      }}
-    >
-      <div
-        style={{
-          marginBottom: "24px",
-          textAlign: "center",
-        }}
-      >
-        <h1
-          style={{
-            fontSize: "24px",
-            color: "#2d3748",
-            margin: "0px",
-            fontWeight: "600",
-          }}
-        >
-          Upload File
-        </h1>
-        <p
-          style={{
-            color: "#718096",
-            fontSize: "15px",
-            margin: "0px",
-          }}
-        >
-          Upload educational content for your students
-        </p>
-      </div>
+    <UploadPageContainer>
+      <HeaderSection>
+        <PageTitle>Upload File</PageTitle>
+        <PageSubtitle>Upload educational content for your students</PageSubtitle>
+      </HeaderSection>
 
-      <div
-        style={{
-          background: "white",
-          padding: "24px",
-          borderRadius: "16px",
-          boxShadow:
-            "0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1)",
-          maxWidth: "700px",
-          margin: "0 auto",
-        }}
-      >
+      <FormContainer>
         <form onSubmit={handleSubmit}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "12px",
-              marginBottom: "12px",
-            }}
-          >
+          <FormGrid>
             {/* Batch Selection */}
-            <div>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  color: "#4a5568",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                }}
-              >
-                Batch *
-              </label>
-              <select
+            <FormField>
+              <FormLabel>Batch *</FormLabel>
+              <StyledSelect
                 name="batch"
                 value={formData.batch}
                 onChange={handleInputChange}
                 required
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  borderRadius: "8px",
-                  border: "2px solid #e0e0e0",
-                  backgroundColor: "#f8f9fa",
-                  color: "#2d3748",
-                  fontSize: "15px",
-                  transition: "all 0.2s ease",
-                  outline: "none",
-                  cursor: "pointer",
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = "#ffa600";
-                  e.target.style.backgroundColor = "white";
-                  e.target.style.boxShadow = "0 0 0 3px rgba(255, 166, 0, 0.1)";
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = "#e0e0e0";
-                  e.target.style.backgroundColor = "#f8f9fa";
-                  e.target.style.boxShadow = "none";
-                }}
               >
                 <option value="">Select Batch</option>
                 {batches.map((batch) => (
@@ -426,49 +385,17 @@ function UploadPage() {
                     {batch.name}
                   </option>
                 ))}
-              </select>
-            </div>
+              </StyledSelect>
+            </FormField>
 
             {/* Subject Selection */}
-            <div>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  color: "#4a5568",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                }}
-              >
-                Subject *
-              </label>
-              <select
+            <FormField>
+              <FormLabel>Subject *</FormLabel>
+              <StyledSelect
                 name="subject"
                 value={formData.subject}
                 onChange={handleInputChange}
                 required
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  borderRadius: "8px",
-                  border: "2px solid #e0e0e0",
-                  backgroundColor: "#f8f9fa",
-                  color: "#2d3748",
-                  fontSize: "15px",
-                  transition: "all 0.2s ease",
-                  outline: "none",
-                  cursor: "pointer",
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = "#ffa600";
-                  e.target.style.backgroundColor = "white";
-                  e.target.style.boxShadow = "0 0 0 3px rgba(255, 166, 0, 0.1)";
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = "#e0e0e0";
-                  e.target.style.backgroundColor = "#f8f9fa";
-                  e.target.style.boxShadow = "none";
-                }}
               >
                 <option value="">Select Subject</option>
                 {subjects.map((subject) => (
@@ -476,358 +403,131 @@ function UploadPage() {
                     {subject.name}
                   </option>
                 ))}
-              </select>
-            </div>
-          </div>
+              </StyledSelect>
+            </FormField>
+          </FormGrid>
 
           {/* Topic Selection */}
-          <div style={{ marginBottom: "12px", position: "relative" }}>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "8px",
-                color: "#4a5568",
-                fontSize: "14px",
-                fontWeight: "500",
-              }}
-            >
-              Topic *
-            </label>
-            <input
+          <TopicSearchContainer>
+            <FormLabel>Topic *</FormLabel>
+            <StyledInput
               type="text"
               value={topicSearch}
               onChange={(e) => setTopicSearch(e.target.value)}
               placeholder="Search or select topic"
-              style={{
-                width: "95%",
-                padding: "12px",
-                borderRadius: "8px",
-                border: "2px solid #e0e0e0",
-                backgroundColor: "#f8f9fa",
-                color: "#2d3748",
-                fontSize: "15px",
-                transition: "all 0.2s ease",
-                outline: "none",
-                marginBottom: "4px",
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = "#ffa600";
-                e.target.style.backgroundColor = "white";
-                e.target.style.boxShadow = "0 0 0 3px rgba(255, 166, 0, 0.1)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "#e0e0e0";
-                e.target.style.backgroundColor = "#f8f9fa";
-                e.target.style.boxShadow = "none";
-              }}
             />
-            <div
-              style={{
-                maxHeight: "200px",
-                overflowY: "auto",
-                border: "1px solid #e0e0e0",
-                borderRadius: "8px",
-                backgroundColor: "white",
-                boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                display: topicSearch ? "block" : "none",
-              }}
-            >
+            <TopicDropdown show={topicSearch}>
               {filteredTopics.map((topic) => (
-                <div
+                <TopicOption
                   key={topic}
+                  selected={formData.topic === topic}
                   onClick={() => {
                     setFormData((prev) => ({ ...prev, topic }));
                     setTopicSearch(topic);
                   }}
-                  style={{
-                    padding: "8px 12px",
-                    cursor: "pointer",
-                    transition: "background-color 0.2s",
-                    backgroundColor:
-                      formData.topic === topic ? "#f7fafc" : "white",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = "#f7fafc";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.backgroundColor =
-                      formData.topic === topic ? "#f7fafc" : "white";
-                  }}
                 >
                   {topic}
-                </div>
+                </TopicOption>
               ))}
-              <div
+              <AddTopicOption
                 onClick={() => {
                   setFormData((prev) => ({ ...prev, topic: "new" }));
                   setTopicSearch("");
                 }}
-                style={{
-                  padding: "8px 12px",
-                  cursor: "pointer",
-                  borderTop: "1px solid #e0e0e0",
-                  color: "#ffa600",
-                  transition: "background-color 0.2s",
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = "#f7fafc";
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = "white";
-                }}
               >
                 + Add New Topic
-              </div>
-            </div>
-          </div>
+              </AddTopicOption>
+            </TopicDropdown>
+          </TopicSearchContainer>
 
           {/* New Topic Input */}
           {formData.topic === "new" && (
-            <div style={{ marginBottom: "12px" }}>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  color: "#4a5568",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                }}
-              >
-                New Topic Name *
-              </label>
-              <input
+            <FormField>
+              <FormLabel>New Topic Name *</FormLabel>
+              <StyledInput
                 type="text"
                 name="newTopic"
                 value={formData.newTopic}
                 onChange={handleInputChange}
                 required
-                style={{
-                  width: "95%",
-                  padding: "12px",
-                  borderRadius: "8px",
-                  border: "2px solid #e0e0e0",
-                  backgroundColor: "#f8f9fa",
-                  color: "#2d3748",
-                  fontSize: "15px",
-                  transition: "all 0.2s ease",
-                  outline: "none",
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = "#ffa600";
-                  e.target.style.backgroundColor = "white";
-                  e.target.style.boxShadow = "0 0 0 3px rgba(255, 166, 0, 0.1)";
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = "#e0e0e0";
-                  e.target.style.backgroundColor = "#f8f9fa";
-                  e.target.style.boxShadow = "none";
-                }}
                 placeholder="Enter new topic name"
               />
-            </div>
+            </FormField>
           )}
 
           {/* Subtopic Input */}
-          <div style={{ marginBottom: "12px" }}>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "8px",
-                color: "#4a5568",
-                fontSize: "14px",
-                fontWeight: "500",
-              }}
-            >
-              File Title (optional)
-            </label>
-            <input
+          <FormField>
+            <FormLabel>File Title (optional)</FormLabel>
+            <StyledInput
               type="text"
               name="subtopic"
               value={formData.subtopic}
               onChange={handleInputChange}
-              style={{
-                width: "95%",
-                padding: "12px",
-                borderRadius: "8px",
-                border: "2px solid #e0e0e0",
-                backgroundColor: "#f8f9fa",
-                color: "#2d3748",
-                fontSize: "15px",
-                transition: "all 0.2s ease",
-                outline: "none",
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = "#ffa600";
-                e.target.style.backgroundColor = "white";
-                e.target.style.boxShadow = "0 0 0 3px rgba(255, 166, 0, 0.1)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "#e0e0e0";
-                e.target.style.backgroundColor = "#f8f9fa";
-                e.target.style.boxShadow = "none";
-              }}
               placeholder="Enter subtopic name"
             />
-          </div>
+          </FormField>
 
           {/* Video Key */}
-          <div style={{ marginBottom: "12px" }}>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "8px",
-                color: "#4a5568",
-                fontSize: "14px",
-                fontWeight: "500",
-              }}
-            >
-              Video ID
-            </label>
-            <input
+          <FormField>
+            <FormLabel>Video ID</FormLabel>
+            <StyledInput
               type="text"
               name="videoKey"
               value={formData.videoKey}
               onChange={handleInputChange}
-              style={{
-                width: "95%",
-                padding: "12px",
-                borderRadius: "8px",
-                border: "2px solid #e0e0e0",
-                backgroundColor: "#f8f9fa",
-                color: "#2d3748",
-                fontSize: "15px",
-                transition: "all 0.2s ease",
-                outline: "none",
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = "#ffa600";
-                e.target.style.backgroundColor = "white";
-                e.target.style.boxShadow = "0 0 0 3px rgba(255, 166, 0, 0.1)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "#e0e0e0";
-                e.target.style.backgroundColor = "#f8f9fa";
-                e.target.style.boxShadow = "none";
-              }}
               placeholder="Enter youtube video id"
             />
-          </div>
+          </FormField>
 
           {/* File Upload */}
-          <div style={{ marginBottom: "12px" }}>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "8px",
-                color: "#4a5568",
-                fontSize: "14px",
-                fontWeight: "500",
-              }}
-            >
-              File * {file && <span>({formatFileSize(file.size)})</span>}
-            </label>
-            <div
-              style={{
-                border: "2px dashed #e0e0e0",
-                borderRadius: "8px",
-                padding: "24px",
-                textAlign: "center",
-                backgroundColor: "#f8f9fa",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-              }}
+          <FormField>
+            <FormLabel>File * {file && <span>({formatFileSize(file.size)})</span>}</FormLabel>
+            <FileUploadArea
               onDragOver={(e) => {
                 e.preventDefault();
-                e.currentTarget.style.borderColor = "#ffa600";
-                e.currentTarget.style.backgroundColor = "white";
               }}
               onDragLeave={(e) => {
-                e.currentTarget.style.borderColor = "#e0e0e0";
-                e.currentTarget.style.backgroundColor = "#f8f9fa";
+                e.preventDefault();
               }}
               onDrop={(e) => {
                 e.preventDefault();
-                e.currentTarget.style.borderColor = "#e0e0e0";
-                e.currentTarget.style.backgroundColor = "#f8f9fa";
                 const droppedFile = e.dataTransfer.files[0];
                 if (droppedFile)
                   handleFileChange({ target: { files: [droppedFile] } });
               }}
             >
-              <input
+              <FileUploadInput
                 type="file"
                 accept="video/*,.pdf"
                 onChange={handleFileChange}
-                style={{ display: "none" }}
                 id="video-upload"
               />
-              <label htmlFor="video-upload" style={{ cursor: "pointer" }}>
+              <FileUploadLabel htmlFor="video-upload">
                 {!file ? (
                   <>
-                    <div style={{ marginBottom: "8px" }}>
-                      <svg
-                        width="40"
-                        height="40"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#ffa600"
-                        strokeWidth="2"
-                      >
+                    <UploadIcon>
+                      <UploadIconSvg viewBox="0 0 24 24" fill="none">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                         <polyline points="17 8 12 3 7 8" />
                         <line x1="12" y1="3" x2="12" y2="15" />
-                      </svg>
-                    </div>
-                    <div style={{ color: "#4a5568", marginBottom: "4px" }}>
-                      Drag and drop your video or PDF here or click to browse
-                    </div>
-                    <div style={{ color: "#718096", fontSize: "14px" }}>
-                      Maximum file size: 2GB for videos, 5MB for PDFs
-                    </div>
+                      </UploadIconSvg>
+                    </UploadIcon>
+                    <UploadText>Drag and drop your video or PDF here or click to browse</UploadText>
+                    <UploadSubtext>Maximum file size: 2GB for videos, 5MB for PDFs</UploadSubtext>
                   </>
                 ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: "12px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        color: "#2d3748",
-                        fontSize: "15px",
-                        fontWeight: "500",
-                      }}
-                    >
+                  <FileInfo>
+                    <FileName>
                       {file.type === "application/pdf" ? (
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="#ff0000"
-                          strokeWidth="2"
-                        >
+                        <FileIcon fileType="pdf" viewBox="0 0 24 24" fill="none">
                           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                           <polyline points="14 2 14 8 20 8"></polyline>
                           <line x1="16" y1="13" x2="8" y2="13"></line>
                           <line x1="16" y1="17" x2="8" y2="17"></line>
                           <polyline points="10 9 9 9 8 9"></polyline>
-                        </svg>
+                        </FileIcon>
                       ) : (
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="#ffa600"
-                          strokeWidth="2"
-                        >
+                        <FileIcon fileType="video" viewBox="0 0 24 24" fill="none">
                           <polygon points="23 7 16 12 23 17 23 7"></polygon>
                           <rect
                             x="1"
@@ -837,220 +537,84 @@ function UploadPage() {
                             rx="2"
                             ry="2"
                           ></rect>
-                        </svg>
+                        </FileIcon>
                       )}
                       {file.name}
-                    </div>
-                    <button
+                    </FileName>
+                    <RemoveFileButton
                       type="button"
                       onClick={(e) => {
                         e.preventDefault();
                         setFile(null);
                         document.getElementById("video-upload").value = "";
                       }}
-                      style={{
-                        padding: "6px 12px",
-                        backgroundColor: "transparent",
-                        color: "#e53e3e",
-                        border: "1px solid #e53e3e",
-                        borderRadius: "6px",
-                        cursor: "pointer",
-                        fontSize: "14px",
-                        transition: "all 0.2s ease",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.backgroundColor = "#fff5f5";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.backgroundColor = "transparent";
-                      }}
                     >
                       Remove File
-                    </button>
-                  </div>
+                    </RemoveFileButton>
+                  </FileInfo>
                 )}
-              </label>
-            </div>
+              </FileUploadLabel>
+            </FileUploadArea>
             {fileError && (
-              <div
-                style={{
-                  color: "#e53e3e",
-                  fontSize: "14px",
-                  marginTop: "8px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                }}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
+              <ErrorMessage>
+                <ErrorIcon viewBox="0 0 24 24" fill="none">
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="12" y1="8" x2="12" y2="12"></line>
                   <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
+                </ErrorIcon>
                 {fileError}
-              </div>
+              </ErrorMessage>
             )}
-          </div>
+          </FormField>
 
           {/* Upload Progress */}
           {uploadStatus === "uploading" && (
-            <div style={{ marginBottom: "24px" }}>
-              <div
-                style={{
-                  width: "100%",
-                  height: "8px",
-                  backgroundColor: "#edf2f7",
-                  borderRadius: "4px",
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  style={{
-                    width: `${uploadProgress}%`,
-                    height: "100%",
-                    backgroundColor: "#ffa600",
-                    transition: "width 0.3s ease",
-                  }}
-                />
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginTop: "8px",
-                  color: "#718096",
-                  fontSize: "14px",
-                }}
-              >
+            <ProgressContainer>
+              <ProgressBar>
+                <ProgressFill progress={uploadProgress} />
+              </ProgressBar>
+              <ProgressInfo>
                 <div>{uploadProgress}%</div>
                 <div>Speed: {formatFileSize(uploadSpeed)}/s</div>
                 {timeRemaining && (
                   <div>Time remaining: {formatTime(timeRemaining)}</div>
                 )}
-              </div>
-              <button
-                type="button"
-                onClick={cancelUpload}
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  backgroundColor: "#fff",
-                  color: "#dc3545",
-                  border: "2px solid #dc3545",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  marginTop: "16px",
-                  fontSize: "15px",
-                  fontWeight: "500",
-                  transition: "all 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = "#dc3545";
-                  e.target.style.color = "#fff";
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = "#fff";
-                  e.target.style.color = "#dc3545";
-                }}
-              >
+              </ProgressInfo>
+              <CancelUploadButton type="button" onClick={cancelUpload}>
                 Cancel Upload
-              </button>
-            </div>
+              </CancelUploadButton>
+            </ProgressContainer>
           )}
 
           {/* Submit Button */}
-          <button
+          <SubmitButton
             type="submit"
             disabled={!file || uploadStatus === "uploading"}
-            style={{
-              width: "100%",
-              padding: "14px",
-              backgroundColor:
-                !file || uploadStatus === "uploading" ? "#cbd5e0" : "#ffa600",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              cursor:
-                !file || uploadStatus === "uploading"
-                  ? "not-allowed"
-                  : "pointer",
-              fontSize: "16px",
-              fontWeight: "500",
-              transition: "all 0.2s ease",
-              marginTop: "8px",
-            }}
-            onMouseEnter={(e) => {
-              if (file && uploadStatus !== "uploading") {
-                e.target.style.transform = "translateY(-1px)";
-                e.target.style.boxShadow = "0 4px 6px rgba(255, 166, 0, 0.1)";
-              }
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = "translateY(0)";
-              e.target.style.boxShadow = "none";
-            }}
           >
             {uploadStatus === "uploading"
               ? "Uploading..."
               : `Upload ${file?.type === "application/pdf" ? "PDF" : "Video"}`}
-          </button>
+          </SubmitButton>
         </form>
 
         {/* Status Messages */}
         {uploadStatus === "success" && (
-          <div
-            style={{
-              marginTop: "16px",
-              padding: "12px",
-              backgroundColor: "#f0fff4",
-              color: "#2f855a",
-              borderRadius: "8px",
-              textAlign: "center",
-              fontSize: "14px",
-            }}
-          >
+          <SuccessMessage>
             Upload successful!
-          </div>
+          </SuccessMessage>
         )}
         {uploadStatus === "error" && (
-          <div
-            style={{
-              marginTop: "16px",
-              padding: "12px",
-              backgroundColor: "#fff5f5",
-              color: "#e53e3e",
-              borderRadius: "8px",
-              textAlign: "center",
-              fontSize: "14px",
-            }}
-          >
+          <ErrorStatusMessage>
             Upload failed. Please try again.
-          </div>
+          </ErrorStatusMessage>
         )}
         {uploadStatus === "cancelled" && (
-          <div
-            style={{
-              marginTop: "16px",
-              padding: "12px",
-              backgroundColor: "#fff5f5",
-              color: "#e53e3e",
-              borderRadius: "8px",
-              textAlign: "center",
-              fontSize: "14px",
-            }}
-          >
+          <ErrorStatusMessage>
             Upload cancelled
-          </div>
+          </ErrorStatusMessage>
         )}
-      </div>
-    </div>
+      </FormContainer>
+    </UploadPageContainer>
   );
 }
 

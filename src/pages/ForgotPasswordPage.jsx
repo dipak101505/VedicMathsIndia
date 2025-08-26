@@ -1,6 +1,20 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import {
+  AuthContainer,
+  AuthBox,
+  AuthTitle,
+  AuthDescription,
+  AuthError,
+  AuthSuccess,
+  FormGroup,
+  FormLabel,
+  FormInput,
+  SubmitButton,
+  AuthLinks,
+  AuthLink
+} from "../styles/ForgotPasswordPage.styles";
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -32,35 +46,35 @@ function ForgotPasswordPage() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-box">
-        <h2>Reset Password</h2>
-        {error && <div className="auth-error">{error}</div>}
-        {message && <div className="auth-success">{message}</div>}
+    <AuthContainer>
+      <AuthBox>
+        <AuthTitle>Reset Password</AuthTitle>
+        {error && <AuthError>{error}</AuthError>}
+        {message && <AuthSuccess>{message}</AuthSuccess>}
         <form onSubmit={handleSubmit}>
-          <p style={{ marginBottom: "20px", textAlign: "center" }}>
+          <AuthDescription>
             Enter your email below to request a password reset from the
             administrator.
-          </p>
-          <div className="form-group">
-            <label>Your Email</label>
-            <input
+          </AuthDescription>
+          <FormGroup>
+            <FormLabel>Your Email</FormLabel>
+            <FormInput
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Enter your email"
             />
-          </div>
-          <button type="submit" disabled={loading}>
+          </FormGroup>
+          <SubmitButton type="submit" disabled={loading}>
             {loading ? "Sending Request..." : "Request Password Reset"}
-          </button>
+          </SubmitButton>
         </form>
-        <div className="auth-links">
-          <Link to="/login">Back to Login</Link>
-        </div>
-      </div>
-    </div>
+        <AuthLinks>
+          <AuthLink to="/login">Back to Login</AuthLink>
+        </AuthLinks>
+      </AuthBox>
+    </AuthContainer>
   );
 }
 

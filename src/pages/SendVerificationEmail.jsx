@@ -4,6 +4,16 @@ import {
   signInWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
+import { theme } from "../styles/theme";
+import {
+  Container,
+  Title,
+  MessageContainer,
+  FormGroup,
+  Label,
+  Input,
+  SubmitButton,
+} from "../styles/SendVerificationEmail.styles";
 
 function SendVerificationEmail() {
   const [email, setEmail] = useState("");
@@ -38,89 +48,46 @@ function SendVerificationEmail() {
     }
   };
 
+  const isErrorMessage = message.includes("Error");
+
   return (
-    <div
-      style={{
-        maxWidth: "400px",
-        margin: "40px auto",
-        padding: "20px",
-        backgroundColor: "white",
-        borderRadius: "8px",
-        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
-        Send Verification Email
-      </h2>
+    <Container>
+      <Title>Send Verification Email</Title>
 
       {message && (
-        <div
-          style={{
-            padding: "10px",
-            marginBottom: "20px",
-            borderRadius: "4px",
-            backgroundColor: message.includes("Error") ? "#fee2e2" : "#f0fdf4",
-            color: message.includes("Error") ? "#dc2626" : "#059669",
-            border: `1px solid ${message.includes("Error") ? "#fecaca" : "#86efac"}`,
-          }}
-        >
+        <MessageContainer isError={isErrorMessage}>
           {message}
-        </div>
+        </MessageContainer>
       )}
 
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ display: "block", marginBottom: "5px" }}>Email</label>
-          <input
+        <FormGroup>
+          <Label>Email</Label>
+          <Input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{
-              width: "100%",
-              padding: "8px",
-              borderRadius: "4px",
-              border: "1px solid #ddd",
-            }}
+            placeholder="Enter your email address"
           />
-        </div>
+        </FormGroup>
 
-        <div style={{ marginBottom: "20px" }}>
-          <label style={{ display: "block", marginBottom: "5px" }}>
-            Password
-          </label>
-          <input
+        <FormGroup marginBottom={theme.spacing.xl}>
+          <Label>Password</Label>
+          <Input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{
-              width: "100%",
-              padding: "8px",
-              borderRadius: "4px",
-              border: "1px solid #ddd",
-            }}
+            placeholder="Enter your password"
           />
-        </div>
+        </FormGroup>
 
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            width: "100%",
-            padding: "10px",
-            backgroundColor: loading ? "#d1d5db" : "#ffa600",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: loading ? "not-allowed" : "pointer",
-            transition: "background-color 0.2s",
-          }}
-        >
+        <SubmitButton type="submit" disabled={loading}>
           {loading ? "Sending..." : "Send Verification Email"}
-        </button>
+        </SubmitButton>
       </form>
-    </div>
+    </Container>
   );
 }
 

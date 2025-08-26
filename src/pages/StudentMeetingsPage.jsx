@@ -1,6 +1,21 @@
 import { useState, useEffect } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { Link } from "react-router-dom";
 import { db } from "../firebase/config";
+import {
+  StudentMeetingsContainer,
+  PageTitle,
+  LoadingContainer,
+  MeetingsList,
+  MeetingCard,
+  MeetingDetails,
+  MeetingTitle,
+  MeetingInfo,
+  MeetingActions,
+  JoinButton,
+  WatchRecordingButton,
+  StatusBadge
+} from "../styles/studentMeetings.styles";
 
 function StudentMeetingsPage() {
   const [meetings, setMeetings] = useState([]);
@@ -23,47 +38,47 @@ function StudentMeetingsPage() {
   }, []);
 
   return (
-    <div className="student-meetings">
-      <h1>Available Classes</h1>
+    <StudentMeetingsContainer>
+      <PageTitle>Available Classes</PageTitle>
 
       {loading ? (
-        <div>Loading...</div>
+        <LoadingContainer>Loading...</LoadingContainer>
       ) : (
-        <div className="meetings-list">
+        <MeetingsList>
           {meetings.map((meeting) => (
-            <div key={meeting.id} className="meeting-card">
-              <div className="meeting-details">
-                <h3>
+            <MeetingCard key={meeting.id}>
+              <MeetingDetails>
+                <MeetingTitle>
                   {meeting.subject} - {meeting.topic}
-                </h3>
-                <p>Batch: {meeting.batch}</p>
-                <p>Status: {meeting.status}</p>
-              </div>
-              <div className="meeting-actions">
+                </MeetingTitle>
+                <MeetingInfo>Batch: {meeting.batch}</MeetingInfo>
+                <MeetingInfo>
+                  Status: <StatusBadge status={meeting.status}>{meeting.status}</StatusBadge>
+                </MeetingInfo>
+              </MeetingDetails>
+              <MeetingActions>
                 {meeting.status === "scheduled" && (
-                  <a
+                  <JoinButton
                     href={meeting.joinUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="join-button"
                   >
                     Join Class
-                  </a>
+                  </JoinButton>
                 )}
                 {meeting.status === "completed" && meeting.recordingKey && (
-                  <Link
+                  <WatchRecordingButton
                     to={`/play/${encodeURIComponent(meeting.recordingKey)}`}
-                    className="watch-recording"
                   >
                     Watch Recording
-                  </Link>
+                  </WatchRecordingButton>
                 )}
-              </div>
-            </div>
+              </MeetingActions>
+            </MeetingCard>
           ))}
-        </div>
+        </MeetingsList>
       )}
-    </div>
+    </StudentMeetingsContainer>
   );
 }
 

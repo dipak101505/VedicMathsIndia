@@ -11,9 +11,44 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { getExams, addExam, deleteExam, getUserExamResults } from "../services/questionService";
-import { examResultsStyles, examResultsScript, examPageStyles } from '../styles/components/examResults.styles';
+import { examResultsStyles, examResultsScript } from '../styles/components/examResults.styles';
 import * as XLSX from 'xlsx';
 import { MdDelete, MdAssessment, MdDownload } from 'react-icons/md';
+import {
+  ExamPageContainer,
+  ExamFormContainer,
+  ExamsHeader,
+  ExamFormTitle,
+  ExamsTitle,
+  FormGrid,
+  FormField,
+  FormLabel,
+  FormInput,
+  FormSelect,
+  SectionsContainer,
+  SectionsGrid,
+  SectionCheckbox,
+  CheckboxInput,
+  BlueButton,
+  FilterContainer,
+  FilterSelect,
+  Loading,
+  NoExams,
+  ExamsTableContainer,
+  ExamsTable,
+  TableHeader,
+  TableRow,
+  ClickableCell,
+  SubmittedBadge,
+  ActionButtonContainer,
+  DeleteButton,
+  ViewResultsButton,
+  DownloadButton,
+  ApplyButtonContainer,
+  AppliedButton,
+  ReviewButton,
+  ReviewedButton,
+} from '../styles/components/examPage.styles';
 
 function ExamPage() {
   const location = useLocation();
@@ -403,40 +438,36 @@ function ExamPage() {
   };
 
   return (
-    <>
-      <style>{examPageStyles}</style>
-      <div className="exam-page-container">
+    <ExamPageContainer>
       {isAdmin && (
-        <div className="exam-form-container">
-          <h2 className="exam-form-title">
+        <ExamFormContainer>
+          <ExamFormTitle>
             Add New Exam
-          </h2>
+          </ExamFormTitle>
           <form onSubmit={handleSubmit}>
-            <div className="form-grid">
-              <div className="form-field">
-                <label className="form-label">
+            <FormGrid>
+              <FormField>
+                <FormLabel>
                   Exam Name
-                  <input
+                  <FormInput
                     type="text"
                     value={formData.name}
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
                     required
-                    className="form-input"
                   />
-                </label>
-              </div>
-              <div>
-                <label className="form-label">
+                </FormLabel>
+              </FormField>
+              <FormField>
+                <FormLabel>
                   Batch
-                  <select
+                  <FormSelect
                     value={formData.batch}
                     onChange={(e) =>
                       setFormData({ ...formData, batch: e.target.value })
                     }
                     required
-                    className="form-select"
                   >
                     <option value="">Select Batch</option>
                     {batches.map((batch) => (
@@ -444,20 +475,19 @@ function ExamPage() {
                         {batch.name}
                       </option>
                     ))}
-                  </select>
-                </label>
-              </div>
-              <div className="sections-container">
-                <label className="form-label">
+                  </FormSelect>
+                </FormLabel>
+              </FormField>
+              <SectionsContainer>
+                <FormLabel>
                   Sections
-                </label>
-                <div className="sections-grid">
+                </FormLabel>
+                <SectionsGrid>
                   {subjects.map((section) => (
-                    <label
+                    <SectionCheckbox
                       key={section.id}
-                      className="section-checkbox"
                     >
-                      <input
+                      <CheckboxInput
                         type="checkbox"
                         checked={selectedSections.includes(section.id)}
                         onChange={(e) => {
@@ -474,247 +504,141 @@ function ExamPage() {
                             );
                           }
                         }}
-                        className="checkbox-input"
                       />
                       {section.name}
-                    </label>
+                    </SectionCheckbox>
                   ))}
-                </div>
-              </div>
-              <div>
-                <label className="form-label">
+                </SectionsGrid>
+              </SectionsContainer>
+              <FormField>
+                <FormLabel>
                   Date
-                  <input
+                  <FormInput
                     type="date"
                     value={formData.date}
                     onChange={(e) =>
                       setFormData({ ...formData, date: e.target.value })
                     }
                     required
-                    className="form-input"
                   />
-                </label>
-              </div>
-              <div>
-                <label className="form-label">
+                </FormLabel>
+              </FormField>
+              <FormField>
+                <FormLabel>
                   Time
-                  <input
+                  <FormInput
                     type="time"
                     value={formData.time}
                     onChange={(e) =>
                       setFormData({ ...formData, time: e.target.value })
                     }
                     required
-                    className="form-input"
                   />
-                </label>
-              </div>
-              <div>
-                <label className="form-label">
+                </FormLabel>
+              </FormField>
+              <FormField>
+                <FormLabel>
                   Duration (minutes)
-                  <input
+                  <FormInput
                     type="number"
                     value={formData.duration}
                     onChange={(e) =>
                       setFormData({ ...formData, duration: e.target.value })
                     }
                     required
-                    className="form-input"
                   />
-                </label>
-              </div>
-              <div>
-                <label className="form-label">
+                </FormLabel>
+              </FormField>
+              <FormField>
+                <FormLabel>
                   Total Marks
-                  <input
+                  <FormInput
                     type="number"
                     value={formData.totalMarks}
                     onChange={(e) =>
                       setFormData({ ...formData, totalMarks: e.target.value })
                     }
                     required
-                    className="form-input"
                   />
-                </label>
-              </div>
-              <div>
-                <label className="form-label">
+                </FormLabel>
+              </FormField>
+              <FormField>
+                <FormLabel>
                   Location
-                  <input
+                  <FormInput
                     type="text"
                     value={formData.videoKey}
                     onChange={(e) =>
                       setFormData({ ...formData, videoKey: e.target.value })
                     }
                     required
-                    className="form-input"
                   />
-                </label>
-              </div>
-            </div>
-            <button
-              type="submit"
-              className="blue-button"
-            >
+                </FormLabel>
+              </FormField>
+            </FormGrid>
+            <BlueButton type="submit">
               Add Exam
-            </button>
+            </BlueButton>
           </form>
-        </div>
+        </ExamFormContainer>
       )}
 
-      <div className="exam-form-container">
-        <div className="exams-header">
-          <h2 className="exams-title">
+      <ExamFormContainer>
+        <ExamsHeader>
+          <ExamsTitle>
             Upcoming Exams
-          </h2>
+          </ExamsTitle>
           <div>
-            <label className="filter-container">
+            <FilterContainer>
               Filter by date:
-            </label>
-            <select
+            </FilterContainer>
+            <FilterSelect
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="filter-select"
             >
               <option value="all">All Exams</option>
               <option value="prevWeek">Previous Week</option>
               <option value="today">Today</option>
               <option value="week">This Week</option>
               <option value="month">This Month</option>
-            </select>
+            </FilterSelect>
           </div>
-        </div>
+        </ExamsHeader>
         {loading ? (
-          <div className="loading">
+          <Loading>
             Loading exams...
-          </div>
+          </Loading>
         ) : filteredExams.length === 0 ? (
-          <div className="no-exams">
+          <NoExams>
             No exams found for selected date filter
-          </div>
+          </NoExams>
         ) : (
-          <div className="exams-table-container">
-            <table className="exams-table">
+          <ExamsTableContainer>
+            <ExamsTable>
               <thead>
-                <tr className="table-header">
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign: "left",
-                      borderBottom: "1px solid #e2e8f0"
-                    }}
-                  >
-                    Exam Name
-                  </th>
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign: "left",
-                      borderBottom: "1px solid #e2e8f0"
-                    }}
-                  >
-                    Subject
-                  </th>
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign: "left",
-                      borderBottom: "1px solid #e2e8f0"
-                    }}
-                  >
-                    Date
-                  </th>
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign: "left",
-                      borderBottom: "1px solid #e2e8f0"
-                    }}
-                  >
-                    Time
-                  </th>
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign: "left",
-                      borderBottom: "1px solid #e2e8f0"
-                    }}
-                  >
-                    Duration
-                  </th>
-                  <th
-                    style={{
-                      padding: "12px",
-                      textAlign: "left",
-                      borderBottom: "1px solid #e2e8f0"
-                    }}
-                  >
-                    Total Marks
-                  </th>
-                  {isAdmin && (
-                    <th
-                      style={{
-                        padding: "12px",
-                        textAlign: "left",
-                        borderBottom: "1px solid #e2e8f0"
-                      }}
-                    >
-                      Actions
-                    </th>
-                  )}
-                  {!isAdmin && (
-                    <th
-                      style={{
-                        padding: "12px",
-                        textAlign: "left",
-                        borderBottom: "1px solid #e2e8f0"
-                      }}
-                    >
-                      Action
-                    </th>
-                  )}
-                </tr>
+                <TableHeader>
+                  <th>Exam Name</th>
+                  <th>Subject</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Duration</th>
+                  <th>Total Marks</th>
+                  {isAdmin && <th>Actions</th>}
+                  {!isAdmin && <th>Action</th>}
+                </TableHeader>
               </thead>
               <tbody>
                 {filteredExams.map((exam) => (
-                  <tr
-                    key={exam.id}
-                    style={{ ":hover": { backgroundColor: "#f7fafc" } }}
-                  >
-                    <td
-                      style={{
-                        padding: "12px",
-                        borderBottom: "1px solid #e2e8f0",
-                        cursor: "pointer",
-                        position: "relative"
-                      }}
-                      onClick={() => handleStartExam(exam)}
-                    >
+                  <TableRow key={exam.id}>
+                    <ClickableCell onClick={() => handleStartExam(exam)}>
                       {exam.name}
                       {submittedExams.includes(exam.id) && (
-                        <div 
-                          style={{
-                            position: "absolute",
-                            top: "50%",
-                            right: "10px",
-                            transform: "translateY(-50%)",
-                            backgroundColor: "#4caf50",
-                            color: "white",
-                            fontSize: "10px",
-                            padding: "2px 6px",
-                            borderRadius: "4px",
-                          }}
-                        >
+                        <SubmittedBadge>
                           Submitted
-                        </div>
+                        </SubmittedBadge>
                       )}
-                    </td>
-                    <td
-                      style={{
-                        padding: "12px",
-                        borderBottom: "1px solid #e2e8f0",
-                      }}
-                    >
+                    </ClickableCell>
+                    <td>
                       {exam.sections
                         ?.map(
                           (sectionId) =>
@@ -722,159 +646,87 @@ function ExamPage() {
                         )
                         .join(", ")}
                     </td>
-                    <td
-                      style={{
-                        padding: "12px",
-                        borderBottom: "1px solid #e2e8f0",
-                      }}
-                    >
-                      {exam.date}
-                    </td>
-                    <td
-                      style={{
-                        padding: "12px",
-                        borderBottom: "1px solid #e2e8f0",
-                      }}
-                    >
-                      {exam.time}
-                    </td>
-                    <td
-                      style={{
-                        padding: "12px",
-                        borderBottom: "1px solid #e2e8f0",
-                      }}
-                    >
-                      {exam.duration} mins
-                    </td>
-                    <td
-                      style={{
-                        padding: "12px",
-                        borderBottom: "1px solid #e2e8f0",
-                      }}
-                    >
-                      {exam.totalMarks}
-                    </td>
+                    <td>{exam.date}</td>
+                    <td>{exam.time}</td>
+                    <td>{exam.duration} mins</td>
+                    <td>{exam.totalMarks}</td>
                     {isAdmin && (
-                      <td
-                        style={{
-                          padding: "12px",
-                          borderBottom: "1px solid #e2e8f0",
-                        }}
-                      >
-                        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                          <button
+                      <td>
+                        <ActionButtonContainer>
+                          <DeleteButton
                             onClick={(e) => {
                               e.stopPropagation();
                               handleDelete(exam.id);
                             }}
                             title="Delete Exam"
-                            style={{
-                              padding: "8px",
-                              backgroundColor: "#dc3545",
-                              color: "white",
-                              border: "none",
-                              borderRadius: "4px",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center"
-                            }}
                           >
                             <MdDelete size={16} />
-                          </button>
-                          <button
+                          </DeleteButton>
+                          <ViewResultsButton
                             onClick={(e) => {
                               e.stopPropagation();
                               fetchExamResults(exam.id);
                             }}
                             disabled={loadingResults}
                             title="View Results"
-                            style={{
-                              padding: "8px",
-                              backgroundColor: "#0a6ba0",
-                              color: "white",
-                              border: "none",
-                              borderRadius: "4px",
-                              cursor: loadingResults ? "not-allowed" : "pointer",
-                              opacity: loadingResults ? 0.7 : 1,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center"
-                            }}
                           >
                             <MdAssessment size={16} />
-                          </button>
-                          <button
+                          </ViewResultsButton>
+                          <DownloadButton
                             onClick={(e) => {
                               e.stopPropagation();
                               downloadExamResults(exam.id, exam.name);
                             }}
                             disabled={loadingResults}
                             title="Download Excel"
-                            style={{
-                              padding: "8px",
-                              backgroundColor: "#28a745",
-                              color: "white",
-                              border: "none",
-                              borderRadius: "4px",
-                              cursor: loadingResults ? "not-allowed" : "pointer",
-                              opacity: loadingResults ? 0.7 : 1,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center"
-                            }}
                           >
                             <MdDownload size={16} />
-                          </button>
-                        </div>
+                          </DownloadButton>
+                        </ActionButtonContainer>
                       </td>
                     )}
                     {!isAdmin && (
-                      <td
-                        style={{
-                          padding: "12px",
-                          borderBottom: "1px solid #e2e8f0",
-                        }}
-                      >
-                        <div style={{ display: "flex" }}>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleApplicationToggle(exam.id);
-                            }}
-                            style={{
-                              padding: "6px 12px",
-                              backgroundColor:
-                                applications[exam.id]?.status === "review"
-                                  ? "#4CAF50" // Green for review
-                                  : applications[exam.id]?.status === "applied"
-                                    ? "#0a6ba0" // Orange for applied
-                                    : "#2196F3", // Blue for initial state
-                              color: "white",
-                              border: "none",
-                              borderRadius: "4px",
-                              cursor: "pointer",
-                              transition: "background-color 0.2s",
-                            }}
-                          >
-                            {applications[exam.id]?.status === "review"
-                              ? "Reviewed"
-                              : applications[exam.id]?.status === "applied"
-                                ? "Review"
-                                : "Apply"}
-                          </button>
-                        </div>
+                      <td>
+                        <ApplyButtonContainer>
+                          {applications[exam.id]?.status === "review" ? (
+                            <ReviewedButton
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleApplicationToggle(exam.id);
+                              }}
+                            >
+                              Reviewed
+                            </ReviewedButton>
+                          ) : applications[exam.id]?.status === "applied" ? (
+                            <ReviewButton
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleApplicationToggle(exam.id);
+                              }}
+                            >
+                              Review
+                            </ReviewButton>
+                          ) : (
+                            <AppliedButton
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleApplicationToggle(exam.id);
+                              }}
+                            >
+                              Apply
+                            </AppliedButton>
+                          )}
+                        </ApplyButtonContainer>
                       </td>
                     )}
-                  </tr>
+                  </TableRow>
                 ))}
               </tbody>
-            </table>
-          </div>
+            </ExamsTable>
+          </ExamsTableContainer>
         )}
-      </div>
-    </div>
-    </>
+      </ExamFormContainer>
+    </ExamPageContainer>
   );
 }
 

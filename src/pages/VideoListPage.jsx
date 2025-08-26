@@ -30,6 +30,7 @@ import { simulationService } from "../services/simulationService";
 import { getLectureNotes } from "../services/lectureNotesService";
 import Artplayer from "artplayer";
 import Hls from "hls.js";
+
 import {
   VideoListContainer,
   SearchFilterSection,
@@ -62,8 +63,57 @@ import {
   SearchResultText,
   ErrorContainer,
   LoadingText,
-  Spinner
-} from "../styles/components/videoList.styles";
+  Spinner,
+  SimulationModal,
+  ModalTitle,
+  ModalButtonContainer,
+  ModalButton,
+  RemoveButton,
+  ModalCloseButton,
+  VideoInfoContainer,
+  VideoInfoTitle,
+  VideoPlayerContainer,
+  VideoPlayerWrapper,
+  VideoActionsContainer,
+  FullPlayerButton,
+  LectureImageContainer,
+  LectureImageTitle,
+  LectureImage,
+  EmptyStateContainer,
+  EmptyStateIcon,
+  EmptyStateTitle,
+  EmptyStateText,
+  LoadingNotesContainer,
+  ErrorNotesContainer,
+  NotesContainer,
+  NotesTitle,
+  NotesContent,
+  NoNotesContainer,
+  PodcastInfoContainer,
+  PodcastInfoTitle,
+  PodcastInfoText,
+  AudioPlayerContainer,
+  AudioPlayer,
+  PodcastDescriptionContainer,
+  PodcastDescriptionTitle,
+  PodcastDescriptionText,
+  PodcastDescriptionMeta,
+  AdminControlsSection,
+  AdminControlsHeader,
+  AdminControlsIcon,
+  AdminControlsTitle,
+  AdminControlsSubtitle,
+  AdminButton,
+  AddSimulationButtonContainer,
+  AddSimulationButton,
+  ModalButtonRow,
+  TooltipContent,
+  ExamName,
+  SectionName,
+  StatisticsContainer,
+  StatisticsTitle,
+  StatisticsMeta
+} from "../styles/videoList.styles";
 import AdminSimulationForm from "../components/AdminSimulationForm";
 import SimulationInterface from "../components/SimulationControls";
 import { 
@@ -74,6 +124,8 @@ import {
   UI_CONSTANTS, 
   ROUTES 
 } from "../config/constants";
+
+
 
 // Simulation state reducer
 const simulationReducer = (state, action) => {
@@ -760,58 +812,45 @@ function VideoListPage() {
   const ExamTooltipContent = ({ exam, examResults }) => {
     const result = examResults.find((r) => r.examId === exam.id);
     return (
-      <div className="tooltip-content">
-        <div
-          style={{
-            fontWeight: 600,
-            fontSize: "1.1rem",
-            marginBottom: "0.5rem",
-          }}
-        >
-          {exam.name}
-        </div>
-        {result && (
-          <div className="text-xs">
-            {Object.entries(result.answers).map(([section, data]) => (
-              <div key={section} className="mt-1">
-                <div
-                  style={{
-                    textDecoration: "underline",
-                    textUnderlineOffset: "2px",
-                    fontWeight: 500,
-                    color: "#f97316",
-                    paddingBottom: "2px",
-                    marginBottom: "4px",
-                  }}
-                >
-                  {section}
+      <TooltipContent>
+        <div className="tooltip-content">
+          <ExamName>
+            {exam.name}
+          </ExamName>
+          {result && (
+            <div className="text-xs">
+              {Object.entries(result.answers).map(([section, data]) => (
+                <div key={section} className="mt-1">
+                  <SectionName>
+                    {section}
+                  </SectionName>
+                  <div>Total Marks: {data.totalMarks}</div>
+                  <div>Accuracy: {((data.correct/data.attempted)*100).toFixed(VIDEO_CONFIG.PERCENTAGE_DECIMAL_PLACES)}%</div>
+                  <div>Prep level: {((data.correct/data.totalSectionQuestions)*100).toFixed(VIDEO_CONFIG.PERCENTAGE_DECIMAL_PLACES)}%</div>
+                  <div>Positive: {data.positiveMarks}</div>
+                  <div>Negative: {data.negativeMarks}</div>
                 </div>
-                <div>Total Marks: {data.totalMarks}</div>
-                <div>Accuracy: {((data.correct/data.attempted)*100).toFixed(VIDEO_CONFIG.PERCENTAGE_DECIMAL_PLACES)}%</div>
-                <div>Prep level: {((data.correct/data.totalSectionQuestions)*100).toFixed(VIDEO_CONFIG.PERCENTAGE_DECIMAL_PLACES)}%</div>
-                <div>Positive: {data.positiveMarks}</div>
-                <div>Negative: {data.negativeMarks}</div>
-              </div>
-            ))}
-            <div className="mt-2 pt-2 border-t border-gray-200">
-              <div className="font-medium">Statistics:</div>
-              <div>
-                Time Spent: {Math.floor(result.statistics.timeSpent / 60)}m{" "}
-                {result.statistics.timeSpent % 60}s
-              </div>
-              <div>
-                Questions Attempted: {result.statistics.questionsAttempted}
-              </div>
-              <div>
-                Marked for Review: {result.statistics.questionsMarkedForReview}
-              </div>
-              <div className="text-gray-500 text-[10px] mt-1">
-                Submitted: {new Date(result.submittedAt).toLocaleString()}
-              </div>
+              ))}
+              <StatisticsContainer className="mt-2 pt-2">
+                <StatisticsTitle>Statistics:</StatisticsTitle>
+                <div>
+                  Time Spent: {Math.floor(result.statistics.timeSpent / 60)}m{" "}
+                  {result.statistics.timeSpent % 60}s
+                </div>
+                <div>
+                  Questions Attempted: {result.statistics.questionsAttempted}
+                </div>
+                <div>
+                  Marked for Review: {result.statistics.questionsMarkedForReview}
+                </div>
+                <StatisticsMeta>
+                  Submitted: {new Date(result.submittedAt).toLocaleString()}
+                </StatisticsMeta>
+              </StatisticsContainer>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </TooltipContent>
     );
   };
 
@@ -1157,42 +1196,15 @@ function VideoListPage() {
 
                                     {/* Add this modal component */}
                                     {simulationState.showSimModal && (
-                                      <div
-                                        className="simulation-modal"
-                                        style={{
-                                          position: "fixed",
-                                          top: "50%",
-                                          left: "50%",
-                                          transform: "translate(-50%, -50%)",
-                                          backgroundColor: "white",
-                                          padding: "24px",
-                                          borderRadius: "12px",
-                                          boxShadow:
-                                            "0 4px 6px rgba(0, 0, 0, 0.1)",
-                                          zIndex: 1000,
-                                          minWidth: "300px",
-                                        }}
-                                      >
-                                        <h3
-                                          style={{
-                                            marginBottom: "16px",
-                                            fontSize: "18px",
-                                          }}
-                                        >
+                                      <SimulationModal>
+                                        <ModalTitle>
                                           Available Simulations
-                                        </h3>
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            gap: "8px",
-                                          }}
-                                        >
+                                        </ModalTitle>
+                                        <ModalButtonContainer>
                                           {simulationState.activeSimulations?.simulations?.map(
                                             (simulation) => (
-                                              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                              <button
-                                                key={simulation.url}
+                                              <ModalButtonRow key={simulation.url}>
+                                              <ModalButton
                                                 onClick={() => {
                                                   dispatchSimulation({ type: 'SET_IFRAME_URL', payload: simulation.url });
                                                   dispatchSimulation({ type: 'SET_SIM_MODAL', payload: false });
@@ -1202,24 +1214,12 @@ function VideoListPage() {
                                                       behavior: "smooth",
                                                     });
                                                 }}
-                                                style={{
-                                                  padding: "12px",
-                                                  textAlign: "left",
-                                                  backgroundColor: "#f8fafc",
-                                                  border: "1px solid #e2e8f0",
-                                                  borderRadius: "8px",
-                                                  cursor: "pointer",
-                                                  transition: "all 0.2s",
-                                                  color: "#2d3748",
-                                                  hoverBackgroundColor:
-                                                    "#f1f5f9",
-                                                }}
                                               >
                                                 {simulation.name ||
                                                   "Simulation"}
-                                              </button>
+                                              </ModalButton>
                                               {isAdmin && (
-                                                <button
+                                                <RemoveButton
                                                   onClick={() =>{
                                                     handleRemoveSimulation(
                                                       simulationState.activeSimulations.SK,
@@ -1229,39 +1229,19 @@ function VideoListPage() {
                                                     )
                                                   }
                                                   }
-                                                  style={{
-                                                    padding: "6px 6px",
-                                                    backgroundColor: "#dc2626",
-                                                    color: "white",
-                                                    border: "none",
-                                                    borderRadius: "4px",
-                                                    cursor: "pointer",
-                                                    fontSize: "13px",
-                                                    fontWeight: "500",
-                                                    marginLeft: "16px",
-                                                    width: "80px",
-                                                  }}
                                                 >
                                                   Remove
-                                                </button>
-                                              )}</div>
+                                                </RemoveButton>
+                                              )}</ModalButtonRow>
                                             ),
                                           )}
-                                        </div>
-                                        <button
+                                        </ModalButtonContainer>
+                                        <ModalCloseButton
                                           onClick={() => dispatchSimulation({ type: 'SET_SIM_MODAL', payload: false })}
-                                          style={{
-                                            marginTop: "16px",
-                                            padding: "8px",
-                                            backgroundColor: "#e2e8f0",
-                                            border: "none",
-                                            borderRadius: "6px",
-                                            cursor: "pointer",
-                                          }}
                                         >
                                           Close
-                                        </button>
-                                      </div>
+                                        </ModalCloseButton>
+                                      </SimulationModal>
                                     )}
 
                                   </SectionTitle>
@@ -1348,38 +1328,13 @@ function VideoListPage() {
 
                             {/* Add this modal component */}
                             {simulationState.showSimModal && (
-                              <div
-                                className="simulation-modal"
-                                style={{
-                                  position: "fixed",
-                                  top: "50%",
-                                  left: "50%",
-                                  transform: "translate(-50%, -50%)",
-                                  backgroundColor: "white",
-                                  padding: "24px",
-                                  borderRadius: "12px",
-                                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                                  zIndex: 1000,
-                                  minWidth: "300px",
-                                }}
-                              >
-                                <h3
-                                  style={{
-                                    marginBottom: "16px",
-                                    fontSize: "18px",
-                                  }}
-                                >
+                              <SimulationModal>
+                                <ModalTitle>
                                   Available Simulations
-                                </h3>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    gap: "8px",
-                                  }}
-                                >
+                                </ModalTitle>
+                                <ModalButtonContainer>
                                   {simulationState.activeSimulations?.simulations?.map((simulation) => (
-                                    <button
+                                    <ModalButton
                                       key={simulation.url}
                                       onClick={() => {
                                         dispatchSimulation({ type: 'SET_IFRAME_URL', payload: simulation.url });
@@ -1390,37 +1345,17 @@ function VideoListPage() {
                                             behavior: "smooth",
                                           });
                                       }}
-                                      style={{
-                                        padding: "12px",
-                                        textAlign: "left",
-                                        backgroundColor: "#f8fafc",
-                                        border: "1px solid #e2e8f0",
-                                        borderRadius: "8px",
-                                        cursor: "pointer",
-                                        transition: "all 0.2s",
-                                        color: "#2d3748",
-                                        hoverBackgroundColor: "#f1f5f9",
-                                      }}
                                     >
                                       {simulation.name || "Simulation"}
-                                    </button>
+                                    </ModalButton>
                                   ))}
-                                </div>
-                                <button
+                                </ModalButtonContainer>
+                                <ModalCloseButton
                                   onClick={() => dispatchSimulation({ type: 'SET_SIM_MODAL', payload: false })}
-                                  style={{
-                                    marginTop: "16px",
-                                    padding: "8px",
-                                    backgroundColor: "#e2e8f0",
-                                    border: "none",
-                                    borderRadius: "6px",
-                                    cursor: "pointer",
-                                    color: "#4a5568",
-                                  }}
                                 >
                                   Close
-                                </button>
-                              </div>
+                                </ModalCloseButton>
+                              </SimulationModal>
                             )}
                           </SectionTitle>
                         </SectionHeader>
@@ -1485,83 +1420,49 @@ function VideoListPage() {
             {selectedVideo ? (
               <div>
                 {/* Video Info */}
-                <div style={{ 
-                  marginBottom: '16px',
-                  padding: '12px',
-                  backgroundColor: '#f8f9fa',
-                  borderRadius: '6px',
-                  border: '1px solid #dee2e6'
-                }}>
-                  <h4 style={{ margin: '0 0 8px 0', fontSize: '14px', color: '#2c3e50' }}>
+                <VideoInfoContainer>
+                  <VideoInfoTitle>
                     🎥 {selectedVideo.topic} - {selectedVideo.subtopic}
-                  </h4>
-                </div>
+                  </VideoInfoTitle>
+                </VideoInfoContainer>
 
                 {/* Artplayer Video Player */}
-                <div style={{ marginBottom: '16px' }}>
-                  <div 
+                <VideoPlayerContainer>
+                  <VideoPlayerWrapper 
                     ref={artRef} 
-                    style={{ 
-                      width: '100%', 
-                      height: 'calc(100vh - 380px)',
-                      borderRadius: '8px',
-                      overflow: 'hidden',
-                      backgroundColor: '#000'
-                    }} 
                   />
-                </div>
+                </VideoPlayerContainer>
 
                 {/* Video Actions */}
-                <div style={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  alignItems: 'center',
-                  marginBottom: '16px'
-                }}>
-                  <button 
+                <VideoActionsContainer>
+                  <FullPlayerButton 
                     onClick={() => window.open(`/play/${selectedVideo.bunnyVideoId}`, '_blank')}
-                    style={{
-                      padding: '8px 12px',
-                      backgroundColor: '#ffa600',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      fontSize: '12px',
-                      cursor: 'pointer',
-                      width: '10%' // Reduced width
-                    }}
                   >
                     🔗 Full Player
-                  </button>
-                </div>
+                  </FullPlayerButton>
+                </VideoActionsContainer>
 
                 {/* Lecture Image */}
                 {lectureImage && (
-                  <div style={{ marginBottom: '16px' }}>
-                    <h5 style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#495057' }}>
+                  <LectureImageContainer>
+                    <LectureImageTitle>
                       Lecture Notes Image
-                    </h5>
-                    <img
+                    </LectureImageTitle>
+                    <LectureImage
                       src={lectureImage}
                       alt="Lecture Notes"
-                      style={{
-                        width: '100%',
-                        height: 'auto',
-                        borderRadius: '6px',
-                        border: '1px solid #dee2e6'
-                      }}
                     />
-                  </div>
+                  </LectureImageContainer>
                 )}
               </div>
             ) : (
-              <div style={{ textAlign: 'center', color: '#6c757d', padding: '40px 20px' }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>🎬</div>
-                <h4 style={{ margin: '0 0 8px 0', color: '#495057' }}>Video Player</h4>
-                <p style={{ margin: 0, fontSize: '14px' }}>
+              <EmptyStateContainer>
+                <EmptyStateIcon>🎬</EmptyStateIcon>
+                <EmptyStateTitle>Video Player</EmptyStateTitle>
+                <EmptyStateText>
                   Click on a video from the list to watch it here
-                </p>
-              </div>
+                </EmptyStateText>
+              </EmptyStateContainer>
             )}
           </AdjacentContent>
           
@@ -1571,61 +1472,36 @@ function VideoListPage() {
               <div>
                 {/* Lecture Notes */}
                 {notesLoading ? (
-                  <div style={{ textAlign: 'center', padding: '20px', color: '#6c757d' }}>
-                    <div> Loading lecture notes...</div>
-                  </div>
+                  <LoadingNotesContainer>
+                    Loading lecture notes...
+                  </LoadingNotesContainer>
                 ) : notesError ? (
-                  <div style={{ 
-                    padding: '12px', 
-                    backgroundColor: '#f8d7da', 
-                    color: '#721c24',
-                    borderRadius: '6px',
-                    marginBottom: '16px',
-                    fontSize: '12px'
-                  }}>
+                  <ErrorNotesContainer>
                     ❌ Error loading notes: {notesError}
-                  </div>
+                  </ErrorNotesContainer>
                 ) : lectureNotes ? (
-                  <div style={{ marginBottom: '20px' }}>
-                    <h4 style={{ margin: '0 0 12px 0', fontSize: '14px', color: '#2c3e50' }}>
+                  <NotesContainer>
+                    <NotesTitle>
                        {lectureNotes.title}
-                    </h4>
-                    <div
-                      style={{
-                        fontSize: '13px',
-                        lineHeight: '1.5',
-                        color: '#4a5568',
-                        backgroundColor: '#f8f9fa',
-                        padding: '12px',
-                        borderRadius: '6px',
-                        border: '1px solid #dee2e6',
-                        height: 'calc(100vh - 350px)',
-                        overflowY: 'auto'
-                      }}
+                    </NotesTitle>
+                    <NotesContent
                       dangerouslySetInnerHTML={{ __html: lectureNotes.content }}
                     />
-                  </div>
+                  </NotesContainer>
                 ) : (
-                  <div style={{ 
-                    padding: '12px', 
-                    backgroundColor: '#fff3cd', 
-                    color: '#856404',
-                    borderRadius: '6px',
-                    marginBottom: '16px',
-                    fontSize: '12px'
-                  }}>
+                  <NoNotesContainer>
                     📝 No lecture notes available for this video
-                  </div>
+                  </NoNotesContainer>
                 )}
               </div>
             ) : (
-              <div style={{ textAlign: 'center', color: '#6c757d', padding: '40px 20px' }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>📝</div>
-                <h4 style={{ margin: '0 0 8px 0', color: '#495057' }}>Video Notes</h4>
-                <p style={{ margin: 0, fontSize: '14px' }}>
+              <EmptyStateContainer>
+                <EmptyStateIcon>📝</EmptyStateIcon>
+                <EmptyStateTitle>Video Notes</EmptyStateTitle>
+                <EmptyStateText>
                   Select a video to view its lecture notes and take personal notes
-                </p>
-              </div>
+                </EmptyStateText>
+              </EmptyStateContainer>
             )}
           </AdjacentContent>
           
@@ -1634,35 +1510,19 @@ function VideoListPage() {
             {selectedVideo ? (
               <div>
                 {/* Podcast Info */}
-                <div style={{ 
-                  marginBottom: '16px',
-                  padding: '12px',
-                  backgroundColor: '#f8f9fa',
-                  borderRadius: '6px',
-                  border: '1px solid #dee2e6'
-                }}>
-                  <h4 style={{ margin: '0 0 8px 0', fontSize: '14px', color: '#2c3e50' }}>
+                <PodcastInfoContainer>
+                  <PodcastInfoTitle>
                     🎧 {selectedVideo.topic} - {selectedVideo.subtopic} Podcast
-                  </h4>
-                  <p style={{ margin: 0, fontSize: '12px', color: '#6c757d' }}>
+                  </PodcastInfoTitle>
+                  <PodcastInfoText>
                     Listen to the audio explanation of this topic
-                  </p>
-                </div>
+                  </PodcastInfoText>
+                </PodcastInfoContainer>
 
                 {/* Audio Player */}
-                <div style={{ 
-                  padding: '16px',
-                  backgroundColor: '#ffffff',
-                  borderRadius: '8px',
-                  border: '1px solid #dee2e6',
-                  marginBottom: '16px'
-                }}>
-                  <audio 
+                <AudioPlayerContainer>
+                  <AudioPlayer 
                     controls 
-                    style={{ 
-                      width: '100%',
-                      height: '40px'
-                    }}
                     preload="metadata"
                   >
                     <source 
@@ -1674,39 +1534,31 @@ function VideoListPage() {
                       type="audio/mpeg"
                     />
                     Your browser does not support the audio element.
-                  </audio>
-                </div>
+                  </AudioPlayer>
+                </AudioPlayerContainer>
 
                 {/* Podcast Description */}
-                <div style={{
-                  padding: '12px',
-                  backgroundColor: '#f8f9fa',
-                  borderRadius: '6px',
-                  border: '1px solid #dee2e6',
-                  fontSize: '13px',
-                  lineHeight: '1.5',
-                  color: '#4a5568'
-                }}>
-                  <h5 style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#2c3e50' }}>
+                <PodcastDescriptionContainer>
+                  <PodcastDescriptionTitle>
                     📻 About this Podcast
-                  </h5>
-                  <p style={{ margin: '0 0 8px 0' }}>
+                  </PodcastDescriptionTitle>
+                  <PodcastDescriptionText>
                     This audio content provides a detailed explanation of the {selectedVideo.topic} topic, 
                     covering key concepts and practical applications.
-                  </p>
-                  <p style={{ margin: 0, fontSize: '12px', color: '#6c757d' }}>
+                  </PodcastDescriptionText>
+                  <PodcastDescriptionMeta>
                     Duration: Demo Audio • Quality: High Definition
-                  </p>
-                </div>
+                  </PodcastDescriptionMeta>
+                </PodcastDescriptionContainer>
               </div>
             ) : (
-              <div style={{ textAlign: 'center', color: '#6c757d', padding: '40px 20px' }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>🎧</div>
-                <h4 style={{ margin: '0 0 8px 0', color: '#495057' }}>Podcast Player</h4>
-                <p style={{ margin: 0, fontSize: '14px' }}>
+              <EmptyStateContainer>
+                <EmptyStateIcon>🎧</EmptyStateIcon>
+                <EmptyStateTitle>Podcast Player</EmptyStateTitle>
+                <EmptyStateText>
                   Select a video to listen to its accompanying podcast
-                </p>
-              </div>
+                </EmptyStateText>
+              </EmptyStateContainer>
             )}
           </AdjacentContent>
           
@@ -1715,102 +1567,76 @@ function VideoListPage() {
             <div>
               {isAdmin ? (
                 <div>
-                  <div style={{
-                    marginBottom: '16px',
-                    padding: '12px',
-                    backgroundColor: '#fff3cd',
-                    color: '#856404',
-                    borderRadius: '6px',
-                    border: '1px solid #ffeaa7',
-                    fontSize: '12px'
-                  }}>
-                    🔧 <strong>Admin Controls:</strong> Add simulation URLs and names for students
-                  </div>
-                  <AdminSimulationForm 
-                    simulationState={simulationState}
-                    dispatchSimulation={dispatchSimulation}
-                  />
+                  <AdminControlsSection>
+                    <AdminControlsHeader>
+                      <AdminControlsIcon>🔧</AdminControlsIcon>
+                      <div>
+                        <AdminControlsTitle>Admin Controls</AdminControlsTitle>
+                        <AdminControlsSubtitle>Add simulation URLs and names for students</AdminControlsSubtitle>
+                      </div>
+                    </AdminControlsHeader>
+                    
+                    <AdminSimulationForm 
+                      simulationState={simulationState}
+                      dispatchSimulation={dispatchSimulation}
+                    />
                   
-                  {/* Add Simulation Button */}
-                  <div style={{ marginTop: '12px' }}>
-                    <button
-                      onClick={async (e) => {
-                        e.stopPropagation();
-                        if (simulationState.simName && simulationState.simUrl && simulationState.selectedSubject && simulationState.selectedTopic) {
-                          try {
-                            const result = await simulationService.addSimulationLink(
-                              simulationState.selectedSubject,
-                              simulationState.selectedTopic,
-                              {
-                                name: simulationState.simName,
-                                url: simulationState.simUrl,
-                              },
-                            );
-
-                            if (result) {
-                              toast.success(
-                                `Simulation "${simulationState.simName}" added successfully!`,
+                                      {/* Add Simulation Button */}
+                    <AddSimulationButtonContainer>
+                      <AdminButton
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                          if (simulationState.simName && simulationState.simUrl && simulationState.selectedSubject && simulationState.selectedTopic) {
+                            try {
+                              const result = await simulationService.addSimulationLink(
+                                simulationState.selectedSubject,
+                                simulationState.selectedTopic,
+                                {
+                                  name: simulationState.simName,
+                                  url: simulationState.simUrl,
+                                },
                               );
-                              dispatchSimulation({ type: 'RESET_SIMULATION_FORM' });
-                            } else {
-                              toast.error(result.message);
+
+                              if (result) {
+                                toast.success(
+                                  `Simulation "${simulationState.simName}" added successfully!`,
+                                );
+                                dispatchSimulation({ type: 'RESET_SIMULATION_FORM' });
+                              } else {
+                                toast.error(result.message);
+                              }
+                            } catch (error) {
+                              console.error(
+                                "Error adding simulation:",
+                                error,
+                              );
+                              toast.error(
+                                "Failed to add simulation. Please try again.",
+                              );
                             }
-                          } catch (error) {
-                            console.error(
-                              "Error adding simulation:",
-                              error,
-                            );
+                          } else {
                             toast.error(
-                              "Failed to add simulation. Please try again.",
+                              "Please enter simulation name, URL and select subject and topic",
                             );
                           }
-                        } else {
-                          toast.error(
-                            "Please enter simulation name, URL and select subject and topic",
-                          );
-                        }
-                      }}
-                      style={{
-                        padding: "8px 16px",
-                        backgroundColor: "#ffa600",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "6px",
-                        cursor: "pointer",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        transition: "all 0.2s ease",
-                        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                        width: "100%",
-                        justifyContent: "center",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = "#f59e0b";
-                        e.currentTarget.style.transform = "translateY(-1px)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = "#ffa600";
-                        e.currentTarget.style.transform = "translateY(0)";
-                      }}
-                    >
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                        }}
                       >
-                        <path d="M12 5v14M5 12h14" />
-                      </svg>
-                      Add Simulation
-                    </button>
-                  </div>
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M12 5v14M5 12h14" />
+                        </svg>
+                        Add Simulation
+                      </AdminButton>
+                    </AddSimulationButtonContainer>
+                  </AdminControlsSection>
                 </div>
               ) : (
                 <div>

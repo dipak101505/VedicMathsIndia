@@ -8,7 +8,7 @@ import {
   SimulationButtonContainer,
   SimulationButton,
   SimulationFrame,
-} from '../styles/components/videoList.styles';
+} from '../styles/videoList.styles';
 
 const SimulationControls = ({ simulationState, dispatchSimulation }) => {
   return (

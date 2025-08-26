@@ -6,6 +6,32 @@ import { storage } from "../firebase/config";
 import { getAuth } from "firebase/auth";
 import { useAuth } from "../contexts/AuthContext";
 import { upsertStudent } from "../services/studentService";
+import {
+  ModalOverlay,
+  ModalContent,
+  CloseButton,
+  ModalTitle,
+  LastUpdatedText,
+  FormContainer,
+  FormGroup,
+  FormLabel,
+  FormInput,
+  FormSelect,
+  FormTextarea,
+  HelpText,
+  UserTypeContainer,
+  UserTypeLabel,
+  StatusContainer,
+  PaymentTypeContainer,
+  PaymentTypeLabel,
+  ImagePreviewContainer,
+  ImagePreview,
+  UploadStatus,
+  ButtonContainer,
+  SubmitButton,
+  StatusMessage,
+  MonthlyInstallmentInput,
+} from "../styles/components/EditStudentForm.styles";
 
 const EditStudentForm = ({
   student,
@@ -268,88 +294,46 @@ const EditStudentForm = ({
   };
 
   return (
-    <div
-      className="modal-overlay"
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1000,
-      }}
-    >
-      <div
-        className="modal-content"
-        style={{
-          backgroundColor: "white",
-          padding: "20px",
-          borderRadius: "8px",
-          maxWidth: "500px",
-          width: "100%",
-          maxHeight: "90vh",
-          overflowY: "auto",
-          position: "relative",
-        }}
-      >
-        <button
-          onClick={onClose}
-          style={{
-            position: "absolute",
-            right: "10px",
-            top: "10px",
-            background: "none",
-            border: "none",
-            fontSize: "20px",
-            cursor: "pointer",
-            padding: "5px",
-          }}
-        >
+    <ModalOverlay>
+      <ModalContent>
+        <CloseButton onClick={onClose}>
           ×
-        </button>
-        <h2>Edit Student</h2>
-        <div style={{ marginBottom: "15px", fontSize: "14px", color: "#666" }}>
+        </CloseButton>
+        <ModalTitle>Edit Student</ModalTitle>
+        <LastUpdatedText>
           Last Updated: {new Date(student.updatedAt?.toDate()).toLocaleString()}
-        </div>
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+        </LastUpdatedText>
+        <FormContainer onSubmit={handleSubmit}>
+          <FormGroup>
+            <FormLabel>
               Name *
-              <input
+              <FormInput
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
                 required
-                style={{ width: "100%", padding: "8px" }}
               />
-            </label>
-          </div>
+            </FormLabel>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Email *
-              <input
+              <FormInput
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
                 required
-                style={{ width: "100%", padding: "8px" }}
               />
-            </label>
-          </div>
+            </FormLabel>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
-              User Type
-            </label>
-            <div style={{ display: "flex", gap: "20px" }}>
-              <label>
+          <FormGroup>
+            <FormLabel>User Type</FormLabel>
+            <UserTypeContainer>
+              <UserTypeLabel>
                 <input
                   type="checkbox"
                   name="parent"
@@ -357,8 +341,8 @@ const EditStudentForm = ({
                   onChange={handleUserTypeChange}
                 />
                 Parent
-              </label>
-              <label>
+              </UserTypeLabel>
+              <UserTypeLabel>
                 <input
                   type="checkbox"
                   name="teacher"
@@ -366,8 +350,8 @@ const EditStudentForm = ({
                   onChange={handleUserTypeChange}
                 />
                 Teacher
-              </label>
-              <label>
+              </UserTypeLabel>
+              <UserTypeLabel>
                 <input
                   type="checkbox"
                   name="franchise"
@@ -375,8 +359,8 @@ const EditStudentForm = ({
                   onChange={handleUserTypeChange}
                 />
                 Franchise
-              </label>
-              <label>
+              </UserTypeLabel>
+              <UserTypeLabel>
                 <input
                   type="checkbox"
                   name="student"
@@ -384,19 +368,18 @@ const EditStudentForm = ({
                   onChange={handleUserTypeChange}
                 />
                 Student
-              </label>
-            </div>
-          </div>
+              </UserTypeLabel>
+            </UserTypeContainer>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Class *
-              <select
+              <FormSelect
                 name="class"
                 value={formData.class}
                 onChange={handleInputChange}
                 required
-                style={{ width: "100%", padding: "8px" }}
               >
                 <option value="">Select Class</option>
                 {[...Array(12)].map((_, i) => (
@@ -404,191 +387,162 @@ const EditStudentForm = ({
                     Class {i + 1}
                   </option>
                 ))}
-              </select>
-            </label>
-          </div>
+              </FormSelect>
+            </FormLabel>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Board *
-              <select
+              <FormSelect
                 name="board"
                 value={formData.board}
                 onChange={handleInputChange}
                 required
-                style={{ width: "100%", padding: "8px" }}
               >
                 <option value="">Select Board</option>
                 <option value="CBSE">CBSE</option>
                 <option value="ICSE">ICSE</option>
                 <option value="WB">WB</option>
-              </select>
-            </label>
-          </div>
+              </FormSelect>
+            </FormLabel>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Date of Birth *
-              <input
+              <FormInput
                 type="date"
                 name="dob"
                 value={formData.dob}
                 onChange={handleInputChange}
                 required
-                style={{ width: "100%", padding: "8px" }}
               />
-            </label>
-          </div>
+            </FormLabel>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               School Name *
-              <input
+              <FormInput
                 type="text"
                 name="school"
                 value={formData.school}
                 onChange={handleInputChange}
                 required
-                style={{ width: "100%", padding: "8px" }}
               />
-            </label>
-          </div>
+            </FormLabel>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Centres *
-              <select
+              <FormSelect
                 multiple
                 name="centres"
                 value={formData.centres}
                 onChange={handleCentresChange}
                 required
-                style={{ width: "100%", padding: "8px", height: "120px" }}
               >
                 {centres.map((centre) => (
                   <option key={centre.id} value={centre.name}>
                     {centre.name}
                   </option>
                 ))}
-              </select>
-              <small
-                style={{ color: "#666", display: "block", marginTop: "4px" }}
-              >
+              </FormSelect>
+              <HelpText>
                 Hold Ctrl (Cmd on Mac) to select multiple centres
-              </small>
-            </label>
-          </div>
+              </HelpText>
+            </FormLabel>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Subjects *
-              <select
+              <FormSelect
                 multiple
                 name="subjects"
                 value={formData.subjects}
                 onChange={handleSubjectsChange}
-                style={{ width: "100%", padding: "8px", height: "120px" }}
               >
                 {subjects.map((subject) => (
                   <option key={subject.id} value={subject.name}>
                     {subject.name}
                   </option>
                 ))}
-              </select>
-              <small
-                style={{ color: "#666", display: "block", marginTop: "4px" }}
-              >
+              </FormSelect>
+              <HelpText>
                 Hold Ctrl (Cmd on Mac) to select multiple subjects
-              </small>
-            </label>
-          </div>
+              </HelpText>
+            </FormLabel>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Batches *
-              <select
+              <FormSelect
                 multiple
                 name="batches"
                 value={formData.batch}
                 onChange={handleBatchesChange}
                 required
-                style={{ width: "100%", padding: "8px", height: "120px" }}
               >
                 {batches.map((batch) => (
                   <option key={batch.id} value={batch.name}>
                     {batch.name}
                   </option>
                 ))}
-              </select>
-              <small
-                style={{ color: "#666", display: "block", marginTop: "4px" }}
-              >
+              </FormSelect>
+              <HelpText>
                 Hold Ctrl (Cmd on Mac) to select multiple batches
-              </small>
-            </label>
-          </div>
+              </HelpText>
+            </FormLabel>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Enrollment Date *
-              <input
+              <FormInput
                 type="date"
                 name="enrollmentDate"
                 value={formData.enrollmentDate}
                 onChange={handleInputChange}
                 required
-                style={{ width: "100%", padding: "8px" }}
               />
-            </label>
-          </div>
+            </FormLabel>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Mobile Number *
-              <input
+              <FormInput
                 type="tel"
                 name="mobile"
                 value={formData.mobile}
                 onChange={handleInputChange}
                 required
                 pattern="[0-9]{10}"
-                style={{ width: "100%", padding: "8px" }}
               />
-              <small
-                style={{ color: "#666", display: "block", marginTop: "4px" }}
-              >
+              <HelpText>
                 Enter 10-digit mobile number
-              </small>
-            </label>
-          </div>
+              </HelpText>
+            </FormLabel>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Address *
-              <textarea
+              <FormTextarea
                 name="address"
                 value={formData.address}
                 onChange={handleInputChange}
                 required
-                style={{
-                  width: "100%",
-                  padding: "8px",
-                  minHeight: "100px",
-                  resize: "vertical",
-                }}
               />
-            </label>
-          </div>
+            </FormLabel>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                cursor: "pointer",
-              }}
-            >
+          <FormGroup>
+            <StatusContainer>
               <input
                 type="checkbox"
                 checked={formData.status === "active"}
@@ -599,161 +553,116 @@ const EditStudentForm = ({
                     status: newStatus,
                   }));
                 }}
-                style={{ width: "20px", height: "20px" }}
               />
               <span>Active Status ({formData.status})</span>
-            </label>
-            <small
-              style={{ color: "#666", display: "block", marginTop: "4px" }}
-            >
+            </StatusContainer>
+            <HelpText>
               Inactive students will not be able to access the platform
-            </small>
-          </div>
+            </HelpText>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Profile Image
-              <input
+              <FormInput
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-                style={{ width: "100%", padding: "8px" }}
               />
-            </label>
+            </FormLabel>
             {imagePreview && (
-              <div style={{ marginTop: "10px", textAlign: "center" }}>
-                <img
+              <ImagePreviewContainer>
+                <ImagePreview
                   src={imagePreview}
                   alt="Student"
-                  style={{
-                    maxWidth: "200px",
-                    maxHeight: "200px",
-                    objectFit: "cover",
-                    borderRadius: "4px",
-                  }}
                 />
-              </div>
+              </ImagePreviewContainer>
             )}
             {isUploading && (
-              <div style={{ textAlign: "center", marginTop: "10px" }}>
+              <UploadStatus>
                 Uploading image...
-              </div>
+              </UploadStatus>
             )}
-          </div>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Amount Pending
-            </label>
-            <input
+            </FormLabel>
+            <FormInput
               type="number"
               name="amountPending"
               value={formData.amountPending}
               onChange={handleInputChange}
-              // min="0"
-              style={{ width: "100%", padding: "8px" }}
               disabled={isFranchise && student.amountPending > 0}
             />
-          </div>
+          </FormGroup>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px" }}>
+          <FormGroup>
+            <FormLabel>
               Payment Type
-              <div style={{ marginTop: "5px" }}>
-                <label
-                  style={{
-                    marginRight: "20px",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    cursor: "pointer",
-                  }}
-                >
+              <PaymentTypeContainer>
+                <PaymentTypeLabel>
                   <input
                     type="radio"
                     name="paymentType"
                     value="lumpsum"
                     checked={formData.paymentType === "lumpsum"}
                     onChange={handleInputChange}
-                    style={{ marginRight: "5px" }}
                   />
                   Lump Sum
-                </label>
-                <label
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    cursor: "pointer",
-                  }}
-                >
+                </PaymentTypeLabel>
+                <PaymentTypeLabel>
                   <input
                     type="radio"
                     name="paymentType"
                     value="recurring"
                     checked={formData.paymentType === "recurring"}
                     onChange={handleInputChange}
-                    style={{ marginRight: "5px" }}
                   />
                   Recurring
-                </label>
-              </div>
-            </label>
-          </div>
+                </PaymentTypeLabel>
+              </PaymentTypeContainer>
+            </FormLabel>
+          </FormGroup>
 
           {formData.paymentType === "recurring" && (
-            <div style={{ marginBottom: "15px" }}>
-              <label style={{ display: "block", marginBottom: "5px" }}>
+            <FormGroup>
+              <FormLabel>
                 Monthly Installment
-                <input
+                <MonthlyInstallmentInput
                   type="number"
                   name="monthlyInstallment"
                   value={formData.monthlyInstallment}
                   onChange={handleInputChange}
                   min="0"
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    marginTop: "5px",
-                  }}
                 />
-              </label>
-            </div>
+              </FormLabel>
+            </FormGroup>
           )}
 
-          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-            <button
+          <ButtonContainer>
+            <SubmitButton
               type="submit"
               disabled={status === "submitting"}
-              style={{
-                flex: 1,
-                padding: "10px",
-                backgroundColor: status === "submitting" ? "#ccc" : "#ffa600",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: status === "submitting" ? "not-allowed" : "pointer",
-              }}
             >
               {status === "submitting" ? "Updating..." : "Update Student"}
-            </button>
-          </div>
+            </SubmitButton>
+          </ButtonContainer>
 
           {status === "success" && (
-            <div
-              style={{ color: "green", marginTop: "10px", textAlign: "center" }}
-            >
+            <StatusMessage className="success">
               Student updated successfully!
-            </div>
+            </StatusMessage>
           )}
           {status === "error" && (
-            <div
-              style={{ color: "red", marginTop: "10px", textAlign: "center" }}
-            >
+            <StatusMessage className="error">
               Error updating student. Please try again.
-            </div>
+            </StatusMessage>
           )}
-        </form>
-      </div>
-    </div>
+        </FormContainer>
+      </ModalContent>
+    </ModalOverlay>
   );
 };
 

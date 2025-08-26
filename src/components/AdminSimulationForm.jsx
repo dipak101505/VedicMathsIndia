@@ -1,76 +1,135 @@
 import React from 'react';
+import {
+  AdminSimulationFormContainer,
+  AdminFormField,
+  AdminFormLabel,
+  AdminFormInput,
+  AdminFormSelect,
+  AdminFormRow,
+  AdminFormActions,
+  AdminButton,
+  AdminFormSection,
+  AdminFormSectionTitle,
+  AdminFormSectionIcon,
+  AdminFormHelpText,
+} from '../styles/videoList.styles';
 
 const AdminSimulationForm = ({ simulationState, dispatchSimulation }) => {
   return (
-    <div className="flex flex-col md:flex-row gap-4 mb-6 p-4 bg-gray-50 rounded-lg shadow-sm">
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="simulation"
-          className="text-sm font-medium text-gray-700"
-        >
-          Simulation URL
-        </label>
-        <input
-          id="simulation"
-          type="text"
-          value={simulationState.simUrl}
-          placeholder="Enter simulation URL"
-          onChange={(e) => dispatchSimulation({ type: 'SET_SIM_URL', payload: e.target.value })}
-          className="
-            w-64
-            px-3 py-2
-            bg-white
-            border border-gray-300
-            rounded-md
-            shadow-sm
-            focus:outline-none
-            focus:ring-2
-            focus:ring-blue-500
-            focus:border-blue-500
-            text-sm
-          "
-          style={{
-            height: "40px",
-            marginLeft: "10px",
-            transition: "all 0.2s ease",
-          }}
-        />
-      </div>
+    <AdminFormSection>
+      <AdminFormSectionTitle>
+        <AdminFormSectionIcon>🔧</AdminFormSectionIcon>
+        Simulation Configuration
+      </AdminFormSectionTitle>
+      
+      <AdminFormRow>
+        <AdminFormField>
+          <AdminFormLabel htmlFor="simulation">
+            Simulation URL
+          </AdminFormLabel>
+          <AdminFormInput
+            id="simulation"
+            type="text"
+            value={simulationState.simUrl}
+            placeholder="Enter simulation URL"
+            onChange={(e) => dispatchSimulation({ type: 'SET_SIM_URL', payload: e.target.value })}
+          />
+          <AdminFormHelpText>
+            Enter the full URL to the simulation (e.g., https://example.com/sim)
+          </AdminFormHelpText>
+        </AdminFormField>
 
-      <div className="flex flex-col gap-2">
-        <label
-          htmlFor="simulation_name"
-          className="text-sm font-medium text-gray-700"
-        >
-          Simulation Name
-        </label>
-        <input
-          id="simulation_name"
-          type="text"
-          value={simulationState.simName}
-          placeholder="Enter simulation Name"
-          onChange={(e) => dispatchSimulation({ type: 'SET_SIM_NAME_INPUT', payload: e.target.value })}
-          className="
-            w-64
-            px-3 py-2
-            bg-white
-            border border-gray-300
-            rounded-md
-            shadow-sm
-            focus:outline-none
-            focus:ring-2
-            focus:ring-blue-500
-            focus:border-blue-500
-            text-sm
-          "
-          style={{
-            height: "40px",
-            marginLeft: "10px",
-            transition: "all 0.2s ease",
+        <AdminFormField>
+          <AdminFormLabel htmlFor="simulation_name">
+            Simulation Name
+          </AdminFormLabel>
+          <AdminFormInput
+            id="simulation_name"
+            type="text"
+            value={simulationState.simName}
+            placeholder="Enter simulation name"
+            onChange={(e) => dispatchSimulation({ type: 'SET_SIM_NAME_INPUT', payload: e.target.value })}
+          />
+          <AdminFormHelpText>
+            Give this simulation a descriptive name for students
+          </AdminFormHelpText>
+        </AdminFormField>
+      </AdminFormRow>
+
+      <AdminFormRow>
+        <AdminFormField>
+          <AdminFormLabel htmlFor="subject">
+            Subject
+          </AdminFormLabel>
+          <AdminFormSelect
+            id="subject"
+            value={simulationState.selectedSubject}
+            onChange={(e) => {
+              dispatchSimulation({ type: 'SET_SUBJECT', payload: e.target.value });
+            }}
+          >
+            <option value="">Select Subject</option>
+            {simulationState.subjectOptions.map((subject) => (
+              <option key={subject} value={subject}>
+                {subject}
+              </option>
+            ))}
+          </AdminFormSelect>
+          <AdminFormHelpText>
+            Choose the subject this simulation belongs to
+          </AdminFormHelpText>
+        </AdminFormField>
+
+        <AdminFormField>
+          <AdminFormLabel htmlFor="topic">
+            Topic
+          </AdminFormLabel>
+          <AdminFormSelect
+            id="topic"
+            value={simulationState.selectedTopic}
+            onChange={(e) => {
+              dispatchSimulation({ type: 'SET_TOPIC', payload: e.target.value });
+            }}
+            disabled={!simulationState.selectedSubject}
+          >
+            <option value="">Select Topic</option>
+            {simulationState.topicOptions.map((topic) => (
+              <option key={topic} value={topic}>
+                {topic}
+              </option>
+            ))}
+          </AdminFormSelect>
+          <AdminFormHelpText>
+            Choose the specific topic for this simulation
+          </AdminFormHelpText>
+        </AdminFormField>
+      </AdminFormRow>
+
+      <AdminFormActions>
+        <AdminButton
+          onClick={() => {
+            if (simulationState.selectedSimName) {
+              document.getElementById("iframe")?.scrollIntoView({ behavior: "smooth" });
+            }
           }}
-        />
-      </div>
-    </div>
+          disabled={!simulationState.selectedSimName}
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+          Preview Simulation
+        </AdminButton>
+      </AdminFormActions>
+    </AdminFormSection>
   );
 };
 

@@ -11,6 +11,30 @@ import {
   updateStudentAttendance,
 } from "../services/studentService";
 import toast from "react-hot-toast";
+import { theme } from "../styles/theme";
+import {
+  PageContainer,
+  PageTitle,
+  SelectorContainer,
+  Select,
+  DateInput,
+  FilterContainer,
+  FilterLabel,
+  FilterInput,
+  TopicInput,
+  VideoContainer,
+  StudentsGrid,
+  StudentCard,
+  StudentInfo,
+  StudentName,
+  StudentEmail,
+  AttendancePhoto,
+  CameraIcon,
+  NoStudentsMessage,
+  SubmitButton,
+  LoadingText,
+  StyledCheckbox,
+} from "../styles/AttendancePage.styles";
 
 function AttendancePage() {
   const { user, isFranchise } = useAuth();
@@ -200,10 +224,10 @@ function AttendancePage() {
         position: "top-center",
         duration: 3000,
         style: {
-          background: "#10B981",
-          color: "white",
-          padding: "16px",
-          borderRadius: "8px",
+          background: theme.colors.success.main,
+          color: theme.colors.success.contrast,
+          padding: theme.spacing.md,
+          borderRadius: theme.borderRadius.lg,
         },
       });
       setAttendanceList([]);
@@ -218,10 +242,10 @@ function AttendancePage() {
         position: "top-center",
         duration: 3000,
         style: {
-          background: "#EF4444",
-          color: "white",
-          padding: "16px",
-          borderRadius: "8px",
+          background: theme.colors.error.main,
+          color: theme.colors.error.contrast,
+          padding: theme.spacing.md,
+          borderRadius: theme.borderRadius.lg,
         },
       });
     }
@@ -237,26 +261,17 @@ function AttendancePage() {
         : true)}
   );
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingText>Loading...</LoadingText>;
 
   return (
-    <div style={{ padding: "24px", maxWidth: "1200px", margin: "0 auto" }}>
-      <h1 style={{ marginBottom: "24px", textAlign: "center" }}>
-        Attendance Management
-      </h1>
+    <PageContainer>
+      <PageTitle>Attendance Management</PageTitle>
 
       {/* Batch, Subject, Date selectors */}
-      <div style={{ display: "flex", gap: "16px", marginBottom: "24px" }}>
-        <select
+      <SelectorContainer>
+        <Select
           value={selectedBatch}
           onChange={(e) => setSelectedBatch(e.target.value)}
-          style={{
-            padding: "8px 12px",
-            borderRadius: "4px",
-            border: "1px solid #ddd",
-            flex: 1,
-            fontSize: "16px",
-          }}
         >
           <option value="">Select Batch</option>
           {batches.map((batch) => (
@@ -264,18 +279,11 @@ function AttendancePage() {
               {batch.name}
             </option>
           ))}
-        </select>
+        </Select>
 
-        <select
+        <Select
           value={selectedSubject}
           onChange={(e) => setSelectedSubject(e.target.value)}
-          style={{
-            padding: "8px 12px",
-            borderRadius: "4px",
-            border: "1px solid #ddd",
-            flex: 1,
-            fontSize: "16px",
-          }}
         >
           <option value="">Select Subject</option>
           {subjects.map((subject) => (
@@ -283,18 +291,11 @@ function AttendancePage() {
               {subject.name}
             </option>
           ))}
-        </select>
+        </Select>
 
-        <select
+        <Select
           value={selectedCentre}
           onChange={(e) => setSelectedCentre(e.target.value)}
-          style={{
-            padding: "8px 12px",
-            borderRadius: "4px",
-            border: "1px solid #ddd",
-            flex: 1,
-            fontSize: "16px",
-          }}
           disabled={isFranchise}
         >
           <option value="">Select Centres</option>
@@ -303,71 +304,43 @@ function AttendancePage() {
               {centre.name}
             </option>
           ))}
-        </select>
+        </Select>
 
-        <input
+        <DateInput
           type="date"
           value={selectedDate}
           onChange={(e) => setSelectedDate(e.target.value)}
-          style={{
-            padding: "8px 12px",
-            borderRadius: "4px",
-            border: "1px solid #ddd",
-            flex: 1,
-            fontSize: "16px",
-          }}
         />
-      </div>
+      </SelectorContainer>
 
-      <div>
-        <label>
+      <FilterContainer>
+        <FilterLabel>
           Name :
-          <input
+          <FilterInput
             type="text"
             value={nameFilter}
             onChange={(e) => setNameFilter(e.target.value)}
           />
-        </label>
+        </FilterLabel>
 
-        <input
+        <TopicInput
           type="text"
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
           placeholder="Enter Topic"
-          style={{
-            padding: "8px 12px",
-            borderRadius: "4px",
-            border: "1px solid #ddd",
-            marginLeft: "16px",
-            flex: 1,
-            fontSize: "16px",
-            marginBottom: "16px",
-          }}
         />
-      </div>
+      </FilterContainer>
 
       {selectedBatch && selectedSubject && (
         <div>
-          <video
+          <VideoContainer
             ref={videoRef}
             autoPlay
             playsInline
-            style={{
-              display: isCameraActive ? "block" : "none",
-              width: "100%",
-              maxWidth: "500px",
-              margin: "20px auto",
-            }}
+            isActive={isCameraActive}
           />
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-              gap: "16px",
-              marginBottom: "24px",
-            }}
-          >
+          <StudentsGrid>
             {filteredStudents
               .filter(
                 (student) =>
@@ -377,46 +350,23 @@ function AttendancePage() {
               )
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((student) => (
-                <div
+                <StudentCard
                   key={student.id}
-                  style={{
-                    padding: "16px",
-                    borderRadius: "8px",
-                    border: "1px solid #ddd",
-                    display: "flex",
-                    alignItems: "end",
-                    justifyContent: "space-between",
-                    gap: "12px",
-                    backgroundColor: attendanceList.includes(student.id)
-                      ? "#f0fff4"
-                      : "white",
-                  }}
+                  isPresent={attendanceList.includes(student.SK)}
                 >
-                  <input
+                  <StyledCheckbox
                     type="checkbox"
                     checked={attendanceList.includes(student.SK)}
                     onChange={() => handleAttendanceToggle(student.SK)}
                   />
-                  <div>
-                    <div style={{ fontWeight: "500" }}>{student.name}</div>
-                    <div style={{ fontSize: "14px", color: "#666" }}>
-                      {student.email}
-                    </div>
-                  </div>
+                  <StudentInfo>
+                    <StudentName>{student.name}</StudentName>
+                    <StudentEmail>{student.email}</StudentEmail>
+                  </StudentInfo>
                   {capturedPhotos[student.id] ? (
-                    <img
-                      src={capturedPhotos[student.id]}
-                      alt="Attendance"
-                      style={{
-                        width: "60px",
-                        height: "60px",
-                        objectFit: "cover",
-                        borderRadius: "4px",
-                        marginLeft: "auto",
-                      }}
-                    />
+                    <AttendancePhoto src={capturedPhotos[student.id]} alt="Attendance" />
                   ) : (
-                    <FontAwesomeIcon
+                    <CameraIcon
                       icon={faCamera}
                       onClick={() =>
                         isCameraActive
@@ -425,9 +375,9 @@ function AttendancePage() {
                       }
                     />
                   )}
-                </div>
+                </StudentCard>
               ))}
-          </div>
+          </StudentsGrid>
 
           {filteredStudents.filter(
             (student) =>
@@ -435,18 +385,9 @@ function AttendancePage() {
               student.status === "active" &&
               student.subjects?.includes(selectedSubject),
           ).length === 0 && (
-            <div
-              style={{
-                padding: "20px",
-                textAlign: "center",
-                backgroundColor: "#f3f4f6",
-                borderRadius: "8px",
-                color: "#4b5563",
-                fontSize: "16px",
-              }}
-            >
+            <NoStudentsMessage>
               No active students found for this batch and subject.
-            </div>
+            </NoStudentsMessage>
           )}
 
           {filteredStudents.filter(
@@ -455,24 +396,13 @@ function AttendancePage() {
               student.status === "active" &&
               student.subjects?.includes(selectedSubject),
           ).length > 0 && (
-            <button
-              onClick={handleSubmitAttendance}
-              style={{
-                padding: "12px 24px",
-                backgroundColor: "#ffa600",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-                fontSize: "16px",
-              }}
-            >
+            <SubmitButton onClick={handleSubmitAttendance}>
               Submit Attendance
-            </button>
+            </SubmitButton>
           )}
         </div>
       )}
-    </div>
+    </PageContainer>
   );
 }
 
