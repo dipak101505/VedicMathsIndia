@@ -120,8 +120,8 @@ function Navbar() {
         {/* Brand Logo */}
         <BrandLink to="/">
           <Logo
-            src="https://vedicmathsindia.org/wp-content/uploads/2021/06/vedic-maths-india-logo.webp"
-            alt="Zenith Logo"
+            src="/logo-1.png"
+            alt="Logo"
           />
         </BrandLink>
 
